@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function quadraticEquation(a, b, c) {
+        var x1, x2;
+        var d = (Math.pow(b, 2)) - 4*a*c;
+
+        var outB;
+        if (b > 0) {
+            outB = "+ " + Math.abs(b);
+        } else {
+            outB = "- " + Math.abs(b);
+        }
+
+        if (d > 0) {
+            x1 = -b + Math.sqrt(d) / (2 * a);
+            x2 = -b - Math.sqrt(d) / (2 * a);
+            console.log(`уравнение ${a}x^2 ${outB}x + c  имеет корни x1=${x1} и x2=${x2}`);
+        }
+        else if(d === 0) {
+            x1 = x2 = (b / 2 * a)*(-1);
+            console.log(`уравнение ${a}x^2 ${outB}x + c  имеет один корень x=${x1}`);
+        }
+        else {
+            console.log(`уравнение ${a}x^2 ${outB}x + c  не имеет вещественных корней`);
+        }
+    }
+    quadraticEquation(1, -8, 72);
+    quadraticEquation(1, 12, 36);
+    quadraticEquation(4, -8, 1);
+</script>
+</body>
+</html>
