@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Task 1 - fizzbuzz</title>
+</head>
+<body style='background: #333'>
+	<script>
+		var arr = [];
+		for(i = 0; i <= 100; i++) {
+			// if (i % 3 == 0 && i % 5 == 0) {
+			// 	arr.push('FizzBuzz');
+			// }
+			// else if (i % 5 == 0) {
+			// 	arr.push('Buzz');
+			// }
+			// else if (i % 3 == 0) {
+			// 	arr.push('Fizz');
+			// }
+			// else {
+			// 	arr.push(i);
+			// }
+			(i % 3 != 0 && i % 5 != 0) && arr.push(i);
+			(i % 3 == 0 && i % 5 == 0) && arr.push('FizzBuzz');
+			(i % 5 == 0) && arr.push('Buzz');
+			(i % 3 == 0) && arr.push('Fizz');
+			
+		}
+		console.log(arr);
+	</script>
+</body>
+</html>
