@@ -1,38 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Task 1 - quadratic</title>
 </head>
-<body>
-<script>
-    function quadraticEquation(a, b, c) {
-        var x1, x2;
-        var d = (Math.pow(b, 2)) - 4*a*c;
 
-        var outB;
-        if (b > 0) {
-            outB = "+ " + Math.abs(b);
-        } else {
-            outB = "- " + Math.abs(b);
-        }
+<body style='background: #333'>
+	<script>
+		// Решает квадратичное уравнение и вывод формулу уравнения вида ax^2 + bx + c
+		// a,b,c - коэф уравнения
+		function quadraticEquation(a, b, c) {
+			let x1, x2;
+			let outA, outB, outC;
+			let d = (Math.pow(b, 2)) - 4 * a * c;
 
-        if (d > 0) {
-            x1 = -b + Math.sqrt(d) / (2 * a);
-            x2 = -b - Math.sqrt(d) / (2 * a);
-            console.log(`уравнение ${a}x^2 ${outB}x + c  имеет корни x1=${x1} и x2=${x2}`);
-        }
-        else if(d === 0) {
-            x1 = x2 = (b / 2 * a)*(-1);
-            console.log(`уравнение ${a}x^2 ${outB}x + c  имеет один корень x=${x1}`);
-        }
-        else {
-            console.log(`уравнение ${a}x^2 ${outB}x + c  не имеет вещественных корней`);
-        }
-    }
-    quadraticEquation(1, -8, 72);
-    quadraticEquation(1, 12, 36);
-    quadraticEquation(4, -8, 1);
-</script>
+			// Подготовливает число к выводу в формулу уравнения
+			function checkNum(num) {
+				let outNum;
+				switch (true) {
+					case (num < 0):
+						outNum = "- " + Math.abs(num);
+						break;
+					case (num == 0):
+						outNum = '';
+						console.log('Ввод нуля недопустим');
+						break;
+					case (num == 1):
+						outNum = '';
+						break;
+					case (num > 0 && num != 1):
+						outNum = "+ " + Math.abs(num);
+						break;
+					default:
+						console.log('Ошибка! Необходимо ввести число');
+				}
+				return outNum;
+			}
+
+			if (d > 0) {
+				x1 = -b + Math.sqrt(d) / (2 * a);
+				x2 = -b - Math.sqrt(d) / (2 * a);
+				console.log(`уравнение ${checkNum(a)}x^2 ${checkNum(b)}x + ${c} имеет корни x1=${x1} и x2=${x2}`);
+			} else if (d === 0) {
+				x1 = x2 = (b / 2 * a) * (-1);
+				console.log(`уравнение ${checkNum(a)}x^2 ${checkNum(b)}x + ${c} имеет один корень x=${x1}`);
+			} else {
+				console.log(`уравнение ${checkNum(a)}x^2 ${checkNum(b)}x + ${c} не имеет вещественных корней`);
+			}
+		}
+		quadraticEquation(1, -8, 72);
+		quadraticEquation(1, 12, 36);
+		quadraticEquation(4, -8, 1);
+	</script>
 </body>
+
 </html>
