@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Task 1 - testEvent</title>
+</head>
+<body style='background: #333'>
+	<script>
+		
+		let userNum = prompt();
+
+		// Вставляет раздлитель между четными цифрами в числе введеном юзером
+		function evenSeparator(num) {
+			let numArr = [];
+			let resultArr = [];
+			numArr = num.toString().split('');
+			for(let i = 0; i < numArr.length; i++) {
+				if (numArr[i] % 2 == 0 && numArr[i + 1] % 2 == 0) {
+					resultArr.push(`${numArr[i]}-`);
+				} else {
+					resultArr.push(numArr[i]);
+				}
+			}
+			console.log(resultArr.join(''));
+		}
+
+		evenSeparator(userNum);
+
+	</script>
+</body>
+</html>
