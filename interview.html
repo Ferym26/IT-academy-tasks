@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Task 1 - interview</title>
+</head>
+<body style='background: #333'>
+	
+	<script>
+		let userName = 'Ivan';
+		let userMiddleName = 'Ivanovich';
+		let userSurname = 'Ivanov';
+		let userAge = 67;
+		let userSexMan = true;
+
+
+		// проверка введенных фио
+		function nameCheck(name) {
+			if (name.length < 3) {
+				console.log('error length');
+			}
+			else if (!isNaN(name)) {
+				console.log('error isNaN');
+			}
+			else return name;
+		}
+		
+		let ageDays = userAge * 365;
+
+		let profile = `
+			Ваше ФИО: ${nameCheck(userName)} ${nameCheck(userMiddleName)} ${nameCheck(userSurname)} \n
+			Ваш возраст в годах: ${userAge}\n
+			Ваш возраст в днях: ${ageDays}\n
+			Ваш пол: \n
+			Вы на пенсии: \n
+		`
+
+		console.log(profile);
+	</script>
+</body>
+</html>
