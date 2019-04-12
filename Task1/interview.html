@@ -15,6 +15,9 @@
 		let userAge = 67;
 		let userSexMan = true;
 
+		if (userAge < 0 || userAge > 120) {
+			alert('Вы ввели некорректные данные');
+		}
 
 		// проверка введенных фио
 		function nameCheck(name) {
@@ -33,8 +36,9 @@
 			Ваше ФИО: ${nameCheck(userName)} ${nameCheck(userMiddleName)} ${nameCheck(userSurname)} \n
 			Ваш возраст в годах: ${userAge}\n
 			Ваш возраст в днях: ${ageDays}\n
-			Ваш пол: \n
-			Вы на пенсии: \n
+			Ваш пол: ${userSexMan ? 'Мужской' : 'Женский'}\n
+			${userAge >= 18 ? 'Вы уже совершеннолетний' : 'Вы ещё несовершеннолетний'}\n
+			Вы на пенсии: ${userAge >= 60 ? 'Да' : 'Нет'}\n
 		`
 
 		console.log(profile);
