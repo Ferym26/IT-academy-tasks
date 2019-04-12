@@ -1,0 +1,89 @@
+falsy
+
+Функции:
+	- function declaraition - именованая
+		function name()
+	- function expretion
+		const name = function()
+	- самовызывающиеся. используется для быстрого вычисления
+		(function(){})()
+
+	всплытие - 
+	
+	рекурсия - цикл. функция вызывает сама себя.
+
+
+Стрелочный фции
+	function summ(a, b) {
+		return a + b;
+	}
+
+	const summ = function(a, b) {
+
+	}
+
+	const summ = (a, b) => a + b;  ------- return уже не используется, так как подразумевает сразу возвращение
+
+	let user = "same";
+	conts hiThere = () => {
+		let msg = user + 'same';
+		return(msg);
+	}
+	hiThere()
+
+
+underfind - объявлена но не определна
+
+переменные всплывают вверх, хоистинг. интерпретатор выносит все переменные вверх. (работает только с var)
+let const не поднимает вверх!
+
+при вызове именованнй фции выше объявления это будет работать. можно вызывать где угодно
+
+'user strict' включает ES5 напильно
+
+
+
+
+
+
+
+Области видимости функции
+ - глобальная
+ - локальная
+
+ каждая функция создаёт лок область видимости.
+
+
+
+
+
+
+
+Массивы. Хэши. Строки
+
+Хэши - ассоциативные массивы. Объект!
+var nameHash = {
+	name1: 123,
+	"name 2": "string"
+}
+
+nameHash.name1
+nameHash['name 2']
+
+("name1" in nameHash) ==> true
+
+обход объекта
+for (var k in nameHash) {
+	nameHash[k]
+}
+
+удаление ключа
+delete nameHAsh.name1
+
+
+
+
+
+
+
+
