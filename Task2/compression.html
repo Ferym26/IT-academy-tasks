@@ -37,7 +37,7 @@
 		// Раскукоживает строку
 		function uncompress(str) {
 			let result = "";
-			for (let i = 0; i < str.length; i++) {
+			for (let i = 0; i < str.length; i+=2) {
 				if (str.length == 1) {
 					result += str[i];
 				}
@@ -47,7 +47,7 @@
 			}
 			console.log('uncompress: ' + result);
 		}
-		uncompress('c3g6');
+		uncompress('ы9');
 	</script>
 </body>
 
