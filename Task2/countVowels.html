@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Task 2</title>
+</head>
+<body style='background: #333'>
+	<script>
+		// Считает сколько гласных в строке
+		function countVowelLetters(str) {
+			let vowels = ['а','о','и','е','ё','э','ы','у','ю','я'];
+			let vowelsCounter = 0;
+			let arr = str.toLowerCase().split('');
+			for (let i = 0; i < arr.length; i++) {				
+				for(let j = 0; j < vowels.length; j++) {
+					if (arr[i] === vowels[j]) {
+						vowelsCounter++;
+					}
+				}
+			}
+			console.log(vowelsCounter);
+		}
+		countVowelLetters('Пришла зима, зАпахло…');
+	</script>
+</body>
+</html>

@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Task 2 - compression</title>
 </head>
+
 <body style='background: #333'>
 	<script>
-		function compress(arg) {
-			let arr = arg.split('');
-			
-			for(let i=0; i<arr.length; i++) {
-				
-				if (arr[i] === arr[i+1]) {
-					// console.log('ff');
+		// Скукоживает строку
+		function compress(str) {
+			let result = "";
+			let	before = str[0];
+			let	counter = 0;
+			for (let i = 0; i <= str.length; i++) {
+				if (str[i] == before) {
+					counter++;
+				} 
+				else {
+					if (counter == 1) {
+						result += `${before}`;
+					}
+					else {
+						result += `${before}${counter}`;
+					}
+					counter = 1;
+					before = str[i];
 				}
 			}
+			console.log('compress: ' + result);
 		}
-		compress('aaabb')
+		compress('aaaabzzzz');
+
+		// Раскукоживает строку
+		function uncompress(str) {
+			let result = "";
+			for (let i = 0; i < str.length; i++) {
+				if (str.length == 1) {
+					result += str[i];
+				}
+				else {
+					result += str[i].repeat(str[i+1]);
+				}
+			}
+			console.log('uncompress: ' + result);
+		}
+		uncompress('c3g6');
 	</script>
 </body>
+
 </html>
