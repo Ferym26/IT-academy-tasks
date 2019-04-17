@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div class="buttons-block">
+		<button class="button js_button">0</button>
+		<button class="button js_button">0</button>
+		<button class="button js_button">0</button>
+	</div>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background-color: #333;
+		}
+		.buttons-block {
+			display: flex;
+			justify-content: center;
+			margin-top: 30px;
+		}
+		.button {
+			position: relative;
+			display: block;
+			margin: 0 10px;
+			padding: 5px 20px;
+			border: 0;
+			background-color: #fff;
+			color: green;
+			font-size: 20px;
+			font-weight: 700;
+			cursor: pointer;
+		}
+		.button:active {
+			transform: translate(0, 2px)
+		}
+	</style>
+	<script>
+		function counter() {
+			let c = 1;
+			return function() {
+				return c++;
+			}
+		}
+
+		let acd = counter();
+
+		let btns = document.querySelectorAll('.js_button');
+		btns.forEach(function(elem, i) {
+			elem.onclick = function() {
+				elem.innerHTML = `${acd()}`;
+			};
+		})
+	</script>
+</body>
+</html>

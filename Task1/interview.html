@@ -21,7 +21,7 @@
 
 		// проверка введенных фио
 		function nameCheck(name) {
-			if (name.length < 3) {
+			if (name.length < 3 && name.length > 20) {
 				console.log('error length');
 			}
 			else if (!isNaN(name)) {

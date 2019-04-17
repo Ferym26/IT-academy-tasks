@@ -1,0 +1,5 @@
+closures:
+1) http://fe.it-academy.by/Examples/Program/Closure.html
+2) http://fe.it-academy.by/Examples/Program/ClosureRef.html
+
+ljs - https://learn.javascript.ru/closures
