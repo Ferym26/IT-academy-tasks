@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
 </head>
+
 <body>
 	<div class="buttons-block">
 		<button class="button js_button">0</button>
@@ -17,14 +19,17 @@
 			margin: 0;
 			padding: 0;
 		}
+
 		body {
 			background-color: #333;
 		}
+
 		.buttons-block {
 			display: flex;
 			justify-content: center;
 			margin-top: 30px;
 		}
+
 		.button {
 			position: relative;
 			display: block;
@@ -37,26 +42,30 @@
 			font-weight: 700;
 			cursor: pointer;
 		}
+
 		.button:active {
 			transform: translate(0, 2px)
 		}
 	</style>
 	<script>
 		function counter() {
-			let c = 1;
-			return function() {
-				return c++;
+			let count = 1;
+			return function () {
+				return count++;
 			}
 		}
 
-		let acd = counter();
-
+		let c1 = counter();
 		let btns = document.querySelectorAll('.js_button');
-		btns.forEach(function(elem, i) {
-			elem.onclick = function() {
-				elem.innerHTML = `${acd()}`;
+
+		for (let i = 0; i < btns.length; i++) {
+			btns[i].count = counter();
+			btns[i].onclick = function (e) {
+				let temp = e.target.count();
+				e.target.innerHTML = temp;
 			};
-		})
+		}
 	</script>
 </body>
+
 </html>

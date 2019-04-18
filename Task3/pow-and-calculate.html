@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background-color: #333;
+		}
+	</style>
+	
+	<script>
+		let pow = function(x) {
+			return function(y) {
+				let result = 1;
+				let count = 0;
+				while(count < y) {
+					result *= x;
+					count++;
+				}
+				console.log(`Результат ${x}^${y}=${result}`);
+			};
+		};
+		pow(-2)(3);
+
+		let calculate = function(a) {
+			return function(operator) {
+				return function(b) {
+					switch (true) {
+						case (operator == '+'):
+							console.log(`Результат ${a}+${b}=${a + b}`);
+							break;
+						case (operator == '-'):
+						console.log(`Результат ${a}-${b}=${a - b}`);
+							break;
+						case (operator == '/'):
+						console.log(`Результат ${a}/${b}=${a / b}`);
+							break;
+						case (operator == '*'):
+						console.log(`Результат ${a}*${b}=${a * b}`);
+							break;
+						default:
+							console.log('Ошибка! Указан недопустимый оператор. Поддерживаются только + - / *');
+					}
+				}
+			}
+		}
+		calculate(22)('*')(5);
+
+
+	</script>
+</body>
+
+</html>
