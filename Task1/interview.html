@@ -12,36 +12,51 @@
 		let userName = 'Ivan';
 		let userMiddleName = 'Ivanovich';
 		let userSurname = 'Ivanov';
-		let userAge = 67;
+		let userAge = 18;
 		let userSexMan = true;
 
-		if (userAge < 0 || userAge > 120) {
-			alert('Вы ввели некорректные данные');
+		let ageDays = null;
+		let marker = true;
+		let profile;
+
+		// Проверка возраста
+		function ageCheck(age) {
+			if (typeof age == 'number' && age > 0 && age < 130) {
+				ageDays = userAge * 365;
+				userAge = age;
+			}
+			else {
+				console.log('Ошибка ввода возраста. Должен быть числом от 1 до 130');
+				marker = false;
+			}
 		}
+		ageCheck(userAge);
 
 		// проверка введенных фио
 		function nameCheck(name) {
 			if (name.length < 3 && name.length > 20) {
-				console.log('error length');
+				console.log('Ошибка длинны имени. Не должно быть короче 3 или длиннее 20 символов');
+				marker = false;
 			}
-			else if (!isNaN(name)) {
-				console.log('error isNaN');
+			else if (name.match( /\d/ )) {
+				console.log('В ФИО содержатся недопустимые символы');
+				marker = false;
 			}
 			else return name;
 		}
+
+		if(marker) {
+			profile = `
+				Ваше ФИО: ${nameCheck(userName)} ${nameCheck(userMiddleName)} ${nameCheck(userSurname)} \n
+				Ваш возраст в годах: ${userAge}\n
+				Ваш возраст в днях: ${ageDays}\n
+				Ваш пол: ${userSexMan ? 'Мужской' : 'Женский'}\n
+				${userAge >= 18 ? 'Вы уже совершеннолетний' : 'Вы ещё несовершеннолетний'}\n
+				Вы на пенсии: ${userAge >= 60 ? 'Да' : 'Нет'}\n
+			`;
+			console.log(profile);
+		}
 		
-		let ageDays = userAge * 365;
-
-		let profile = `
-			Ваше ФИО: ${nameCheck(userName)} ${nameCheck(userMiddleName)} ${nameCheck(userSurname)} \n
-			Ваш возраст в годах: ${userAge}\n
-			Ваш возраст в днях: ${ageDays}\n
-			Ваш пол: ${userSexMan ? 'Мужской' : 'Женский'}\n
-			${userAge >= 18 ? 'Вы уже совершеннолетний' : 'Вы ещё несовершеннолетний'}\n
-			Вы на пенсии: ${userAge >= 60 ? 'Да' : 'Нет'}\n
-		`
-
-		console.log(profile);
 	</script>
 </body>
 </html>

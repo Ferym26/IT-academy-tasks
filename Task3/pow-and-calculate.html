@@ -38,22 +38,26 @@
 		let calculate = function(a) {
 			return function(operator) {
 				return function(b) {
-					switch (true) {
-						case (operator == '+'):
-							console.log(`Результат ${a}+${b}=${a + b}`);
-							break;
-						case (operator == '-'):
-						console.log(`Результат ${a}-${b}=${a - b}`);
-							break;
-						case (operator == '/'):
-						console.log(`Результат ${a}/${b}=${a / b}`);
-							break;
-						case (operator == '*'):
-						console.log(`Результат ${a}*${b}=${a * b}`);
-							break;
-						default:
-							console.log('Ошибка! Указан недопустимый оператор. Поддерживаются только + - / *');
-					}
+					// 1 вариант
+					// switch (true) {
+					// 	case (operator == '+'):
+					// 		console.log(`Результат ${a}+${b}=${a + b}`);
+					// 		break;
+					// 	case (operator == '-'):
+					// 	console.log(`Результат ${a}-${b}=${a - b}`);
+					// 		break;
+					// 	case (operator == '/'):
+					// 	console.log(`Результат ${a}/${b}=${a / b}`);
+					// 		break;
+					// 	case (operator == '*'):
+					// 	console.log(`Результат ${a}*${b}=${a * b}`);
+					// 		break;
+					// 	default:
+					// 		console.log('Ошибка! Указан недопустимый оператор. Поддерживаются только + - / *');
+					// }
+
+					// 2 вариант
+					console.log(`Результат ${a}${operator}${b}=${eval(a+operator+b)}` );
 				}
 			}
 		}
