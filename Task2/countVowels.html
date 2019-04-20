@@ -9,11 +9,12 @@
 <body style='background: #333'>
 	<script>
 		// Считает сколько гласных в строке
+		// TODO: inculudes indexOF
 		function countVowelLetters(str) {
 			let vowels = ['а','о','и','е','ё','э','ы','у','ю','я'];
 			let vowelsCounter = 0;
 			let arr = str.toLowerCase().split('');
-			for (let i = 0; i < arr.length; i++) {				
+			for (let i = 0; i < arr.length; i++) {
 				for(let j = 0; j < vowels.length; j++) {
 					if (arr[i] === vowels[j]) {
 						vowelsCounter++;
