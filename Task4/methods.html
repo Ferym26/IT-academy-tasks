@@ -8,15 +8,68 @@
 </head>
 <body>
 	<script>
+		// 
 		let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
-		function currentSums(data) {
-			var result = data.reduce(function(sum, num) {
-				let arr = [sum];
-				return arr;
-			}, 0);
+		let result = [];
+		function currentSums(arr) {
+			arr.reduce(function(accum, curr) {
+				return result.push(accum + curr)
+			});
 			console.log(result);
 		}
-		currentSums(numbers);
+		// currentSums(numbers);
+
+
+		// Возвращает первую букву каждого слова в строке
+		let str = "Каждый охотник желает знать, где сидит фазан.";		
+		function firstLetter(data) {
+			let wordsArr = data.split(' ');
+			let result = [];
+			wordsArr.filter(function(word) {
+				result.push(word.charAt(0));
+			});
+			console.log(result);
+		}
+		// firstLetter(str)
+
+
+		// Меняет местами части массива
+		let nums = [1, 2, 3, 4, 5];
+		function changeArray(arr) {
+			let arrLeft = [];
+			let arrRight = [];
+			// если кол-во элементов нечетное
+			if (arr.length % 2) {
+				console.log('ne4et');
+				let mid = (arr.length - 1) / 2;
+				arr.map(function(item, i) {
+					if (i < mid) {
+						arrLeft.push(item)
+					}
+					if (i > mid) {
+						arrRight.push(item)
+					}
+				});
+				let result = arrRight.concat(arr[mid]).concat(arrLeft);
+				console.log(result);
+			}
+			// если четное
+			else {
+				console.log('4et');
+				let mid = arr.length / 2;
+				arr.map(function(item, i) {
+					if (i < mid) {
+						arrLeft.push(item)
+					}
+					else {
+						arrRight.push(item)
+					}
+				});
+				let result = arrRight.concat(arrLeft);
+				console.log(result);
+			}
+		}
+		// changeArray(nums);
 		
 	</script>
 </body>

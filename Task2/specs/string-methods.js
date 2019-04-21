@@ -75,7 +75,7 @@ let expensive = prices.filter(price => price >= 40);
 console.log(expensive);
 
 // map() - Этот метод схож с filter() в плане выдачи нового массива. Однако, разница тут в том, что он используется только для изменения элементов.
-let sale = prices.map(price => price*0.8);
+let sale = prices.map(price => price * 0.8);
 console.log(sale);
 
 //reduce() - этот метод сокращает(от reduce — сокращать, но на самом деле складывает) весь массив в одно целое значение.
@@ -83,11 +83,10 @@ console.log(sale);
 const arr = [1, 1, 2, 3, 5];
 
 let result = arr.reduce(
-    (sum, current, index) => {
-    console.log(`${index}: sum = ${sum}, current = ${current}`);
-    return sum + current
-  }
-    , 8);
+	(sum, current, index) => {
+		console.log(`${index}: sum = ${sum}, current = ${current}`);
+		return sum + current
+	}, 8);
 
 console.log(result);
 
@@ -96,13 +95,10 @@ let arr1 = [1, 2];
 // соединяем arr1 с [3,4]
 console.log(arr1.concat([3, 4]));
 //соединяем arr c [3, 4] и [5, 6]
-console.log(arr1.concat( [3, 5], [5, 6])); // 1, 2, 3, 4, 5, 6
+console.log(arr1.concat([3, 5], [5, 6])); // 1, 2, 3, 4, 5, 6
 
 
 //Более подробно можно почитать по ссылкам ниже:
 //http://learn.javascript.ru/array-methods
 //http://learn.javascript.ru/array-iteration
 //http://learn.javascript.ru/object-for-in
-
-
-
