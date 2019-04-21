@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Task 4</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+	<div class="container">
+		<div class="wrapper">
+
+			<h1 class="title">Бар "Голубая устрица"</h1>
+
+			<div class="inner">
+				<div class="btn-box">
+					<button class="btn js_entry">Ввод рецента</button>
+					<button class="btn js_recipe">Рецепт напитка</button>
+					<button class="btn js_del">Удаление рецепта</button>
+					<button class="btn js_all">Перечень всех коктейлей</button>
+				</div>
+	
+				<div class="action">
+					<div class="action-item action-entry">
+						<div class="action-item__field">
+							<label>Название коктейля
+								<input type="text">
+							</label>
+						</div>
+						<div class="action-item__field">
+							<span>Алкогольный?
+								<label>Да
+									<input type="radio" name='isalco' value='y'>
+								</label>
+								<label>Нет
+									<input type="radio" name='isalco' value='n'>
+								</label>
+							</span>
+						</div>
+						<div class="action-item__field">
+							<div class="ingredient-box">
+								<div class="ingredient-item">
+									<label>Наименование
+										<input type="text">
+									</label>
+									<label>Объем
+										<input type="text">
+									</label>
+								</div>
+							</div>
+							<button class="ingredient-plus js_ingredient-plus">Добавить ингредиент</button>
+						</div>
+						<div class="action-item__field">
+							<button class="">Ввести рецепт</button>
+						</div>
+					</div>
+					<div class="action-item action-recipe" style='display: none'>
+						<div class="action-item__field">
+							<label>Название коктейля
+								<input type="text">
+							</label>
+							<button>Найти</button>
+							<div class="recipe-result">
+
+							</div>
+						</div>
+					</div>
+					<div class="action-item action-del" style='display: none'>
+						<div class="action-item__field">
+							<label>Название коктейля
+								<input type="text">
+							</label>
+							<button>Удалить</button>
+							<div class="recipe-result">
+
+							</div>
+						</div>
+					</div>
+					<div class="action-item action-all" style='display: none'>
+						<p>name1</p>
+						<p>name2</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+
+	</div>
+
+	<script src='./app.js'></script>
+	<script src='./HashStorage.js'></script>
+	<script src='./jquery-3.0.0.slim.min.js'></script>
+</body>
+</html>
