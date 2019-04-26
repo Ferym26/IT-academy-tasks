@@ -34,7 +34,7 @@ window.onload = function() {
 		actionAll.show();
 	});
 
-	// добавляет строку ввожа ингредиента
+	// добавляет строку ввода ингредиента
 	btnAddIngrid.on('click', function() {
 		ingridItem.clone().appendTo($('.ingredient-box'));
 	});
@@ -55,9 +55,9 @@ window.onload = function() {
 	// Создаём класс коктейлей
 	let coctailsStorage = new HashStorage;
 	// Создаём объект всех коктейлей
-	coctailsStorage.recipes = {};
+	coctailsStorage.storage = {};
 
-	coctailsStorage.recipes['name1'] = {
+	coctailsStorage.storage['name1'] = {
 		alco: true,
 		composition: {
 			'Компонент 1': '100г',
@@ -67,7 +67,7 @@ window.onload = function() {
 		recipe: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus a, vel voluptatibus voluptatum blanditiis sapiente est? Optio et dolores magnam veritatis unde nam sequi, corporis inventore rerum fuga. Commodi, natus.'
 	};
 
-	coctailsStorage.recipes['name2'] = {
+	coctailsStorage.storage['name2'] = {
 		alco: false,
 		composition: {
 			'Компонент 1': '100г',

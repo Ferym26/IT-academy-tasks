@@ -16,16 +16,17 @@
 
 function HashStorage() {
 	let self = this;
+	let storage = {};
 	this.addValue = function(key, value) {
-		this.recipes[key] = value;
+		this.storage[key] = value;
 	};
 	this.getValue = function(key) {
-		console.log('рецепт коктейля', this.recipes[key]);
+		console.log('рецепт коктейля', this.storage[key]);
 	};
 	this.delete = function(key) {
-		delete this.recipes[key];
+		delete this.storage[key];
 	};
 	this.getKeys = function() {
-		console.log('Все коктейли', Object.keys(this.recipes));
+		console.log('Все коктейли', Object.keys(this.storage));
 	};
 }
