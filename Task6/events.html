@@ -1,28 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
 </head>
+
 <body>
-	<a class='task1-link' href="#link1" title='title1'>Link 1</a>
-	<a class='task1-link' href="#link2" title='title2'>Link 2</a>
-	<a class='task1-link' href="#link3" title='title3'>Link 3</a>
-	<a class='task1-link' href="#link4" title='title4'>Link 4</a>
-	<a class='task1-link' href="#link5" title='title5'>Link 5</a>
+	<style>
+		.task1-link {
+			display: block;
+		}
+	</style>
+	<div class="task1-link-wrap">
+		<a class='task1-link' href="#link1" title='title1'>Link 1</a>
+		<a class='task1-link' href="#link2" title='title2'>Link 2</a>
+		<a class='task1-link' href="#link3" title='title3'>Link 3</a>
+		<a class='task1-link' href="#link4" title='title4'>Link 4</a>
+		<a class='task1-link' href="#link5" title='title5'>Link 5</a>
+	</div>
+
+	<div class="task1-link-wrap">
+		<input type="text" class="task2-input" value='привет 1'>
+		<input type="text" class="task2-input" value='привет 2'>
+		<input type="text" class="task2-input" value='привет 3'>
+	</div>
+
 </body>
 
 <script>
-	let task1Links = document.getElementsByClassName('task1-link');
-	task1Links.forEach(function(elem, i) {
-		elem.onclick = function(e) {
+	let task1Links = document.querySelectorAll('.task1-link');
+	for (let i = 0; i < task1Links.length; i++) {
+
+		task1Links[i].addEventListener('mouseenter', hrefInLink)
+
+		function hrefInLink(e) {
+			e.preventDefault();
+			e.stopPropagation();
 			let linkHref = e.target.getAttribute('href');
-			console.log(linkHref);
-			e.target.preventDefault();
+			let linkTitle = e.target.getAttribute('title');
+			// let linkText = task1Links[i].href;
+			task1Links[i].innerHTML = `${linkTitle} (${linkHref})`;
+			console.log('кря');
 		}
-	})
-	
+		task1Links[i].removeEventListener('click', hrefInLink);
+	}
+
+	let task2Inputs = document.querySelectorAll('.task2-input');
+	for (let i = 0; i < task2Inputs.length; i++) {
+		task2Inputs[i].addEventListener('click', inputText)
+		function inputText() {
+			let text = task2Inputs[i].getAttribute('value');
+			console.log(text);
+		}
+		task2Inputs[i].removeEventListener('click', hrefInLink);
+	}
+
 </script>
+
 </html>
