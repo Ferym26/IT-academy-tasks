@@ -5,6 +5,8 @@ window.onload = function() {
 	let btnDel = $('.js_del');
 	let btnAll = $('.js_all');
 	let btnAddIngrid = $('.js_ingredient-plus');
+	let btnAddRecipe = $('.js_ingredient-add');
+	let btnRecipeFind = $('.js_recipe-find');
 
 	let actionBlocks = $('.action-item');
 	let actionEntry = $('.action-entry');
@@ -77,11 +79,54 @@ window.onload = function() {
 	};
 	
 	coctailsStorage.addValue('name5', {a: 5});
-	coctailsStorage.getValue('name2');
+	console.log('рецепт', coctailsStorage.getValue('name2'));
 	coctailsStorage.delete('name1');
 	coctailsStorage.getKeys();
 
-	console.log(coctailsStorage);
+	
+
+	
+
+	btnAddRecipe.on('click', function() {
+		console.log('click');
+		// получаем имя коктейля
+		let recipeName = $('.recipe-name').val();
+		let recipeIsAlco = $('.recipe-isalco').prop('checked');
+		let recipeText = $('.recipe-text').val();
+
+		// формируем объект всех данных для заполнения
+		let ingrids = {};
+		$('.ingredient-item').each(function() {
+			let ingridItemName = $(this).find('.ingredient-item__name').val();
+			let ingridItemValue = $(this).find('.ingredient-item__value').val();
+			ingrids[ingridItemName] = ingridItemValue;
+		});
+
+		if (recipeName) {
+			coctailsStorage.storage[recipeName] = {
+				alco: recipeIsAlco,
+				composition: ingrids,
+				recipe: recipeText
+			}
+		}
+		else {
+			console.log('error');
+		}
+
+		console.log(coctailsStorage);
+		
+	});
+
+	btnRecipeFind.on('click', function() {
+		let recipeFindName = $('.js_recipe-find-name').val();
+		if (recipeFindName && coctailsStorage.getValue(recipeFindName)) {
+			console.log(`Рецепт коктейля ${recipeFindName}` + coctailsStorage.getValue(recipeFindName));
+		}
+		else {
+			console.log('коктейль не найден');
+		}
+	});
+	
 
 	// let exmpl = {
 	// 	'name1': {

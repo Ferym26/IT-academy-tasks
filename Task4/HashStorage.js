@@ -21,7 +21,7 @@ function HashStorage() {
 		this.storage[key] = value;
 	};
 	this.getValue = function(key) {
-		console.log('рецепт коктейля', this.storage[key]);
+		return this.storage[key];
 	};
 	this.delete = function(key) {
 		delete this.storage[key];

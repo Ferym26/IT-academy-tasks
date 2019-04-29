@@ -12,7 +12,7 @@
 	<div class="container">
 		<div class="wrapper">
 
-			<h1 class="title">Бар "Голубая устрица"</h1>
+			<h1 class="title">Бар</h1>
 
 			<div class="inner">
 				<div class="btn-box">
@@ -26,31 +26,29 @@
 					<div class="action-item action-entry">
 						<div class="action-item__field">
 							<label>Название коктейля
-								<input type="text">
+								<input class='recipe-name' type="text">
 							</label>
 						</div>
 						<div class="action-item__field">
-							<span>Алкогольный?
-								<label>Да
-									<input type="radio" name='isalco' value='y'>
-								</label>
-								<label>Нет
-									<input type="radio" name='isalco' value='n'>
-								</label>
-							</span>
+							<label>Алкогольный
+								<input type="checkbox" class='recipe-isalco'>
+							</label>
 						</div>
 						<div class="action-item__field">
 							<div class="ingredient-box">
 								<div class="ingredient-item">
 									<label>Наименование
-										<input type="text">
+										<input type="text" class='ingredient-item__name'>
 									</label>
 									<label>Объем
-										<input type="text">
+										<input type="text" class='ingredient-item__value'>
 									</label>
 								</div>
 							</div>
 							<button class="ingredient-plus js_ingredient-plus">Добавить ингредиент</button>
+						</div>
+						<div class="action-item__field">
+							<textarea class='recipe-text'></textarea>
 						</div>
 						<div class="action-item__field">
 							<button class="js_ingredient-add">Ввести рецепт</button>
@@ -59,9 +57,9 @@
 					<div class="action-item action-recipe" style='display: none'>
 						<div class="action-item__field">
 							<label>Название коктейля
-								<input type="text">
+								<input type="text" class='js_recipe-find-name'>
 							</label>
-							<button>Найти</button>
+							<button class='js_recipe-find'>Найти</button>
 							<div class="recipe-result">
 
 							</div>
