@@ -13,6 +13,9 @@
 		.task1-link {
 			display: block;
 		}
+		.task1-link-wrap {
+			margin-bottom: 40px;
+		}
 	</style>
 	<div class="task1-link-wrap">
 		<a class='task1-link' href="#link1" title='title1'>Link 1</a>
@@ -28,14 +31,25 @@
 		<input type="text" class="task2-input" value='привет 3'>
 	</div>
 
+	<div class="task1-link-wrap">
+		<p class='task3-p'>Lorem, ipsum dolor sit amet consectetur 34 adipisicing elit. Reiciendis consectetur, rem repudiandae itaque veniam aliquid illum laboriosam voluptatum magni 3 exercitationem ab fuga officiis inventore dolore deserunt 765 nam delectus dignissimos officia!</p>
+		<p class='task3-p'>Lorem, ipsum dolor sit amet consectetur 34 adipisicing elit. Reiciendis consectetur, rem repudiandae itaque veniam aliquid illum laboriosam voluptatum magni 3 exercitationem ab fuga officiis inventore dolore deserunt 765 nam delectus dignissimos officia!</p>
+	</div>
+	
+	<div class="task1-link-wrap">
+		<input type="text" class="task4-input" data-length='1'>
+		<input type="text" class="task4-input" data-length='3'>
+		<input type="text" class="task4-input" data-length='5'>
+	</div>
+
 </body>
 
 <script>
+
+	// 1 - ссылки
 	let task1Links = document.querySelectorAll('.task1-link');
 	for (let i = 0; i < task1Links.length; i++) {
-
-		task1Links[i].addEventListener('mouseenter', hrefInLink)
-
+		task1Links[i].addEventListener('mouseenter', hrefInLink);
 		function hrefInLink(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -43,19 +57,54 @@
 			let linkTitle = e.target.getAttribute('title');
 			// let linkText = task1Links[i].href;
 			task1Links[i].innerHTML = `${linkTitle} (${linkHref})`;
-			console.log('кря');
+			task1Links[i].removeEventListener('mouseenter', hrefInLink);
 		}
-		task1Links[i].removeEventListener('click', hrefInLink);
 	}
 
+	// 2 - инпуты
 	let task2Inputs = document.querySelectorAll('.task2-input');
 	for (let i = 0; i < task2Inputs.length; i++) {
 		task2Inputs[i].addEventListener('click', inputText)
 		function inputText() {
 			let text = task2Inputs[i].getAttribute('value');
 			console.log(text);
+			task2Inputs[i].removeEventListener('click', inputText);
 		}
-		task2Inputs[i].removeEventListener('click', hrefInLink);
+	}
+
+	// 3 - Обзацы
+	let task3p = document.querySelectorAll('.task3-p');
+	for (let i = 0; i < task3p.length; i++) {
+		task3p[i].addEventListener('click', textP);
+		function textP() {
+			let words = task3p[i].innerHTML.split(' ');
+			let result = [];
+			words.map(function(item, i) {
+				if (isNaN(item)) {
+					result.push(item);
+				}
+				else {
+					result.push(parseInt(item) * parseInt(item));
+				}
+			});
+			task3p[i].innerHTML = result.join(' ');
+			task3p[i].removeEventListener('click', textP);
+		};
+	}
+
+	// 4 - Подсветка бордера 
+	let task4input = document.querySelectorAll('.task4-input');
+	for (let i = 0; i < task4input.length; i++) {
+		task4input[i].addEventListener('blur', inputCheck);
+		function inputCheck() {
+			if (task4input[i].value.length == task4input[i].dataset.length) {
+				task4input[i].style.borderColor = 'green';
+			}
+			else {
+				task4input[i].style.borderColor = 'red';
+			}
+			task4input[i].removeEventListener('onblur', textP);
+		}
 	}
 
 </script>
