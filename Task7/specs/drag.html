@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        #dragElement {
+            width: 200px;
+            height: 200px;
+            border: 2px red solid;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+        }
+
+        #dragParent {
+            width: 500px;
+            height: 500px;
+            border: 2px blue solid;
+            margin-top: 204px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 
+    dragstart
+    drag
+    dragend
+
+    dragenter
+    dragleave
+    dragover
+    drop
+    -->
+
+    <div id="dragElement" draggable="true"></div>
+    <div id="dragParent"></div>
+
+    <script>
+        let elem = document.querySelector('#dragElement');
+        let parent = document.querySelector('#dragParent');
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            elem.addEventListener('dragstart', function(event) {
+                this.style.borderColor = 'green';
+            });
+
+            parent.addEventListener('dragenter', function(event) {
+                console.log('dragenter!!');
+                this.style.borderColor = 'red';
+                this.style.borderStyle = 'dashed';
+            });
+
+            parent.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                //console.log('dragover...');
+            });
+
+            parent.addEventListener('dragleave', function(event) {
+                event.preventDefault();
+                console.log('dragleave...');
+                this.style.borderColor = 'blue';
+                this.style.borderStyle = 'solid';
+            });
+
+            parent.addEventListener('drop', function(event) {
+                console.log('drop!!!');
+                elem.style.position = 'static';
+                this.append(elem);
+            });
+        });
+
+
+    </script>
+    
+</body>
+</html>
+
