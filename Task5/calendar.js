@@ -11,7 +11,7 @@ window.Calendar = {
 	},
 	
 	getTime: function() {
-		let time = new Date(this.opt.userYear, this.opt.userMonth);		
+		let time = new Date(this.opt.userYear, this.opt.userMonth - 1);
 
 		// добавление метода подсчета кол-ва дней в месяце
 		Date.prototype.daysInMonth = function() {
@@ -42,18 +42,17 @@ window.Calendar = {
 	},
 
 	drowDays: function() {
-		console.log(this.opt.firstDayIndex, this.opt.daysInMonth);
 		let dayNumsWrap = document.createElement('div');
 		dayNumsWrap.className = 'calendar__row calendar__nums';
 		this.opt.wrap.appendChild(dayNumsWrap);
 
-		for(let i = 1; i <= 7 - this.opt.firstDayIndex + 1; i++) {
+		for(let i = 1; i <= this.opt.firstDayIndex - 1; i++) {
 			let dayNum = document.createElement('div');
 			dayNum.className = 'calendar__col calendar__num';
 			dayNumsWrap.appendChild(dayNum);
 		}
 
-		for(let i = 1; i <= 31; i++) {
+		for(let i = 1; i <= this.opt.daysInMonth; i++) {
 			let dayNum = document.createElement('div');
 			dayNum.className = 'calendar__col calendar__num';
 			dayNum.innerHTML = i;
