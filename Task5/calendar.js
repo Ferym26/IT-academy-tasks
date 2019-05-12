@@ -47,7 +47,7 @@ window.Calendar = {
 		dayNumsWrap.className = 'calendar__row calendar__nums';
 		this.opt.wrap.appendChild(dayNumsWrap);
 
-		for(let i = 1; i <= this.opt.firstDayIndex; i++) {
+		for(let i = 1; i <= 7 - this.opt.firstDayIndex + 1; i++) {
 			let dayNum = document.createElement('div');
 			dayNum.className = 'calendar__col calendar__num';
 			dayNumsWrap.appendChild(dayNum);
