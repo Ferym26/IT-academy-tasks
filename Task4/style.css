@@ -42,7 +42,24 @@ body {
 	background-color: #fff;
 }
 
+.action-item {
+
+}
+
+.action-item__field {
+	margin-bottom: 20px;
+}
+
+.action-item__field label {
+	display: block;
+}
+
+.ingredient-plus {
+	margin-top: 5px;
+}
+
 .btn-box {
+	flex-shrink: 0;
 	width: 250px;
 }
 

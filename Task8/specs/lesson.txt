@@ -1,0 +1,22 @@
+SVG
+svg omg!
+yoksel
+
+createElementNs
+
+
+Таймеры
+setTimeout
+setInterval
+
+clearTimeout
+clearInterval
+
+let timer = setTimeout();
+clearInterval(timer);
+
+разобраться с рекурсивным setTimeout
+
+setInterval(tick, 0) - запуск фции сразу с макс приоритетом
+
+requestAnimationFrame - согласует обновление и отрисовку элементов на стрнице

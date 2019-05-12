@@ -9,21 +9,20 @@
 <body style='background: #333'>
 	<script>
 		// Считает сколько гласных в строке
-		// TODO: inculudes indexOF
+		// TODO: includes indexOF
 		function countVowelLetters(str) {
-			let vowels = ['а','о','и','е','ё','э','ы','у','ю','я'];
-			let vowelsCounter = 0;
-			let arr = str.toLowerCase().split('');
-			for (let i = 0; i < arr.length; i++) {
-				for(let j = 0; j < vowels.length; j++) {
-					if (arr[i] === vowels[j]) {
-						vowelsCounter++;
-					}
-				}
-			}
-			console.log(vowelsCounter);
+			let vowels = 'аоиеёэыуюя';
+			str.split('').filter(function(c) {
+				// let result = vowels.includes(c);
+				console.log(с);
+			})
+			
 		}
 		countVowelLetters('Пришла зима, зАпахло…');
+
+		const words = s => s.split("").filter(c => "аоиеёэыуюя".includes(c)).length;
+ 
+		console.log(words("Здравствуй, товарищ.")); // 5
 	</script>
 </body>
 </html>

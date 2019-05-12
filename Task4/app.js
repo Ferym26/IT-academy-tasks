@@ -7,6 +7,7 @@ window.onload = function() {
 	let btnAddIngrid = $('.js_ingredient-plus');
 	let btnAddRecipe = $('.js_ingredient-add');
 	let btnRecipeFind = $('.js_recipe-find');
+	let btnRecipeDel = $('.js_recipe-del');
 
 	let actionBlocks = $('.action-item');
 	let actionEntry = $('.action-entry');
@@ -34,11 +35,21 @@ window.onload = function() {
 	btnAll.on('click', function() {
 		actionBlocks.hide();
 		actionAll.show();
+		// предварительная очистка списка рецептов
+		document.querySelector('.js_recipe-all-names').innerHTML = '';
+		// добавление имен рецептов
+		coctailsStorage.getKeys().forEach(function(item, i) {
+			let recipeName = document.createElement('div');
+			recipeName.innerHTML = item;
+			document.querySelector('.js_recipe-all-names').appendChild(recipeName);
+		})
 	});
 
 	// добавляет строку ввода ингредиента
 	btnAddIngrid.on('click', function() {
-		ingridItem.clone().appendTo($('.ingredient-box'));
+		let clonedItem = ingridItem.clone();
+		clonedItem.find('input').val('');
+		clonedItem.appendTo($('.ingredient-box'));
 	});
 	
 
@@ -60,6 +71,7 @@ window.onload = function() {
 	coctailsStorage.storage = {};
 
 	coctailsStorage.storage['name1'] = {
+		name: 'Name 1',
 		alco: true,
 		composition: {
 			'Компонент 1': '100г',
@@ -70,6 +82,7 @@ window.onload = function() {
 	};
 
 	coctailsStorage.storage['name2'] = {
+		name: 'Name 2',
 		alco: false,
 		composition: {
 			'Компонент 1': '100г',
@@ -78,17 +91,16 @@ window.onload = function() {
 		recipe: 'Lorem ipsum dolor sit amet consectetur, adip'
 	};
 	
-	coctailsStorage.addValue('name5', {a: 5});
-	console.log('рецепт', coctailsStorage.getValue('name2'));
-	coctailsStorage.delete('name1');
-	coctailsStorage.getKeys();
+	// coctailsStorage.addValue('name5', {a: 5});
+	// console.log('рецепт', coctailsStorage.getValue('name2'));
+	// coctailsStorage.delete('name1');
+	// console.log(coctailsStorage.getKeys());
 
 	
 
 	
 
 	btnAddRecipe.on('click', function() {
-		console.log('click');
 		// получаем имя коктейля
 		let recipeName = $('.recipe-name').val();
 		let recipeIsAlco = $('.recipe-isalco').prop('checked');
@@ -104,6 +116,7 @@ window.onload = function() {
 
 		if (recipeName) {
 			coctailsStorage.storage[recipeName] = {
+				name:recipeName,
 				alco: recipeIsAlco,
 				composition: ingrids,
 				recipe: recipeText
@@ -117,35 +130,61 @@ window.onload = function() {
 		
 	});
 
+	// Находит и отображает рецепт коктейля
 	btnRecipeFind.on('click', function() {
 		let recipeFindName = $('.js_recipe-find-name').val();
 		if (recipeFindName && coctailsStorage.getValue(recipeFindName)) {
-			console.log(`Рецепт коктейля ${recipeFindName}` + coctailsStorage.getValue(recipeFindName));
+			printRecipe(coctailsStorage.getValue(recipeFindName));
 		}
 		else {
-			console.log('коктейль не найден');
+			$('.js_recipe-find-result').text(`коктейль не найден!`);
+		}
+	});
+
+	// Удаляет коктейль
+	btnRecipeDel.on('click', function() {
+		let recipeDelName = $('.js_recipe-del-name').val();
+		if (recipeDelName && coctailsStorage.getValue(recipeDelName)) {
+			coctailsStorage.delete(recipeDelName);
+			$('.js_recipe-del-result').text(`Рецепт коктейля ${recipeDelName} удален`);
+		}
+		else {
+			$('.js_recipe-del-result').text(`коктейль не найден!`);
 		}
 	});
 	
+	// выводит на экран рецепт
+	function printRecipe(data) {
+		let wrap = document.querySelector('.js_recipe-find-result');
+		wrap.innerHTML = '';
+		let recipe = data;
 
-	// let exmpl = {
-	// 	'name1': {
-	// 		alco: true,
-	// 		composition: {
-	// 			'Компонент 1': '100г',
-	// 			'Компонент 2': '200г',
-	// 			'Компонент 3': '300г',
-	// 		},
-	// 		recipe: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus a, vel voluptatibus voluptatum blanditiis sapiente est? Optio et dolores magnam veritatis unde nam sequi, corporis inventore rerum fuga. Commodi, natus.'
-	// 	},
-	// 	'name2': {
-	// 		alco: true,
-	// 		composition: {
-	// 			'Компонент 1': '100г',
-	// 			'Компонент 2': '200г',
-	// 		},
-	// 		recipe: 'Lorem ipsum dolor sit amet consectetu'
-	// 	},
-	// }
-	
+		// вывод названия
+		let name = document.createElement('div');
+		name.innerHTML = `Коктейль "<b>${recipe.name}</b>" (алкогольный: ${recipe.alco ? 'Да' : 'Нет'})`;
+		wrap.appendChild(name);
+
+		// вывод заголовка
+		let title1 = document.createElement('div');
+		title1.innerHTML = `Необходимые ингредиенты:`;
+		wrap.appendChild(title1);
+
+		// перебор компонентов
+		for (let key in recipe.composition) {
+			let component = document.createElement('div');
+			component.innerHTML = `${key} ${recipe.composition[key]}`;
+			wrap.appendChild(component);
+		}
+
+		// вывод заголовка
+		let title2 = document.createElement('div');
+		title2.innerHTML = `Рецепт приготовления:`;
+		wrap.appendChild(title2);
+
+		// вывод текста рецента
+		let recipeText = document.createElement('div');
+		recipeText.innerHTML = `${recipe.recipe}`;
+		wrap.appendChild(recipeText);
+	}	
 };
+

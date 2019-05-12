@@ -15,7 +15,7 @@
 // }
 
 function HashStorage() {
-	let self = this;
+	let _self = this;
 	let storage = {};
 	this.addValue = function(key, value) {
 		this.storage[key] = value;
@@ -27,6 +27,6 @@ function HashStorage() {
 		delete this.storage[key];
 	};
 	this.getKeys = function() {
-		console.log('Все коктейли', Object.keys(this.storage));
+		return Object.keys(this.storage);
 	};
 }

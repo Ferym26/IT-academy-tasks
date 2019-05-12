@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        .parentPosition {
+            position: relative;
+            border: 2px black solid;
+            width: 400px;
+            height: 400px;
+            margin: 50px 0;
+        }
+        .circle {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            border-radius: 50%;
+        }
+        #red-circle {
+            width: 50px;
+            height: 50px;
+            left: 50%;
+            top: 50%;
+            margin: -25px 0 0 -25px;
+            background-color: red;
+        }
+
+        #green-circle {
+            background-color: green;
+        }
+
+        label {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <form name="inputPosition">
+        <p><label>Расстояние (радиус):</label> <input type="text" name="inputRadius" value="100"></p>
+        <p><label>Угол (в градусах):</label> <input type="text" name="inputAngle" value="30"></p>
+        <button id="positionBtn">позиционировать</button>
+    </form>
+
+    <div class="parentPosition">
+        <div id="red-circle" class="circle"></div>
+        <div id="green-circle" class="circle"></div>
+    </div>
+
+<script>
+
+    "use strict";
+    var red = document.getElementById("red-circle"),
+        green = document.getElementById("green-circle"),
+        positionBtn = document.getElementById("positionBtn");
+
+    positionBtn.addEventListener("click", setPosition);
+
+    function setPosition(event) {
+        event.preventDefault();
+
+        var form = document.forms.inputPosition;
+        var radius = parseFloat(form.elements.inputRadius.value);
+        var angle = parseFloat(form.elements.inputAngle.value)/180*Math.PI;
+
+        var redCenterX=red.offsetLeft+red.offsetWidth/2;
+        var redCenterY=red.offsetTop+red.offsetHeight/2;
+
+        var greenCenterX=redCenterX+radius*Math.sin(angle);
+        var greenCenterY=redCenterY-radius*Math.cos(angle);
+
+        green.style.left=Math.round(greenCenterX-green.offsetWidth/2)+"px";
+        green.style.top=Math.round(greenCenterY-green.offsetHeight/2)+"px";
+    }
+
+    positionBtn.click();
+</script>
+    
+</body>
+</html>
