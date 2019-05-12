@@ -1,3 +1,31 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
 	background-color: #444;
+}
+
+.calendar {
+	width: 400px;
+	margin: 50px;
+	border: 2px solid #222;
+	background-color: #fff;
+}
+
+.calendar__title {
+
+}
+
+.calendar__row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+
+.calendar__col {
+	flex: 0 1 calc(100% / 7);
+	text-align: center;
 }
