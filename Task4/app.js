@@ -68,7 +68,7 @@ window.onload = function() {
 	// Создаём класс коктейлей
 	let coctailsStorage = new HashStorage;
 	// Создаём объект всех коктейлей
-	coctailsStorage.storage = {};
+	// coctailsStorage.storage = {};
 
 	coctailsStorage.storage['name1'] = {
 		name: 'Name 1',

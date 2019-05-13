@@ -20,3 +20,5 @@ clearInterval(timer);
 setInterval(tick, 0) - запуск фции сразу с макс приоритетом
 
 requestAnimationFrame - согласует обновление и отрисовку элементов на стрнице
+
+тротлинг и дебонсинг

@@ -11,19 +11,19 @@
 <body>
 	<script>
 		// 
-		// let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
-		// function currentSums(num) {
-		// 	arr = [num[0] + ""];
-		// 	ans = []
-		// 	num.reduce((acum, curr) => {
-		// 		arr.push(arr[arr.length - 1] + "+" + (curr + ""));
-		// 		ans.push(acum)
-		// 		return acum + curr;
-		// 	});
-		// 	return [arr, ans]
-		// }
-		// s = currentSums(numbers)
-		// console.log(`[${s[0]}] = [${s[1]}]`)
+		let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
+		function currentSums(num) {
+			arr = [num[0] + ""];
+			ans = []
+			num.reduce((acum, curr) => {
+				arr.push(arr[arr.length - 1] + "+" + (curr + ""));
+				ans.push(acum)
+				return acum + curr;
+			});
+			return [arr, ans]
+		}
+		s = currentSums(numbers)
+		console.log(`[${s[0]}] = [${s[1]}]`)
 
 
 		// Возвращает первую букву каждого слова в строке

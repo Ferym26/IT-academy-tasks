@@ -15,7 +15,6 @@
 // }
 
 function HashStorage() {
-	let _self = this;
 	let storage = {};
 	this.addValue = function(key, value) {
 		this.storage[key] = value;
