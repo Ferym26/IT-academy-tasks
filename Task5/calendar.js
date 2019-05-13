@@ -33,6 +33,7 @@ window.Calendar = {
 		let dayNamesWrap = document.createElement('div');
 		dayNamesWrap.className = 'calendar__row calendar__days';
 		this.opt.wrap.appendChild(dayNamesWrap);
+		// добавление название дней
 		this.opt.day.forEach(function(item, i) {
 			let dayName = document.createElement('div');
 			dayName.className = 'calendar__col calendar__day';
@@ -46,12 +47,14 @@ window.Calendar = {
 		dayNumsWrap.className = 'calendar__row calendar__nums';
 		this.opt.wrap.appendChild(dayNumsWrap);
 
+		// добавление пустых ячеек дней в начало месяца
 		for(let i = 1; i <= this.opt.firstDayIndex - 1; i++) {
 			let dayNum = document.createElement('div');
 			dayNum.className = 'calendar__col calendar__num';
 			dayNumsWrap.appendChild(dayNum);
 		}
 
+		// добавление числел дней
 		for(let i = 1; i <= this.opt.daysInMonth; i++) {
 			let dayNum = document.createElement('div');
 			dayNum.className = 'calendar__col calendar__num';
@@ -59,12 +62,17 @@ window.Calendar = {
 			dayNumsWrap.appendChild(dayNum);
 		}
 	},
+
+	drowHeader: function() {
+
+	},
 	
 	init: function() {
 		this.getTime();
 		this.drowTitle();
 		this.drowDayNames();
 		this.drowDays();
+		this.drowHeader();
 	}
 }
 
