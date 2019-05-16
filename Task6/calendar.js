@@ -142,12 +142,18 @@ window.UI = {
 		});
 		calendarHeader.appendChild(selectMonth);
 
-		// добавление кнопки
+		// добавление кнопки создать
 		let buttonAdd = document.createElement('button');
 		buttonAdd.classList = 'js_button-add';
-		buttonAdd.setAttribute('disabled', 'true')
+		buttonAdd.setAttribute('disabled', 'true');
 		buttonAdd.innerHTML= 'Создать';
 		calendarHeader.appendChild(buttonAdd);
+
+		//Добавление кнопки удалить
+		let buttonDel = document.createElement('button');
+		buttonDel.classList = 'js_button-del';
+		buttonDel.innerHTML= 'Удалить';
+		calendarHeader.appendChild(buttonDel);
 
 		document.querySelector('body').insertBefore(calendarHeader, document.querySelector('.calendar-wrap'));
 	},
@@ -158,6 +164,7 @@ window.UI = {
 		let selectYear = document.querySelector('.js_select-year');
 		let selects = document.querySelectorAll('.calendar-header select');
 		let btnAdd = document.querySelector('.js_button-add');
+		
 
 		// передаём выбранный индекс месяца в настройки
 		selectMonth.addEventListener('change', getMonth);
@@ -183,7 +190,6 @@ window.UI = {
 				btnAdd.setAttribute('disabled', 'true');
 			}
 		}
-		
 	},
 
 	newCalendar: function() {
@@ -193,13 +199,31 @@ window.UI = {
 		function addNewCalendar() {
 			Calendar.init(_self.opt.selectedYear, _self.opt.selectedMonth);
 		}
-		
+	},
+
+	delCalendar: function() {
+		// удаление первого календаря
+		let btnDel = document.querySelector('.js_button-del');
+		let allCalendars = document.getElementsByClassName('calendar');
+		console.log(allCalendars, allCalendars.length);
+		btnDel.addEventListener('click', delFirstCalendar);
+		function delFirstCalendar() {
+			console.log(allCalendars, allCalendars.length);
+			if (allCalendars.length > 0) {
+				btnDel.removeAttribute('disabled');
+				allCalendars[0].remove();
+			}
+			else {
+				btnDel.setAttribute('disabled', 'true');
+			}
+		}
 	},
 
 	init: function() {
 		this.drowHeader();
 		this.events();
 		this.newCalendar();
+		this.delCalendar();
 	}
 }
 
