@@ -28,8 +28,8 @@ window.Clocks = {
 		arrowM.className = 'arrow arrow--min';
 		arrowS.className = 'arrow arrow--sec';
 		this.opt.wrap.appendChild(arrowH);
-		// this.opt.wrap.appendChild(arrowM);
-		// this.opt.wrap.appendChild(arrowS);
+		this.opt.wrap.appendChild(arrowM);
+		this.opt.wrap.appendChild(arrowS);
 
 		// добавление цифровых часов
 		let numClocks = document.createElement('div');
@@ -46,10 +46,10 @@ window.Clocks = {
 			numClocks.innerHTML = '';
 			numClocks.innerHTML = `${niceHour}:${niceMin}:${niceSec}`;
 			_self.opt.wrap.appendChild(numClocks);
-			console.log('tick');
 		}
 		let clocksTick = setInterval(function() {
 			clocks();
+			_self.arrowsPos();
 		}, 1000);
 		
 	},
@@ -74,10 +74,23 @@ window.Clocks = {
 
 	},
 
+	arrowsPos: function() {
+		let arrowHour = document.querySelector('.arrow--hour');
+		let arrowHourGrad = this.opt.currTime.hour * 15 - 180;
+		arrowHour.style.transform = `rotate(${arrowHourGrad}deg)`;
+		
+		let arrowMin = document.querySelector('.arrow--min');
+		let arrowMinGrad = this.opt.currTime.min * 6 - 180;
+		arrowMin.style.transform = `rotate(${arrowMinGrad}deg)`;
+		
+		let arrowSec = document.querySelector('.arrow--sec');
+		let arrowSecGrad = this.opt.currTime.sec * 6 - 180;
+		arrowSec.style.transform = `rotate(${arrowSecGrad}deg)`;
+	},
+
 	init: function() {
 		this.time();
 		this.paint();
-		
 	}
 }
 

@@ -44,7 +44,6 @@
 .arrow {
 	position: absolute;
 	border-radius: 3px;
-	transform-origin: 50% 
 }
 
 .arrow--hour {
@@ -53,22 +52,28 @@
 	top: 190px;
 	left: 190px;
 	background-color: #999;
+	transform: rotate(-180deg);
+	transform-origin: 50% 10px;
 }
 
 .arrow--min {
-	width: 120px;
-	height: 16px;
-	top: 192px;
-	left: 190px;
+	width: 16px;
+	height: 120px;
+	top: 195px;
+	left: 192px;
 	background-color: #777;
+	transform: rotate(-180deg);
+	transform-origin: 50% 6px;
 }
 
 .arrow--sec {
-	width: 130px;
-	height: 10px;
+	width: 10px;
+	height: 130px;
 	top: 195px;
-	left: 190px;
+	left: 195px;
 	background-color: #555;
+	transform: rotate(-180deg);
+	transform-origin: 50% 5px;
 }
 
 .num-clocks {
