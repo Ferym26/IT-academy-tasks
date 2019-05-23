@@ -1,0 +1,29 @@
+Инфо:
+1) https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial
+2) https://simon.html5.org/dump/html5-canvas-cheat-sheet.html
+3) https://www.html5canvastutorials.com/
+4) https://habr.com/hub/canvas/
+
+Видео(годное):
+1) https://www.youtube.com/watch?v=XYgcNVwHUdg
+
+Примеры библиотек для графиков:
+1) https://canvasjs.com/
+2) https://www.chartjs.org/
+
+Вторая часть:
+1) трансофрмации - http://fe.it-academy.by/ViewSlides.php?slide=9176&lect=43
+2) движение х - http://fe.it-academy.by/ViewSlides.php?slide=9185&lect=43
+3) движение xy - http://fe.it-academy.by/ViewSlides.php?slide=9186&lect=43
+4) движение up-down - http://fe.it-academy.by/ViewSlides.php?slide=9188&lect=43
+5) движение accel - http://fe.it-academy.by/ViewSlides.php?slide=9189&lect=43
+6) движение - http://fe.it-academy.by/ViewSlides.php?slide=9190&lect=43
+7) requestAnimationFrame - http://fe.it-academy.by/ViewSlides.php?slide=9192&lect=43
+8) CSS animations - http://fe.it-academy.by/ViewSlides.php?slide=9194&lect=43 и http://fe.it-academy.by/ViewSlides.php?slide=9212&lect=43
+9) SVGsmill - http://css-live.ru/articles/rukovodstvo-po-svg-animaciyam-smil.html
+
+canvas (дополнительно):
+1) http://fe.it-academy.by/ViewSlides.php?slide=9458&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9459&lect=43
+3) http://fe.it-academy.by/ViewSlides.php?slide=9460&lect=43
+4) http://fe.it-academy.by/ViewSlides.php?slide=9461&lect=43

@@ -85,6 +85,25 @@ window.Calendar = {
 		// 	dayNumsWrap.appendChild(dayNum);
 		// }
 	},
+
+	action: function() {
+		// TODO: исправить клик по ячейкам другого календаря
+		// клик по ячейке дня
+		let numsWrap = document.querySelector('.calendar__nums');
+		let nums = document.querySelectorAll('.calendar__num');
+		numsWrap.addEventListener('click', toogler);
+		function toogler(e) {
+			if (e.target.classList.contains('calendar__num--empty')) {
+				return false;
+			}
+			else {
+				nums.forEach(function(item) {
+					item.classList.remove('active');
+				});
+				e.target.classList.add('active');
+			}
+		}
+	},
 	
 	init: function(year, month) {
 		year ? this.opt.userYear = year : false;
@@ -94,6 +113,7 @@ window.Calendar = {
 		this.drowTitle();
 		this.drowDayNames();
 		this.drowDays();
+		this.action();
 	}
 }
 
@@ -104,6 +124,7 @@ Calendar.init();
 window.UI = {
 
 	opt: {
+		calendars: [],
 		selectedYear: null,
 		selectedMonth: null,
 	},
@@ -198,17 +219,17 @@ window.UI = {
 		btnAdd.addEventListener('click', addNewCalendar);
 		function addNewCalendar() {
 			Calendar.init(_self.opt.selectedYear, _self.opt.selectedMonth);
-		}
+		};
 	},
 
 	delCalendar: function() {
 		// удаление первого календаря
 		let btnDel = document.querySelector('.js_button-del');
 		let allCalendars = document.getElementsByClassName('calendar');
-		console.log(allCalendars, allCalendars.length);
+		// console.log(allCalendars, allCalendars.length);
 		btnDel.addEventListener('click', delFirstCalendar);
 		function delFirstCalendar() {
-			console.log(allCalendars, allCalendars.length);
+			// console.log(allCalendars, allCalendars.length);
 			if (allCalendars.length > 0) {
 				btnDel.removeAttribute('disabled');
 				allCalendars[0].remove();

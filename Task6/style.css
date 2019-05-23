@@ -63,3 +63,7 @@ body {
 	background-color: #eee;
 	cursor: default;
 }
+
+.calendar__num.active {
+	background-color: pink;
+}

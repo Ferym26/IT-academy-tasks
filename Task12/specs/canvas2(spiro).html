@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas examples (part2, spirograph)</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fira Mono', monospace;
+        }
+
+        canvas {
+            border: 2px #000 dotted;
+            margin-bottom: 15px;
+        }
+
+        .settings {
+            padding: 15px 0;
+        }
+
+        .settings div {
+            padding-bottom: 15px;
+        }
+
+        .settings label {
+            display: block;
+        }
+
+        .settings input {
+            padding: 4px 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Примеры рисования в canvas</h1>
+
+    <div>
+        <h2><a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D1%84_(%D0%B8%D0%B3%D1%80%D1%83%D1%88%D0%BA%D0%B0)" target="_blank">Спирограф</a> с настройками</h2>
+        <div id="settings" class="settings">
+            <p><strong>Настройки</strong></p>
+            <div><label for="sett1">R (большой радиус):</label><input type="text" name="sett1" id="sett1" value="200"></div>
+            <div><label for="sett2">r (радиус отверстия):</label><input type="text" name="sett2" id="sett2" value="75"></div>
+            <div><label for="sett3">d (расстояние от центра):</label><input type="text" name="sett3" id="sett3" value="120"></div>
+            <div><label for="sett4">Цвет линии:</label><input type="color" name="sett4" id="sett4"></div>
+        </div>
+        <canvas id="spiro" width="600" height="600">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+<script>
+    const canvas = document.getElementById('spiro');
+    const ctx = canvas.getContext('2d');
+
+    const inputs = document.getElementById("settings");
+
+    let R=200,
+        r=75,
+        d=120,
+        teta = 0,
+        lineColor = 'black',
+        timer;
+
+    function spiro(){
+        let x = (R-r)*Math.cos(teta) + d*Math.cos( (R-r)*teta/r );
+        let y = (R-r)*Math.sin(teta) - d*Math.sin( (R-r)*teta/r );
+        ctx.fillStyle = lineColor;
+        teta = teta+0.111;
+        ctx.fillRect(300+x, 300+y, 4, 4);
+        timer = setTimeout(spiro, 30);
+    }
+
+    inputs.addEventListener('change', function(event) {
+        let el = event.target;
+
+        switch(el.name) {
+            case 'sett1':
+                R = el.value;
+                break;
+            case 'sett2':
+                r = el.value;
+                break;
+            case 'sett3':
+                d = el.value;
+                break;
+            case 'sett4':
+                lineColor = el.value;
+                break;
+            default: console.log('Something wrong!');
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (timer) { clearTimeout(timer); }
+        spiro();
+    });
+
+    spiro();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

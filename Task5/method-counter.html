@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function getCounter(num) {
+			let summ = 0;
+			this.log = function() {
+				console.log(num);
+			};
+			this.count = function() {
+				summ += num;
+			};
+			this.reset = function() {
+				summ = 0;
+			};
+		}
+		console.log(getCounter);
+		let counter = getCounter(5);
+		counter.log() // 5
+		// counter.count(4)
+		// counter.log() // 9
+		// counter.count(3)
+		// counter.log() // 12
+		// counter.reset()
+		// counter.log() // 0
+		// counter.count(8)
+		// counter.log(); // 8
+	</script>
+</body>
+</html>
+
+<!-- В папке Task2 создаем файл method-counter.html, в котором реализуем ф-цию getCounter, в которой будут методы log, count и reset, выполняющие следующий код:
+
+
+var counter = getCounter(5);
+  counter.log() // 5
+  .count(4)
+  .log() // 9
+  .count(3)
+  .log() // 12
+  .reset()
+  .log() // 0
+  .count(8)
+  .log(); // 8 -->

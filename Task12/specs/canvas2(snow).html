@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas examples (part2, multianimation)</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fira Mono', monospace;
+        }
+
+        canvas {
+            border: 2px #000 dotted;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Примеры рисования в canvas</h1>
+
+    <div>
+        <h2>Анимация с буферизацией</h2>
+        <canvas id="mulltiAnimation" width="700" height="500">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+<script>
+    window.onload = function () {
+        const drawMultiAnimations = function() {
+            //settings
+            const settings = {
+                canvas: null,
+                ctx: null,
+                bufferCanvas: null,
+                bufferCtx: null,
+                snowFlakeArray: [],
+                snowFlakeTimer: null,
+                snowFlakesMax: 250,
+                skyColor: '#131862',
+            }
+
+            function SnowFlake() {
+                this.shiftX = Math.round(Math.random() * settings.bufferCanvas.width); //случайное значение по x
+                this.shiftY = -10; //все снежинки создаются выше за границей канвас
+                this.drift = Math.random() * 1.5; //случайное число для смещения 
+                this.speed = Math.round(Math.random() * 5) + 1; //скорость падения от 1 до 6
+                this.width = (Math.random() * 3) + 2; //ширина от 2 до 5
+                this.height = this.width; 
+            }
+
+            function animate() {
+                snowUpdate();
+                snowDraw();
+            }
+
+            function blank() {
+                settings.bufferCtx.fillStyle = settings.skyColor;
+                settings.bufferCtx.fillRect(0, 0, settings.bufferCanvas.width, settings.bufferCanvas.height);
+            }
+
+            function createSnow() {
+                let a = settings.snowFlakeArray;
+                //заполняем массив снежинками
+                a.push(new SnowFlake);
+                //если достигли максимума снежинок, то очищаем таймер
+                if (a.length === settings.snowFlakesMax) {
+                    clearInterval(settings.snowFlakeTimer);
+                }
+            }
+
+            function snowUpdate() {
+                let h = settings.canvas.height;
+                let w = settings.canvas.width;
+                let a = settings.snowFlakeArray;
+
+                for (let i = 0; i < a.length; i++) {
+                    if (a[i].shiftY < h) {//если не долетела до низа
+                        a[i].shiftY += a[i].speed; //продолжаем падать со скоростью speed
+
+                        if (a[i].shiftY > h) { //если уже долетела до низа
+                            a[i].shiftY = -10; //уводим ее снова вверх за рамки канваса
+                        }
+
+                        a[i].shiftX += a[i].drift; //случайное смещение снежинки по х
+
+                        if (a[i].shiftX > w) { //если достигла правого края,
+                            a[i].shiftX = 0; //переносим. на левый, т.е. вылет слева канваса
+                        }
+                    }
+                }
+            }
+
+            function snowDraw() {
+                let a = settings.snowFlakeArray;
+
+                blank();
+
+                //создаем в канвас-буфере каждую снежинку
+                for (let k = 0; k < a.length; k++) {
+                    settings.bufferCtx.fillStyle = 'white';
+                    settings.bufferCtx.fillRect(a[k].shiftX, a[k].shiftY, a[k].width, a[k].height);
+                }
+
+                //как только все снежинки отрисовались в буфере, мы копируем все это в наш основной канвас
+                settings.ctx.drawImage(settings.bufferCanvas, 0, 0, settings.canvas.width, settings.canvas.height);
+            }
+
+            settings.canvas = document.getElementById('mulltiAnimation');
+            settings.ctx = settings.canvas.getContext('2d');
+            settings.bufferCanvas = document.createElement('canvas');
+            settings.bufferCtx = settings.bufferCanvas.getContext('2d');
+            settings.bufferCtx.canvas.width = settings.ctx.canvas.width;
+            settings.bufferCtx.canvas.height = settings.ctx.canvas.height;
+
+            settings.snowFlakeTimer = setInterval(createSnow, 200);
+
+            setInterval(animate, 24);
+        }
+
+        drawMultiAnimations();
+        
+    }
+</script>
+</body>
+</html>

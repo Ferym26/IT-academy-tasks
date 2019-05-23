@@ -76,7 +76,7 @@ window.Clocks = {
 
 	arrowsPos: function() {
 		let arrowHour = document.querySelector('.arrow--hour');
-		let arrowHourGrad = this.opt.currTime.hour * 15 - 180;
+		let arrowHourGrad = this.opt.currTime.hour * (360/12) - 180;
 		arrowHour.style.transform = `rotate(${arrowHourGrad}deg)`;
 		
 		let arrowMin = document.querySelector('.arrow--min');

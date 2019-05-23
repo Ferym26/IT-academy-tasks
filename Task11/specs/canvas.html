@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas examples</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fira Mono', monospace;
+        }
+
+        canvas {
+            border: 2px #000 dotted;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Примеры рисования в canvas</h1>
+
+    <div>
+        <h2>Рисуем прямоугольники</h2>
+        <canvas id="rectangles" width="500" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Рисуем линии и типы их соединений</h2>
+        <canvas id="lines" width="500" height="500">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Рисуем дуги</h2>
+        <canvas id="pathes" width="600" height="500">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Рисуем кривые</h2>
+        <canvas id="curves" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Используем текст</h2>
+        <canvas id="texts" width="600" height="200">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности теней</h2>
+        <canvas id="shadows" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности паттернов</h2>
+        <canvas id="patterns" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+        <canvas id="patternLine" width="25" height="25"></canvas>
+    </div>
+
+    <div>
+        <h2>Создание градиентов</h2>
+        <canvas id="gradients" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности clipping mask</h2>
+        <canvas id="clipMask" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности compositing</h2>
+        <canvas id="compositing" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности трасформации</h2>
+        <canvas id="transform" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности анимации</h2>
+        <canvas id="animation" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+    <div>
+        <h2>Возможности анимации</h2>
+        <canvas id="drawevent" width="600" height="300">
+            Ваш браузер не поддерживает canvas, что мешает ощутить все прелести данной технологии...
+        </canvas>
+    </div>
+
+<script>
+window.onload = function () {
+
+    let divs = document.getElementsByTagName('div');
+    for (let k = 0; k < divs.length; k++) {
+        divs[k].style.display = 'none';
+    }
+
+    const drawRectangles = function() {
+        const canvasRects = document.getElementById('rectangles');
+        canvasRects.parentElement.style.display = 'block';
+
+        if (canvasRects && canvasRects.getContext('2d')) {
+            let ctx = canvasRects.getContext('2d');
+            //рисуем сетку для наглядности
+            for (let i = 50; i < canvasRects.width; i+=50) {
+                for (let j = 50; j< canvasRects.height; j+=50) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'cyan';
+                    ctx.lineWidth = .25;
+                    ctx.moveTo(0, j);
+                    ctx.lineTo(canvasRects.width, j);
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, canvasRects.height);
+                    ctx.stroke();
+                }
+            }
+            //рисуем закрашенный прямоугольник
+            ctx.fillStyle = 'gray';
+            ctx.fillRect(20, 20, 100, 100);
+            //рисуем пустой прямоугольник с бордером
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(20, 150, 100, 100);
+            //рисуем закрашенный прямоугольник с бордером
+            ctx.fillStyle = 'green';
+            ctx.fillRect(150, 20, 230, 230);
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(150, 20, 230, 230);
+            //очищающий прямоугольник
+            ctx.clearRect(10, 75, 400, 120);
+        }
+    }
+
+    const drawLines = function() {
+        const canvasLines = document.getElementById('lines');
+        canvasLines.parentElement.style.display = 'block';
+
+        if (canvasLines && canvasLines.getContext('2d')) {
+            let ctx = canvasLines.getContext('2d');
+            
+            //рисуем линии разной ширины в цикле
+            for (let i = 0; i < 10; i++) {
+                ctx.beginPath();
+                ctx.lineWidth = i+1; //задаем ширину линии
+                ctx.moveTo(25, 25+i*15); //ставим начальную точку x=25 и y=25+i*15 (т.е. каждый раз смещаемся наже на i*15 пикселей)
+                ctx.lineTo(475, 25+i*15); //рисуем линию до конечной точки
+                ctx.stroke(); //прорисовывем линию, чтобы она стала видна
+            }
+
+            //рисуем гайдланы для понимания линий
+            ctx.strokeStyle = 'cyan';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(50, 175);
+            ctx.lineTo(50, 285);
+            ctx.moveTo(450, 175);
+            ctx.lineTo(450, 285);
+            ctx.stroke();
+
+            //рисуем линии с разным окончанием ('butt', 'round', 'square')
+            ctx.strokeStyle = 'gray';
+            ctx.lineWidth = 20;
+            ctx.lineCap = 'butt';
+            ctx.beginPath();
+            ctx.moveTo(50, 195);
+            ctx.lineTo(450, 195);
+            ctx.stroke();
+
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(50, 230);
+            ctx.lineTo(450, 230);
+            ctx.stroke();
+
+            ctx.lineCap = 'square';
+            ctx.beginPath();
+            ctx.moveTo(50, 265);
+            ctx.lineTo(450, 265);
+            ctx.stroke();
+
+            //ctx.save();  //сохраняем св-ва
+
+            //рисуем разные типы соединений линий ('round', 'bevel', 'miter')
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 30;
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(25, 460);
+            ctx.lineTo(75, 335);
+            ctx.lineTo(125, 460);
+            ctx.stroke();
+
+            //ctx.restore(); //восстанавливаем св-ва, объявленные до save
+
+            ctx.lineJoin = 'bevel';
+            ctx.beginPath();
+            ctx.moveTo(200, 460);
+            ctx.lineTo(250, 345);
+            ctx.lineTo(300, 460);
+            ctx.stroke();
+
+            ctx.lineJoin = 'miter';
+            ctx.beginPath();
+            ctx.moveTo(365, 460);
+            ctx.lineTo(415, 345);
+            ctx.lineTo(465, 460);
+            ctx.stroke();
+        }
+    }
+
+    const drawPathes = function() {
+        const canvasPathes = document.getElementById('pathes');
+        canvasPathes.parentElement.style.display = 'block';
+
+        if (canvasPathes && canvasPathes.getContext('2d')) {
+            let ctx = canvasPathes.getContext('2d');
+            //если хотите использовать углы, то необходимо пересчитывать в радианы
+            // let radians = (Math.PI / 180) * degrees;
+
+            ctx.strokeStyle = 'blue';
+            ctx.fillStyle = 'red';
+            ctx.lineWidth = 5;
+
+            //рисуем открытый контур
+            ctx.beginPath();
+            ctx.moveTo(25, 175);
+            ctx.lineTo(50, 25);
+            ctx.lineTo(125, 50);
+            ctx.lineTo(175, 175);
+            ctx.stroke();
+
+            //рисуем закрытый контур
+            ctx.beginPath();
+            ctx.moveTo(225, 175);
+            ctx.lineTo(250, 25);
+            ctx.lineTo(325, 50);
+            ctx.lineTo(375, 150);
+            ctx.closePath();
+            ctx.stroke();
+
+            //рисуем открытый контур с заливокй
+            ctx.beginPath();
+            ctx.moveTo(425, 175);
+            ctx.lineTo(450, 25);
+            ctx.lineTo(525, 50);
+            ctx.lineTo(575, 175);
+            ctx.fill();
+            ctx.stroke();
+
+            //рисуем дугу используя градусы
+            let degreesStart = 0;
+            let radiansStart = (Math.PI / 180) * degreesStart;
+            let degreesEnd = 90;
+            let radiansEnd = (Math.PI / 180) * degreesEnd;
+            ctx.beginPath();
+            ctx.arc(100, 350, 80, radiansStart, radiansEnd);
+            ctx.stroke();
+
+            //рисуем дугу в обратную сторону (последний аргумент в true)
+            ctx.beginPath();
+            ctx.arc(300, 350, 80, 0, 2.5*Math.PI, true);
+            ctx.stroke();
+
+            //рисуем круг, т.е. закрытую дугу
+            ctx.beginPath();
+            ctx.arc(500, 350, 80, 0, 2*Math.PI);
+            ctx.fill();
+            //ctx.stroke();
+        }
+    }
+
+    const drawCurves = function() {
+        const canvasCurves = document.getElementById('curves');
+        canvasCurves.parentElement.style.display = 'block';
+
+        if (canvasCurves && canvasCurves.getContext('2d')) {
+            let ctx = canvasCurves.getContext('2d');
+
+            //bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y); -- кривые Безье
+            //quadraticCurveTo(cpx, cpy, x, y); -- кривые квадратичные
+
+            //рисуем кривую Безье
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(50, 200);
+            ctx.bezierCurveTo(50, 100, 200, 150, 200, 50);
+            ctx.stroke();
+            //рисуем контрольные точки для понимания
+            ctx.strokeStyle = 'rgba(0, 0, 0, .25)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(50, 200);
+            ctx.lineTo(50, 100); //end1
+            ctx.lineTo(200, 100);//end2
+            ctx.lineTo(200, 50);
+            ctx.stroke();
+
+            //рисуем квадратичную кривую
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(300, 250);
+            ctx.quadraticCurveTo(300, 50, 550, 150);
+            ctx.stroke();
+            //рисуем контрольные точки для понимания
+            ctx.strokeStyle = 'rgba(0, 0, 0, .25)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(300, 250);
+            ctx.lineTo(300, 50);//end1
+            ctx.lineTo(550, 150);//end2
+            ctx.stroke();
+        }
+    }
+
+    const drawTexts = function() {
+        const canvasTexts = document.getElementById('texts');
+        canvasTexts.parentElement.style.display = 'block';
+
+        if (canvasTexts && canvasTexts.getContext('2d')) {
+            let ctx = canvasTexts.getContext('2d');
+            let theString = 'Hello HTML5 Canvas!';
+
+            ctx.font = '30px Georgia';
+            ctx.fillStyle = 'blue';
+            ctx.fillText(theString, 20, 50);
+
+            ctx.font = '30px Verdana';
+            ctx.strokeStyle = 'red';
+            ctx.strokeText(theString, 20, 100);
+
+            ctx.font = 'bold 52px Arial';
+            ctx.strokeStyle = 'blue';
+            ctx.fillStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.fillText(theString, 20, 175);
+            ctx.strokeText(theString, 20, 175);
+        }
+    }
+
+    const drawShadows = function() {
+        const canvasShadows = document.getElementById('shadows');
+        canvasShadows.parentElement.style.display = 'block';
+
+        if (canvasShadows && canvasShadows.getContext('2d')) {
+            let ctx = canvasShadows.getContext('2d');
+            //настройки для теней
+            ctx.shadowColor = 'rgba(0,0,0,.75)';
+            ctx.shadowOffsetX = 10;
+            ctx.shadowOffsetY = 10;
+            ctx.shadowBlur = 5;
+
+            ctx.fillStyle = 'gray';
+            ctx.fillRect(20, 20, 100, 100);
+
+            ctx.font = '30px Georgia';
+            ctx.fillStyle = 'blue';
+            ctx.fillText('Hello HTML5 Canvas!', 150, 50);
+
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 25;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = 'rgba(150,0,150,.5)';
+            ctx.shadowOffsetX = 10;
+            ctx.shadowOffsetY = -15;
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.moveTo(50, 230);
+            ctx.lineTo(450, 230);
+            ctx.stroke();
+        }
+    }
+
+    const drawPatterns = function() {
+        const canvasPatterns = document.getElementById('patterns');
+        canvasPatterns.parentElement.style.display = 'block';
+
+        if (canvasPatterns && canvasPatterns.getContext('2d')) {
+            let ctx = canvasPatterns.getContext('2d');
+            const img = new Image();
+            img.src = 'http://fe.it-academy.by/Sites/0021673/Yin_and_Yang.png';
+            img.onload = function() {
+                ctx.fillStyle = ctx.createPattern(img, 'repeat');
+                ctx.fillRect(25, 25, ctx.canvas.width-50, ctx.canvas.height-50);
+            }
+
+            const patternLine = document.getElementById('patternLine');
+            let patternCtx = patternLine.getContext('2d');
+            patternCtx.strokeStyle = 'red';
+            patternCtx.fillStyle = 'blue';
+            patternCtx.lineWidth = 2;
+            patternCtx.fillRect(0, 0, 25, 25);
+            patternCtx.beginPath();
+            patternCtx.moveTo(0, 0);
+            patternCtx.lineTo(25, 25);
+            patternCtx.moveTo(25, 0);
+            patternCtx.lineTo(0, 25);
+            patternCtx.stroke();
+            patternLine.style.display = 'none';
+
+            ctx.strokeStyle = ctx.createPattern(patternLine, 'repeat');
+            ctx.lineWidth = 50;
+            ctx.strokeRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        }
+    }
+
+    const drawGradients = function() {
+        const canvasGradients = document.getElementById('gradients');
+        canvasGradients.parentElement.style.display = 'block';
+
+        if (canvasGradients && canvasGradients.getContext('2d')) {
+            let ctx = canvasGradients.getContext('2d');
+            ctx.strokeStyle = 'cyan';
+
+            gradientLinear = ctx.createLinearGradient(0, 0, 100, 200);
+            gradientLinear.addColorStop(0, "blue");
+            gradientLinear.addColorStop(0.5, "yellow");
+            gradientLinear.addColorStop(1, "magenta");
+            ctx.fillStyle = gradientLinear;
+            ctx.fillRect(25, 25, 150, 150);
+            ctx.strokeRect(25, 25, 150, 150);
+
+            gradientRadial = ctx.createRadialGradient(300,100,100,300,100,25);
+            gradientRadial.addColorStop(0, "red");
+            gradientRadial.addColorStop(1, "yellow");
+            ctx.fillStyle = gradientRadial;
+            ctx.fillRect(200, 25, 250, 150);
+            ctx.strokeRect(200, 25, 250, 150);
+        }
+    }
+
+    const drawClippingMask = function() {
+        const canvasClippingMask = document.getElementById('clipMask');
+        canvasClippingMask.parentElement.style.display = 'block';
+
+        if (canvasClippingMask && canvasClippingMask.getContext('2d')) {
+            let ctx = canvasClippingMask.getContext('2d');
+            const img = new Image();
+            img.src = 'http://fe.it-academy.by/Sites/0021673/1.jpg';
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0);
+            }
+
+            ctx.arc(60, 100, 80, 0, 2 * Math.PI);
+            ctx.clip();
+            
+        }
+    }
+
+    const drawCompositing = function() {
+        const canvasCompositing = document.getElementById('compositing');
+        canvasCompositing.parentElement.style.display = 'block';
+
+        if (canvasCompositing && canvasCompositing.getContext('2d')) {
+            let ctx = canvasCompositing.getContext('2d');   
+            
+            ctx.fillStyle = 'green';
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 4;
+            ctx.fillRect(20, 20, 200, 200);
+            ctx.strokeRect(20, 20, 200, 200);
+
+            ctx.globalCompositeOperation = 'overlay';
+            // source-over, source-in, source-out, source-atop, destination-over, destination-in, destination-out,
+            // destination-atop, lighter, copy, xor, multiply, screen, overlay, lighten, color-dodge, 
+            // color-burn, hard-light, soft-light, difference, exclusion, hue, saturation, color, luminosity
+
+            ctx.fillStyle = 'blue';
+            ctx.strokeStyle = 'yellow';
+            ctx.lineWidth = 4;
+            ctx.fillRect(100, 80, 200, 200);
+            ctx.strokeRect(100, 80, 200, 200);
+        }
+    }
+
+    const drawTransforms = function() {
+        const canvasTrasforms = document.getElementById('transform');
+        canvasTrasforms.parentElement.style.display = 'block';
+
+        if (canvasTrasforms && canvasTrasforms.getContext('2d')) {
+            let ctx = canvasTrasforms.getContext('2d');
+            //рисуем сетку для наглядности
+            for (let i = 50; i < canvasTrasforms.width; i+=50) {
+                for (let j = 50; j< canvasTrasforms.height; j+=50) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'cyan';
+                    ctx.lineWidth = .25;
+                    ctx.moveTo(0, j);
+                    ctx.lineTo(canvasTrasforms.width, j);
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, canvasTrasforms.height);
+                    ctx.stroke();
+                }
+            }
+
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 4;
+            ctx.fillStyle = 'red';
+            ctx.save();
+
+            ctx.scale(2, 2);
+            ctx.strokeRect(25, 25, 100, 100);
+            ctx.fillRect(25, 25, 100, 100);
+
+            ctx.restore();
+            ctx.translate(250, 25);
+            ctx.fillRect(25, 25, 100, 100);
+
+            ctx.scale(.5, .5);
+            ctx.fillRect(285, 25, 100, 100);
+
+            ctx.rotate(.52); // поворот на 0.52 радиан или 30 градусов
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(285, 25, 100, 100);
+
+            ctx.resetTransform(); // трансформация больше не применяется
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = 'green';
+            ctx.fillRect(475, 25, 100, 200);
+
+        }
+    }
+
+    const drawAnimations = function() {
+
+        const canvasAnimations = document.getElementById('animation');
+        canvasAnimations.parentElement.style.display = 'block';
+
+        var rectY = 100;
+        var rectWidth = 50;
+        var rectX = -rectWidth;
+
+        if (canvasAnimations && canvasAnimations.getContext('2d')) {
+            let ctx = canvasAnimations.getContext('2d');
+
+            blank();
+
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(rectX, rectY, rectWidth, rectWidth);
+
+            setInterval(anim, 10);
+
+            function blank() {
+                ctx.fillStyle = 'cyan';
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            }
+
+            function anim() {
+                if (rectX < ctx.canvas.width) {
+                    blank();
+                    rectX += 1;
+                    ctx.fillStyle = 'yellow';
+                    ctx.fillRect(rectX, rectY, rectWidth, rectWidth);
+                } else {
+                    rectX = -rectWidth;
+                }
+            }
+            
+        }
+    }
+
+    const drawOnEvent = function() {
+
+        const canvasDrawevent = document.getElementById('drawevent');
+        canvasDrawevent.parentElement.style.display = 'block';
+
+        if (canvasDrawevent && canvasDrawevent.getContext('2d')) {
+            let ctx = canvasDrawevent.getContext('2d');
+
+            canvasDrawevent.onmousedown = function(event) {
+                canvasDrawevent.onmousemove = function(event) {
+                    x = event.offsetX;
+                    y = event.offsetY;
+
+                    ctx.fillRect(x-5, y-5, 10, 10);
+                }
+
+                canvasDrawevent.onmouseup = function() {
+                    canvasDrawevent.onmousemove = null;
+                }
+            }
+        }
+    }
+
+    drawRectangles();
+    drawLines();
+    drawPathes();
+    drawCurves();
+    drawTexts();
+    drawShadows();
+    drawPatterns();
+    drawGradients();
+    drawClippingMask();
+    drawCompositing();
+    drawTransforms();
+    drawAnimations();
+    drawOnEvent();
+}
+</script>
+</body>
+</html>
