@@ -1,4 +1,4 @@
-window.Calendar = {
+Calendar = {
 
 	opt: {
 		userYear: 2019,
@@ -121,7 +121,7 @@ Calendar.init();
 
 
 
-window.UI = {
+UI = {
 
 	opt: {
 		calendars: [],
