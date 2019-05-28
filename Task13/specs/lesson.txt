@@ -4,3 +4,5 @@ Render Three
 
 Peformance
 Painting - время отрисовки
+
+transform: translateZ(0) выносит элемент на отдельный слой для расчета на GPU. значительно ускоряет время отрисовки PAINTING

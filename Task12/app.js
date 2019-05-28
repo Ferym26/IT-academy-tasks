@@ -19,6 +19,7 @@ class Tennis {
 		this.rightPlayerNum = 0;
 
 		this.drow();
+		this.raquets();
 	}
 
 	// отрисовка мячика
@@ -31,13 +32,16 @@ class Tennis {
 
 	// отрисовка рокеток
 	raquets() {
-		let playerLeft = new PlayerRacquet({
+		this.playerLeft = new PlayerRacquet({
 			canvas: document.querySelector('.play-field'),
 			side: 'left',
 			color: 'blue'
 		});
+
 		
-		let playerRight = new PlayerRacquet({
+
+		
+		this.playerRight = new PlayerRacquet({
 			canvas: document.querySelector('.play-field'),
 			side: 'right',
 			color: 'green'
@@ -94,8 +98,6 @@ class Tennis {
 	drow() {
 		this.canvas.width = this.width;
 		this.canvas.height = this.height;
-
-		this.raquets();
 
 		let loop = () => {
 			this.clear();
