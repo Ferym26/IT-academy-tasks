@@ -1,56 +1,57 @@
+const OPTS = {
+	CANVAS: document.querySelector('.play-field'),
+	CTX: document.querySelector('.play-field').getContext('2d'),
+	WIDTH: 500,
+	HEIGHT: 300,
+}
+
 class Tennis {
 
 	constructor(opt) {
-		this.canvas = opt.canvas;
-		this.ctx = this.canvas.getContext('2d');
-		this.width = opt.width;
-		this.height = opt.height;
-
-		this.ballX = this.width / 2;
-		this.ballY = this.height / 2;
+		this.ballX = OPTS.WIDTH / 2;
+		this.ballY = OPTS.HEIGHT / 2;
 		this.ballSize = 15;
-		this.ballSpeedX = 1;
-		this.ballSpeedY = 1;
+		this.ballSpeedX = 3;
+		this.ballSpeedY = 0;
 
-		this.board = this.canvas.previousElementSibling;
+		this.board = OPTS.CANVAS.previousElementSibling;
 		this.leftPlayerScore = this.board.querySelector('.score-left');
 		this.rightPlayerScore = this.board.querySelector('.score-right');
 		this.leftPlayerNum = 0;
 		this.rightPlayerNum = 0;
 
 		this.drow();
-		this.raquets();
 	}
 
 	// отрисовка мячика
 	ball() {
-		this.ctx.fillStyle = 'red';
-		this.ctx.beginPath();
-		this.ctx.arc(this.ballX, this.ballY, this.ballSize, 0, 2 * Math.PI);
-		this.ctx.fill();
+		OPTS.CTX.fillStyle = 'red';
+		OPTS.CTX.beginPath();
+		OPTS.CTX.arc(this.ballX, this.ballY, this.ballSize, 0, 2 * Math.PI);
+		OPTS.CTX.fill();
 	}
 
-	// отрисовка рокеток
+	// инитим рокетки
 	raquets() {
+
 		this.playerLeft = new PlayerRacquet({
-			canvas: document.querySelector('.play-field'),
 			side: 'left',
-			color: 'blue'
+			color: 'blue',
+			keyUp: 87,
+			keyDown: 83
 		});
 
-		
-
-		
 		this.playerRight = new PlayerRacquet({
-			canvas: document.querySelector('.play-field'),
 			side: 'right',
-			color: 'green'
+			color: 'green',
+			keyUp: 38,
+			keyDown: 40
 		});
 	}
-
 
 	// обновление параметров
 	update() {
+		let _self = this;
 		this.ballX += this.ballSpeedX;
 		this.ballY += this.ballSpeedY;
 	}
@@ -58,28 +59,43 @@ class Tennis {
 	// проверка взаимодействий
 	collisions() {
 		// проверка удара о правую стенку
-		if(this.ballX + this.ballSize >= this.width) {
-			this.ballSpeedX = -this.ballSpeedX;
+		if(this.ballX + this.ballSize >= OPTS.WIDTH) {
 			this.scoring();
 		}
 		// проверка удара о левую стенку
 		if(this.ballX - this.ballSize <= 0) {
-			this.ballSpeedX = -this.ballSpeedX;
 			this.scoring();
 		}
 		// проверка удара о нижнюю стенку
-		if(this.ballY + this.ballSize >= this.height) {
+		if(this.ballY + this.ballSize >= OPTS.HEIGHT) {
 			this.ballSpeedY = -this.ballSpeedY;
 		}
 		// проверка удара о верхнюю стенку
 		if(this.ballY - this.ballSize <= 0) {
 			this.ballSpeedY = -this.ballSpeedY;
 		}
+
+		// проверка удара о левую рокетку
+		if(this.ballX - (this.ballSize) <= this.playerLeft.width) {
+			// console.log('возможен удар слева');
+			if(this.ballY > this.playerLeft.posY && this.ballY < this.playerLeft.posY + this.playerLeft.height) {
+				this.ballSpeedX = -this.ballSpeedX;
+				console.log('bam left');
+			}
+		}
+		// проверка удара о правую рокетку
+		if(this.ballX + (this.ballSize) >= OPTS.WIDTH - this.playerLeft.width) {
+			// console.log('возможен удар справа');
+			if(this.ballY > this.playerRight.posY && this.ballY < this.playerRight.posY + this.playerRight.height) {
+				this.ballSpeedX = -this.ballSpeedX;
+				console.log('bam left');
+			}
+		}
 	}
 
 	// подсчет очков
 	scoring() {
-		if (this.ballX + this.ballSize >= this.width) {
+		if (this.ballX + this.ballSize >= OPTS.WIDTH) {
 			this.leftPlayerNum++;
 			this.leftPlayerScore.innerHTML = this.leftPlayerNum;
 		}
@@ -91,17 +107,23 @@ class Tennis {
 
 	// очистка области
 	clear() {
-		this.ctx.clearRect(0, 0, this.width, this.height);
+		OPTS.CTX.clearRect(0, 0, OPTS.WIDTH, OPTS.HEIGHT);
 	}
 
 	//отрисовка
 	drow() {
-		this.canvas.width = this.width;
-		this.canvas.height = this.height;
+		// рисуем поле
+		OPTS.CANVAS.width = OPTS.WIDTH;
+		OPTS.CANVAS.height = OPTS.HEIGHT;
+
+		// рисуем рокетки
+		this.raquets();
 
 		let loop = () => {
 			this.clear();
 			this.ball();
+			this.playerLeft.drow();
+			this.playerRight.drow();
 			this.update();
 			this.collisions();
 
@@ -115,26 +137,26 @@ class Tennis {
 class PlayerRacquet {
 
 	constructor(opt) {
-		this.canvas = opt.canvas;
-		this.ctx = this.canvas.getContext('2d');
 		this.side = opt.side;
 		this.color = opt.color;
 		this.width = 10;
 		this.height = 60;
+		this.posY = (OPTS.HEIGHT / 2) - (this.height / 2);
+		this.keyUp = opt.keyUp;
+		this.keyDown = opt.keyDown;
 
-		this.drow();
 		this.move();
 	}
 
 	// рисует рокетку
 	drow() {
-		this.ctx.fillStyle = this.color;
+		OPTS.CTX.fillStyle = this.color;
 
 		if (this.side == 'left') {
-			this.ctx.fillRect(0, (300 / 2) - (this.height / 2), this.width, this.height);
+			OPTS.CTX.fillRect(0, this.posY, this.width, this.height);
 		}
 		else if (this.side == 'right') {
-			this.ctx.fillRect(500 - this.width, (300 / 2) - (this.height / 2), this.width, this.height);
+			OPTS.CTX.fillRect(OPTS.WIDTH - this.width, this.posY, this.width, this.height);
 		}
 		else {
 			console.error('Ошибка укания позиции игрока (введите left/right)');
@@ -143,15 +165,26 @@ class PlayerRacquet {
 
 	// двигает рокетку
 	move() {
-		document.addEventListener("keydown", wat);
-		function wat(e) {
-			console.log(e.keyCode);
+		let _self = this;
+
+		document.addEventListener("keydown", repos);
+		function repos(e) {
+			switch(e.keyCode) {
+				case (_self.keyUp):
+					_self.posY -= 3;
+					break;
+				case (_self.keyDown):
+					_self.posY += 3;
+					break;
+			}
+			if (_self.posY <= 0) {
+				_self.posY = 0;
+			}
+			if (_self.posY >= OPTS.HEIGHT - (_self.height)) {
+				_self.posY = OPTS.HEIGHT - (_self.height)
+			}
 		}
 	}
 }
 
-let fieldTennis = new Tennis({
-	canvas: document.querySelector('.play-field'),
-	width: 500,
-	height: 300
-});
+let fieldTennis = new Tennis({});
