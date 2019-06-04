@@ -1,0 +1,42 @@
+ДАННЫЕ. JSON. Хранение данных на клиенте
+
+json работает с
+- {}
+- []
+- string
+- number
+- true/false
+- null
+
+JSON.parse - парсит
+JSON.stringify - сжимает json объект в строку для передачи
+
+СОЗДАНИЕ ГЛУБОКОЙ КОПИИ ОБЪЕКТА
+b2 = JSON.parse(JSON.srtingify(b))
+
+
+localStorage.setItem(key, val)
+localStorage.getItem(key)
+localStorage.removeItem(key)
+.length()
+.clear()
+
+проверка наличия api на window
+//
+
+window.addEvent('storage', func) - событие при изменении localStorage
+
+
+
+sessionStorage - очичается при закрытии браузера или всех вкладок хоста
+
+
+
+cookie
+document.cookie
+имеют время жизни
+строка "key=value"
+
+метод проверки куков cookieEnebled включены ли у юзера
+expire - время срабатывания куки
+sequre=true - невидимая кука

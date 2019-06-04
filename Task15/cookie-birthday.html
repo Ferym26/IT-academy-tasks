@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		label {
+			display: block;
+			width: 300px;
+			margin: 50px auto;
+		}
+		label span {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<label for="">
+		<span>Введите дату вашего рождения</span>
+		<input class='js_date' type="date" placeholder='Дата'>
+	</label>
+	
+	<script>
+		// let userName = prompt('Enter u name');
+		let userName = 'Vasia';
+		let inputDate = document.querySelector('.js_date');
+		let now = Date.now();
+		let too = new Date();
+		// console.log(now - too);
+		// console.log(too);
+		function getUserDate() {
+			console.log(inputDate.valueAsDate.getTime());
+			console.log(inputDate.valueAsDate.getFullYear());
+			console.log(inputDate.valueAsDate.getMonth());
+			console.log(inputDate.valueAsDate.getDay());
+		}
+		document.addEventListener('change', getUserDate)
+	</script>
+</body>
+</html>

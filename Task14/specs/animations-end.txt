@@ -1,0 +1,28 @@
+Анимация и субпикселизация:
+1) http://fe.it-academy.by/ViewSlides.php?slide=9229&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9230&lect=43
+3) http://fe.it-academy.by/ViewSlides.php?slide=9231&lect=43
+4) http://fe.it-academy.by/ViewSlides.php?slide=9232&lect=43
+5) http://fe.it-academy.by/ViewSlides.php?slide=9233&lect=43
+6) http://fe.it-academy.by/ViewSlides.php?slide=9234&lect=43
+
+Про ФПС: https://paulbakaus.com/wp-content/uploads/2014/05/60vs24fps.mp4
+
+Способы рендеринга: http://fe.it-academy.by/ViewSlides.php?slide=9236&lect=43
+
+звук: 
+1) http://fe.it-academy.by/ViewSlides.php?slide=9242&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9243&lect=43
+3) http://fe.it-academy.by/ViewSlides.php?slide=9244&lect=43
+
+вибрация:
+1) https://html5.by/blog/vibration-api/
+2) https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API
+3) http://fe.it-academy.by/ViewSlides.php?slide=9246&lect=43
+
+Графика и движки:
+1) http://fe.it-academy.by/ViewSlides.php?slide=9180&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9181&lect=43
+3) http://fe.it-academy.by/ViewSlides.php?slide=9182&lect=43
+4) http://fe.it-academy.by/ViewSlides.php?slide=9183&lect=43
+5) http://fe.it-academy.by/ViewSlides.php?slide=9184&lect=43
