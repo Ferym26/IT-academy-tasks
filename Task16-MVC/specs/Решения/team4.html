@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<script defer src="test.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+        
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+        
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Пример решения задачи "в лоб"</h1>
+
+    <h3>пример умножения двух чисел</h3>
+    <form>
+        <fieldset>
+            <legend>Магия чисел</legend>
+            <p>
+                <input type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+                <span class="mult-sign"> x </span>
+                <input type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            </p>
+            <p>
+                <button id="calculateBtn">Вычислить</button>
+            </p>
+            <div id="showResult"></div>
+        </fieldset>
+    </form>
+
+    <script>
+        var input1 = document.getElementById('inputValue_1');
+        var input2 = document.getElementById('inputValue_2');
+        var result = document.getElementById('showResult');
+        var valueInput2;
+        var valueInput1;
+
+        input1.addEventListener('blur', function() {
+            valueInput1 = input1.value;
+            check();
+            console.log(valueInput1);
+        });
+
+        input2.addEventListener('blur', function() {
+            valueInput2 = input2.value;
+            check();
+            console.log(valueInput2);
+        });
+
+        var buttonCalc = document.getElementById('calculateBtn');
+        buttonCalc.addEventListener('click', makeCalc);
+
+
+        function makeCalc(event) {
+            event.preventDefault();
+            var totalResult = parseInt(valueInput1) * parseInt(valueInput2);
+            result.innerHTML = `Результат вычислений = ${totalResult}`;
+            console.log(totalResult);
+        }
+
+        function check() {
+            if (!valueInput1 && !valueInput2) {
+                buttonCalc.setAttribute('disabled', true)
+            } else {
+                buttonCalc.removetAttribute('disabled', true);
+
+            }
+        }
+
+
+        /* Здесь пишем скрипт, который позволит решить поставленную задачу:
+                                1) Кнопка "вычислить" должна быть не активна, пока не введены оба числа
+                                2) Если введены оба числа (т.е. инпуты не пустые), то по событию "blur" делаем кнопку активной
+                                3) по клику на эту кнопку - произвести вычисление и вывод результата в div с id="showResult" во формате 
+                                    "Результат вычислений = " + результат
+                            */
+    </script>
+</body>
+
+</html>

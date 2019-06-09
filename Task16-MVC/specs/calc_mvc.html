@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-group.row {
+            max-width: 980px;
+            margin: 20px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример использования MVC</h1>
+
+    <h3>Всего-навсего умножение двух чисел</h3>
+
+    <form class="form">
+        <div class="form-group row">
+            <input class="form-control col-sm-4" type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+            <span class="mult-sign col-sm-1"> x </span>
+            <input class="form-control col-sm-4" type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            <div class="col-sm-2">
+                <button id="calculateBtn" class="btn btn-primary float-right">Вычислить</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div id="showResult"></div>
+        </div>
+    </form>
+
+<script>
+/* ---------------------------- begin view ----------------------------- */
+
+const view = {
+    disableBtn: function(btnState) {
+        let btn = document.getElementById("calculateBtn");
+        btn.disabled = btnState;
+    },
+
+    showNumber: function (number) {
+        var el = document.getElementById("showResult");
+        el.innerHTML = `Результат вычислений = <strong>${number}</strong>`;
+    }
+
+};
+
+/* ----------------------------- end view ------------------------------ */
+/* ---------------------------- begin model ---------------------------- */
+
+const model = {
+    calcResult: 0,
+
+    disableBtn: function(state) {
+        view.disableBtn(state);
+    },
+
+    calculate: function (x, y) {
+        this.calcResult = x * y;
+        view.showNumber(this.calcResult);
+    }
+};
+
+/* ----------------------------- end model ----------------------------- */
+/* -------------------------- begin controller ------------------------- */
+
+const controller = {
+    number_1: 0,
+    number_2: 0,
+
+    events: function () {
+        let arrInputs = document.querySelectorAll("input[type=number]"),
+            calcBtn = document.getElementById("calculateBtn");
+
+        model.disableBtn(true);
+
+        for (let i = 0, arrInputsLength = arrInputs.length; i < arrInputsLength; i++) {
+            arrInputs[i].addEventListener("blur", function(event) {
+                event.preventDefault();
+                controller.handleChangeInput(arrInputs[i]);
+            });
+        }
+
+        calcBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            controller.handleButtonClick();
+        });
+    },
+
+    handleChangeInput: function (input) {
+        let that = input,
+            idName = that.getAttribute("id");
+
+        model.disableBtn(true);
+
+        if (idName === "inputValue_1") {
+            (!!that.value) ? this.number_1 = that.value : this.number_1 = 0;
+        }
+
+        if (idName === "inputValue_2") {
+            (!!that.value) ? this.number_2 = that.value : this.number_2 = 0;
+        }
+
+        if (!!this.number_1 && !!this.number_2) {
+            model.disableBtn(false);
+        }
+    },
+
+    handleButtonClick: function () {
+        model.calculate(this.number_1, this.number_2);
+    }
+
+};
+
+/* --------------------------- end controller -------------------------- */
+/* --------------------- anonymous initialize function ----------------- */
+(function() {
+
+    var app = {
+
+        init: function () {
+            this.main();
+            this.events();
+        },
+
+        main: function () {
+            alert("Привет. А сейчас мы немного поумнажаем числа! \nВы готовы? Не слышу вас... \nВЫ ГОТОВЫ?! =)");
+        },
+
+        events: function() {
+            controller.events();
+        }
+
+    };
+    
+    app.init();
+
+}());
+/* --------------------- anonymous initialize function ----------------- */
+</script>
+</body>
+</html>

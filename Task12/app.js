@@ -8,11 +8,14 @@ const OPTS = {
 class Tennis {
 
 	constructor(opt) {
+		this.random = function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
 		this.ballX = OPTS.WIDTH / 2;
 		this.ballY = OPTS.HEIGHT / 2;
 		this.ballSize = 15;
-		this.ballSpeedX = 3;
-		this.ballSpeedY = 0;
+		this.ballSpeedX = this.random(1, 4);
+		this.ballSpeedY = this.random(1, 4);
 
 		this.board = OPTS.CANVAS.previousElementSibling;
 		this.leftPlayerScore = this.board.querySelector('.score-left');
@@ -21,7 +24,9 @@ class Tennis {
 		this.rightPlayerNum = 0;
 
 		this.startBtn = document.querySelector('.js_start'); // кнопка запуска игры
-		this.playState = false; // запущена игра или нет
+		this.playState = 'stop'; // stop play pause - запущена игра или нет
+
+		
 
 		this.drow();
 		this.startGame();
@@ -120,7 +125,6 @@ class Tennis {
 
 	//отрисовка
 	drow() {
-		// TODO: добавить проверку playState
 		let _this = this;
 		// рисуем поле
 		OPTS.CANVAS.width = OPTS.WIDTH;
@@ -132,9 +136,8 @@ class Tennis {
 		this.playerLeft.drow();
 		this.playerRight.drow();
 
-
 		// цикл отрисовки
-		this.loop = () => {
+		_this.loop = () => {
 			_this.clear();
 			_this.ball();
 			_this.playerLeft.drow();
@@ -142,7 +145,9 @@ class Tennis {
 			_this.update();
 			_this.collisions();
 
-			_this.globalRender = window.requestAnimationFrame(_this.loop);
+			if (_this.playState == 'play') {
+				window.requestAnimationFrame(_this.loop);
+			}
 		}
 	}
 
@@ -151,21 +156,39 @@ class Tennis {
 		let _this = this;
 
 		this.startBtn.addEventListener("click", function () {
-			if (_this.playState == false) {
-				window.requestAnimationFrame(_this.loop);
+
+			// Задание новых скоростей для мяча
+			_this.ballSpeedX = _this.random(1, 4);
+			_this.ballSpeedY = _this.random(1, 4);
+
+			if (_this.playState == 'stop') {
+				_this.playState = 'play';
+				_this.frame = window.requestAnimationFrame(_this.loop);
 			}
-			_this.playState = true;
+			// if (_this.playState == 'play') {
+			// 	_this.playState = 'pause';
+			// 	window.cancelAnimationFrame(_this.frame)
+			// }
+			
 		});
 	}
 
 	// остановка игры
 	stopGame() {
 		let _this = this;
+		_this.playState = 'stop';
 
-		if (_this.playState) {
-			window.cancelAnimationFrame(_this.globalRender);
-		}
-		_this.playState = false;
+		// задание начальных позиций для мяча и рокеток
+		this.ballX = OPTS.WIDTH / 2;
+		this.ballY = OPTS.HEIGHT / 2;
+		this.playerLeft.posY = (OPTS.HEIGHT / 2) - (this.playerLeft.height / 2);
+		this.playerRight.posY = (OPTS.HEIGHT / 2) - (this.playerRight.height / 2);
+
+		// отрисовка мяча и рокеток на стартовых позициях
+		_this.clear();
+		this.ball();
+		this.playerLeft.drow();
+		this.playerRight.drow();
 	}
 };
 
@@ -224,4 +247,4 @@ class PlayerRacquet {
 	}
 }
 
-let fieldTennis = new Tennis({});
+let fieldTennis = new Tennis();

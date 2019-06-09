@@ -1,0 +1,6 @@
+слайды:
+1) http://fe.it-academy.by/ViewSlides.php?slide=9251&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9252&lect=43
+3) http://fe.it-academy.by/ViewSlides.php?slide=9253&lect=43
+
+*) https://habr.com/ru/post/215605/

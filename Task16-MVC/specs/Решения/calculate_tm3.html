@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+        
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+        
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Пример решения задачи "в лоб"</h1>
+
+    <h3>пример умножения двух чисел</h3>
+    <form>
+        <fieldset>
+            <legend>Магия чисел</legend>
+            <p>
+                <input type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+                <span class="mult-sign"> x </span>
+                <input type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            </p>
+            <p>
+                <button id="calculateBtn">Вычислить</button>
+            </p>
+            <div id="showResult"></div>
+        </fieldset>
+    </form>
+
+    <script>
+        // Здесь пишем скрипт, который позволит решить поставленную задачу:
+        //     1) Кнопка "вычислить"
+        // должна быть не активна, пока не введены оба числа
+        // 2) Если введены оба числа(т.е.инпуты не пустые), то по событию "blur"
+        // делаем кнопку активной
+        // 3) по клику на эту кнопку - произвести вычисление и вывод результата в div с id = "showResult"
+        // во формате
+        //     "Результат вычислений = " + результат
+
+
+        let button = document.getElementById('calculateBtn');
+        let firstValue = document.getElementById('inputValue_1');
+        let secondValue = document.getElementById('inputValue_2');
+        let result = document.getElementById('showResult');
+        button.addEventListener('click', calculate);
+
+        function calculate(e) {
+            e.preventDefault();
+            let answer = Number(firstValue.value) * Number(secondValue.value);
+            result.innerHTML = `Результат вычислений = ${answer}`;
+        }
+
+        button.disabled = true;
+
+        firstValue.addEventListener('blur', funcBlur);
+        secondValue.addEventListener('blur', funcBlur);
+
+        function funcBlur() {
+            if (firstValue.value && secondValue.value) {
+                button.disabled = false;
+            }
+
+        };
+    </script>
+</body>
+
+</html>
