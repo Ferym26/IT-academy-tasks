@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Modal MVC</title>
+	<link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+	<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+	<div class="container">
+		<h1>Создание простейшего модального окошка!</h1>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
+			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
+			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
+			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+		<br>
+		<br>
+		<p style="text-align: center;">
+			<a href="#" id="modal-open" class="modal-open" title="Покажите мне модальное окошко">Открыть окно</a>
+		</p>
+		<div class="target"></div>
+	</div>
+
+	<div class="modal-overlay modal_closed" id="modal-overlay"></div>
+	<div class="modal modal_closed" id="modal">
+		<header class="modal__header">
+			<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+			<h2>Введите данные</h2>
+		</header>
+
+		<main class="modal__content">
+			<div class="form-field">
+				<label for="name">Ваше имя:</label>
+				<input class="input__default" type="text" id="name" name="name">
+			</div>
+			<div class="form-field">
+				<label>Ваш день рождения:</label>
+				<input type="text" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
+				<input type="text" class="input__date-birth" id="birth-month" name="name" placeholder="Месяц"> -
+				<input type="text" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
+			</div>
+		</main>
+
+		<footer class="modal__footer">
+			<button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
+			<button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
+		</footer>
+	</div>
+
+	<script src='./app.js'></script>
+</body>
+
+</html>
