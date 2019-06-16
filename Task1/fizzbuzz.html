@@ -5,15 +5,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Task 1 - fizzbuzz</title>
+	<style>
+		body {
+			color: #fff;
+		}
+	</style>
 </head>
 <body style='background: #333'>
 	<script>
+		let result = [];
 		for(i = 1; i <= 100; i++) {
-			(i % 3 == 0 && i % 5 != 0) && console.log('Fizz');
-			(i % 5 == 0 && i % 3 != 0) && console.log('Buzz');
-			(i % 3 == 0 && i % 5 == 0) && console.log('FizzBuzz');
-			(i % 3 != 0 && i % 5 != 0) && console.log(i);
+			(i % 3 == 0 && i % 5 != 0) && result.push('Fizz');
+			(i % 5 == 0 && i % 3 != 0) && result.push('Buzz');
+			(i % 3 == 0 && i % 5 == 0) && result.push('FizzBuzz');
+			(i % 3 != 0 && i % 5 != 0) && result.push(i);
 		}
+		document.write(result)
 	</script>
 </body>
 </html>

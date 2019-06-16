@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Modal default</title>
+	<link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+	<style>
+		body {
+			margin: 0;
+			background-color: #556;
+			background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+				linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+				linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+				linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+				linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a),
+				linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
+			background-size: 80px 140px;
+			background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+			font-family: 'Exo 2', sans-serif;
+			box-sizing: border-box;
+		}
+
+		*,
+		*:before,
+		*:after {
+			box-sizing: inherit;
+		}
+
+		.container {
+			margin: 20px;
+			padding: 20px;
+			min-height: 600px;
+			font-size: 16px;
+			background-color: #fff;
+		}
+
+		.modal-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 50;
+			background: rgba(0, 0, 0, 0.6);
+		}
+
+		.modal-open {
+			color: #fff;
+			border: 1px #007bff solid;
+			border-radius: 5px;
+			padding: 8px 12px;
+			font-size: 16px;
+			font-family: 'Exo 2', sans-serif;
+			background-color: #007bff;
+			text-decoration: none;
+		}
+
+		.modal-open:hover {
+			text-decoration: none;
+			background-color: #0069d9;
+			border-color: #0062cc;
+		}
+
+		.modal-open:active {
+			text-decoration: none;
+			background-color: #0062cc;
+			border-color: #005cbf;
+		}
+
+		.modal {
+			display: block;
+			width: 600px;
+			max-width: 100%;
+			height: 400px;
+			max-height: 100%;
+			position: fixed;
+			z-index: 100;
+			left: 50%;
+			top: 50%;
+			border-radius: 10px;
+			transform: translate(-50%, -50%);
+			background: white;
+			box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+		}
+
+		.modal_closed {
+			display: none;
+		}
+
+		.modal__header {
+			border-bottom: 1px gray solid;
+			padding: 10px 15px;
+			margin-bottom: 15px;
+		}
+
+		.modal__close {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAEFCu8CAAAABGdBTUEAALGPC/xhBQAAAqpJREFUSA2tljtyFEEMhsdgHJpb2NyAxwkgcQHGHGE3Bs4B8RICV6G4ARSERH4QGaog4vF/qv7HWu3MzrqMqjR69C9puls9PV13QU9Rr13Y3Vfpf7GPxLdRROGw0hs43vHYFuM9wYAMOcbYaQ47u7fJgRMGFMkwIgyHyIDesNMgAD3dkvZDvGWPlSVUG4wxBu43h0HIGT4UO7Hv2EeoB1wCQPhYzi/i12JHSA26acWpLV96IMtDGQZU+TEDrT9qAb8lD8RnzXbwC9mL5vsjGbSvpwGnzWfB+5s8F7C/cLLSDrS8y0Ci+gbguutiBzxLYCoQkMm4D0NOD47JwVUl0Vz8U5wD38veFa8ldptDw9xpfhZvkj4JkStlnT1eoXxmMrjqHKUlYlMBsclsdg5gZWkKmgP/Q3EQi2Fgc/WNe2yH5IOKowscWDslxXV0lXF7DNiwzMEOpLLHkTHX7ECv3XKvBIH5Ll7KlOfEmIm3yAWeMEDf2Ylt+iYlv/Zz2cbR39FKdmBDeU4O5jMB7jMA0yspDp6SjunlJsE3enRROAGchFyVkzIruEmTT91cTLJ61GpyMGApfinioGwy3VxwSCcHudbS/yhUi5NzhXbl4QbJ4EVB0T65nYzF59ZyiFvMGFqNGkE0a25yg/KHuUFDkJxjB9dCAdAjHwbno0YcDP4s7KySt/dfh9RJ4gWGVsF54wgP3VMGWDKbenfl6nxYwBg/JuNjw8UwBsA/tEdyr9DU7MgVn8V9Kflj7OL8kY0tJ8nH9g9//mg7HzX2xEFzPT1g6V+pBglRZzE2+3y9ON8sJ0LnD8eXHCAus4X4QMyFt26PGAMDliPhi5A85OwvROlLtCOLdfZbXVWSi5wb0WOh+Nm7bFFiiL0S8btDc/HL80Z83hgdH2NgJukfa8ehuEonW4wAAAAASUVORK5CYII=');
+			overflow: hidden;
+			text-indent: -999em;
+			text-decoration: none;
+		}
+
+		.modal__close:hover {
+			background-color: #dc3545;
+			text-decoration: none;
+		}
+
+		.modal__content {
+			padding: 10px 15px;
+			min-height: 200px;
+		}
+
+		.form-field {
+			padding: 0 0 10px;
+		}
+
+		.form-field label {}
+
+		.form-field input {
+			border: 1px gray solid;
+			border-radius: 5px;
+			padding: 8px 12px;
+			margin: 0 10px;
+			font-size: 14px;
+			font-family: 'Exo 2', sans-serif;
+		}
+
+		.form-field .input__default {
+			width: 380px;
+		}
+
+		.form-field .input__date-birth {
+			width: 100px;
+			text-align: center;
+		}
+
+		.modal__footer {
+			border-top: 1px gray solid;
+			padding: 15px;
+			margin-top: 15px;
+			text-align: right;
+		}
+
+		.modal__footer button {
+			border: 1px gray solid;
+			border-radius: 5px;
+			padding: 8px 12px;
+			margin: 0 10px;
+			font-size: 14px;
+			font-family: 'Exo 2', sans-serif;
+		}
+
+		.modal__footer .modal__cancel {
+			background-color: #dc3545;
+			border-color: #dc3545;
+			color: #fff;
+		}
+
+		.modal__footer .modal__cancel:hover {
+			background-color: #c82333;
+			border-color: #bd2130;
+		}
+
+		.modal__footer .modal__cancel:active {
+			background-color: #bd2130;
+			border-color: #b21f2d;
+		}
+
+		.modal__footer .modal__save {
+			background-color: #28a745;
+			border-color: #28a745;
+			color: #fff;
+		}
+
+		.modal__footer .modal__save:hover {
+			background-color: #218838;
+			border-color: #1e7e34;
+		}
+
+		.modal__footer .modal__save:active {
+			background-color: #1e7e34;
+			border-color: #1c7430;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<h1>Создание простейшего модального окошка!</h1>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
+			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
+			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
+			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+		<p><br><br></p>
+		<p style="text-align: center;"><a href="#" id="modal-open" class="modal-open"
+				title="Покажите мне модальное окошко">Открыть окно</a></p>
+	</div>
+
+	<div class="modal-overlay modal_closed" id="modal-overlay"></div>
+	<div class="modal modal_closed" id="modal">
+		<header class="modal__header">
+			<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+			<h2>Введите данные</h2>
+		</header>
+
+		<main class="modal__content">
+			<div class="form-field">
+				<label for="name">Ваше имя:</label>
+				<input class="input__default" type="text" id="name" name="name">
+			</div>
+			<div class="form-field">
+				<label>Ваш день рождения:</label>
+				<input type="text" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
+				<input type="text" class="input__date-birth" id="birth-month" name="name" placeholder="Месяц"> -
+				<input type="text" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
+			</div>
+		</main>
+
+		<footer class="modal__footer">
+			<button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
+			<button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
+		</footer>
+	</div>
+
+	<script>
+		/***
+TODO: 1) Необходимо, чтобы открывалось модальное окно по клику на ссылку "Открыть окно".
+      2) Данные из формы по кнопке "Сохранить" собирались из инпутов и сохранялись в localStorage.
+      3) При открытии модального окна снова, форма (инпуты) должна быть чистой.
+      4) Кнопки "Отмена" и "крестик" должны просто закрывать модальное окно.
+
+!!!решение задачи в лоб, быстро!
+***/	let btnOpen = document.querySelector('.modal-open');
+		let modal = document.querySelector('.modal');
+		let overlay = document.querySelector('.modal-overlay');
+		let btnClose = document.querySelector('.modal__close')
+		let btnCancel = document.querySelector('.modal__cancel');
+		let btnSave = document.querySelector('#modal-save');
+
+		let inputName = document.querySelector('#name');
+		let inputDay = document.querySelector('#birth-day');
+		let inputMonth = document.querySelector('#birth-month');
+		let inputYear = document.querySelector('#birth-year');
+
+		btnOpen.addEventListener('click', openModal);
+		function openModal() {
+			overlay.classList.remove('modal_closed');
+			modal.classList.remove('modal_closed');
+			clearInputs();
+		}
+
+		btnClose.addEventListener('click', closeModal);
+		function closeModal() {
+			overlay.classList.add('modal_closed');
+			modal.classList.add('modal_closed');
+		}
+
+		btnCancel.addEventListener('click', closeModal);
+
+		btnSave.addEventListener('click', getData);
+		
+		let dataObj = {};
+		function getData() {
+			let name = inputName.value;
+			let day = inputDay.value;
+			let month = inputMonth.value;
+			let year = inputYear.value;
+
+			dataObj = {
+				name: name,
+				day: day,
+				month: month,
+				year: year
+			}
+			localStorage.setItem('userData', JSON.stringify(dataObj));
+		}
+
+		
+
+		function clearInputs() {
+			let inputs = document.querySelectorAll('input');
+			for (let i = 0; i < inputs.length; i++) {
+				console.log(inputs[i]);
+				inputs[i].value = '';
+			}
+		}
+
+
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример решения задачи "в лоб"</h1>
+
+    <h3>пример умножения двух чисел</h3>
+    <form>
+        <fieldset>
+            <legend>Магия чисел</legend>
+            <p>
+                <input type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+                <span class="mult-sign"> x </span>
+                <input type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            </p>
+            <p>
+                <button id="calculateBtn">Вычислить</button>
+            </p>
+            <div id="showResult"></div>
+        </fieldset>
+    </form>
+
+<script>
+
+	let inpt1 = document.getElementById('inputValue_1');
+	let inpt2 = document.getElementById('inputValue_2');
+	let butt = document.getElementById('calculateBtn');
+	let output = document.getElementById('showResult');
+
+	butt.disabled = 'true';
+
+	function calc(a, b) {
+		return a * b;
+	};
+
+	butt.addEventListener('click', function(e) {
+		e.preventDefault();
+		output.innerHTML = `Результат вычислений = ${calc(inpt1.value, inpt2.value)}`;
+	});
+
+	inpt1.addEventListener('blur', function() {
+		foo();
+	});
+
+	inpt2.addEventListener('blur', function() {
+		foo();
+	});
+
+	function foo() {
+		if (inpt1.value != '' && inpt2.value != '') {
+			butt.removeAttribute('disabled');
+		}
+		else {
+			butt.disabled = 'true';
+		}
+	};
+
+</script>
+</body>
+</html>

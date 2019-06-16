@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример решения задачи "в лоб"</h1>
+
+    <h3>пример умножения двух чисел</h3>
+
+    <form>
+        <fieldset>
+            <legend>Магия чисел</legend>
+            <p>
+                <input type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+                <span class="mult-sign"> x </span>
+                <input type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            </p>
+            <p>
+                <button id="calculateBtn">Вычислить</button>
+            </p>
+            <div id="showResult"></div>
+        </fieldset>
+    </form>
+
+<script>
+
+    let arrInputs = document.getElementsByTagName("input"),
+        calcBtn = document.getElementById("calculateBtn"),
+        resultBlock = el = document.getElementById("showResult"),
+        number_1 = 0,
+        number_2 = 0;
+
+    for (let i = 0, arrInputsLength = arrInputs.length; i < arrInputsLength; i++) {
+        arrInputs[i].onblur = handleChangeInput.bind(arrInputs[i]);
+    }
+
+    calcBtn.disabled = true;
+    calcBtn.onclick = handleButtonClick;
+
+    function handleChangeInput() {
+        let that = this,
+            idName = that.getAttribute("id");
+
+        calcBtn.disabled = true;
+
+        if (idName === "inputValue_1") {
+            (!!that.value) ? number_1 = that.value : number_1 = 0;
+        }
+
+        if (idName === "inputValue_2") {
+            (!!that.value) ? number_2 = that.value : number_2 = 0;
+        }
+
+        if (!!number_1 && !!number_2) {
+            calcBtn.disabled = false;
+        }
+    }
+
+    function handleButtonClick() {
+        let result = calculate(number_1, number_2);
+        showNumber(result);
+        return false;
+    }
+
+    function showNumber(number) {
+        resultBlock.innerHTML = `Результат вычислений = ${number}`;
+    }
+
+    function calculate(x, y) {
+        return x * y;
+    }
+</script>
+</body>
+</html>

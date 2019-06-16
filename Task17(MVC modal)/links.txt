@@ -1,0 +1,8 @@
+1) http://fe.it-academy.by/ViewSlides.php?slide=10887&lect=60
+2) http://fe.it-academy.by/ViewSlides.php?slide=10888&lect=60
+3) http://fe.it-academy.by/ViewSlides.php?slide=10889&lect=60
+
+https://habr.com/company/mobileup/blog/313538/
+
+!!! кому хочется докопаться до сути
+https://habr.com/ru/post/321050/ и https://habr.com/ru/post/322700/

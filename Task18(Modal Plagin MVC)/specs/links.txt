@@ -1,0 +1,5 @@
+1) https://learn.javascript.ru/closures-module 
+
+2) https://learn.javascript.ru/modules
+3) https://habr.com/ru/company/ruvds/blog/419997/
+* http://largescalejs.ru/
