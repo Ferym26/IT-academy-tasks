@@ -179,3 +179,21 @@ body {
 	background-color: #1e7e34;
 	border-color: #1c7430;
 }
+
+.modal-push {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	padding: 5px;
+	text-align: center;
+	background-color: pink;
+	z-index: 10;
+}
+
+.modal-push__title {
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: 700;
+}

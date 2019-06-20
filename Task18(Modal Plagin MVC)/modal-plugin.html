@@ -19,39 +19,45 @@
 			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab
 			illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
-		<br>
-		<br>
-		<p style="text-align: center;">
-			<a href="#" id="modal-open" class="modal-open" title="Покажите мне модальное окошко">Открыть окно</a>
-		</p>
-		<div class="target"></div>
+		<p><a href="#" data-supermodal='modal-1'>Открываю модальное окно 1 тип 1</a></p>
+		<p><a href="#" data-supermodal='modal-2'>Открываю модальное окно 2 тип 1</a></p>
+		<p><a href="#" data-supermodal-title='Заголовок 1' data-supermodal-content='Lorem content 1'>Открываю модальное окно 1 тип 2</a></p>
+		<p><a href="#" data-supermodal-title='Заголовок 2' data-supermodal-content='Lorem content 2'>Открываю модальное окно 2 тип 2</a></p>
+		<p><a href="#" data-supermodal='modal-111' data-supermodal-title='Заголовок 111' data-supermodal-content='Lorem content 111'>Открываю модальное окно 1 тип 3</a></p>
+		<p><a href="#" data-supermodal='modal-222' data-supermodal-title='Заголовок 222' data-supermodal-content='Lorem content 222'>Открываю модальное окно 2 тип 3</a></p>
+
+	</div>
+
+
+	<div class="modal modal_closed" id="modal-1">
+		<header class="modal__header">
+			<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+			<h2>Модалка 1</h2>
+		</header>
+		<main class="modal__content">
+			Lorem ipsum dolor sit amet consectetur, adipisicing elit. Amet necessitatibus, facilis recusandae ipsam
+			aliquam corrupti nisi consectetur deleniti earum nihil, dolore neque fugit architecto sequi unde. Laboriosam
+			adipisci repudiandae rerum?
+		</main>
+	</div>
+
+	<div class="modal modal_closed" id="modal-2">
+		<header class="modal__header">
+			<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+			<h2>Модалка 2</h2>
+		</header>
+		<main class="modal__content">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum reiciendis voluptatibus facilis esse quaerat
+			quam recusandae sapiente culpa rerum itaque possimus, dicta temporibus optio dolorem vero atque harum iusto
+			deserunt at non similique! Cum corrupti nobis quod quidem vitae, ipsa nesciunt at voluptas ea fuga ad!
+			Fugiat est non facere quisquam placeat voluptatem esse iusto quaerat, obcaecati enim, mollitia fuga ipsum
+			provident quam facilis officiis iure deserunt? Quidem officiis placeat quisquam esse impedit ea quas fugiat.
+			Reiciendis sint recusandae fugiat! Incidunt qui voluptatum dignissimos fugit sunt tempora eum perspiciatis
+			aut iure sint, repellendus facilis, corporis magni consequuntur nihil cum amet.
+		</main>
 	</div>
 
 	<div class="modal-overlay modal_closed" id="modal-overlay"></div>
-	<div class="modal modal_closed" id="modal">
-		<header class="modal__header">
-			<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
-			<h2>Введите данные</h2>
-		</header>
-
-		<main class="modal__content">
-			<div class="form-field">
-				<label for="name">Ваше имя:</label>
-				<input class="input__default" type="text" id="name" name="name">
-			</div>
-			<div class="form-field">
-				<label>Ваш день рождения:</label>
-				<input type="text" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
-				<input type="text" class="input__date-birth" id="birth-month" name="name" placeholder="Месяц"> -
-				<input type="text" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
-			</div>
-		</main>
-
-		<footer class="modal__footer">
-			<button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
-			<button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
-		</footer>
-	</div>
 
 	<script src='./app.js'></script>
 </body>
