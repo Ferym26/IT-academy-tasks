@@ -1,0 +1,17 @@
+1) http://fe.it-academy.by/ViewSlides.php?slide=9264&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9267&lect=43
+3) http://fe.it-academy.by/ViewSlides.php?slide=9268&lect=43
+4) http://fe.it-academy.by/ViewSlides.php?slide=9269&lect=43
+5) http://fe.it-academy.by/ViewSlides.php?slide=9270&lect=43
+6) http://fe.it-academy.by/ViewSlides.php?slide=9271&lect=43
+7) http://fe.it-academy.by/ViewSlides.php?slide=9273&lect=43
+8) http://fe.it-academy.by/ViewSlides.php?slide=9274&lect=43
+9) http://fe.it-academy.by/ViewSlides.php?slide=9278&lect=43
+10) http://fe.it-academy.by/ViewSlides.php?slide=9279&lect=43
+11) http://fe.it-academy.by/ViewSlides.php?slide=9281&lect=43
+12) http://fe.it-academy.by/ViewSlides.php?slide=9282&lect=43
+13) http://fe.it-academy.by/ViewSlides.php?slide=9284&lect=43 или http://fe.it-academy.by/ViewSlides.php?slide=9285&lect=43
+14) http://fe.it-academy.by/ViewSlides.php?slide=9287&lect=43
+15) http://fe.it-academy.by/ViewSlides.php?slide=9288&lect=43
+16) http://fe.it-academy.by/ViewSlides.php?slide=9289&lect=43
+17) http://fe.it-academy.by/Examples/AJAXStringStorageReader.html

@@ -95,3 +95,10 @@ const Clocks = {
 }
 
 Clocks.init();
+
+class ClocksHTML {
+
+	constructor(opt) {
+		
+	}
+}

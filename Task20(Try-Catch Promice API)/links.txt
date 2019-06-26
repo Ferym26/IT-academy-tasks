@@ -1,0 +1,7 @@
+1) https://learn.javascript.ru/exception
+2) https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/try...catch
+3) https://learn.javascript.ru/promise
+4) https://habr.com/company/mailru/blog/269465/
+5) https://habr.com/post/252941/
+6) https://github.com/toddmotto/public-apis
+7) https://developer.mozilla.org/en-US/docs/Web/API/Coordinates

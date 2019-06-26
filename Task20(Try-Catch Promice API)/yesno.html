@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>ДА/НЕТ</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: 'Open Sans', sans-serif;
+			background: #cdcdc1;
+		}
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			overflow: hidden;
+		}
+
+		.helper {
+			position: relative;
+			height: 100vh;
+			padding-top: 50px;
+			text-align: center;
+		}
+
+		.helper__title {
+			font-weight: 700;
+			font-size: 30px;
+		}
+
+		.helper__descr {
+			margin-top: 20px;
+			font-size: 18px;
+		}
+
+		.helper__action {
+			margin-top: 20px;
+		}
+
+		.btn {
+			position: relative;
+			height: 60px;
+			padding: 0 65px;
+			font-size: 20px;
+			font-weight: 70;
+			line-height: 60px;
+			border-radius: 3px;
+			background-color: #8B658B;
+			color: #fff;
+			text-decoration: none;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			user-select: none;
+			white-space: nowrap;
+			box-shadow: 2px 2px 5px #555;
+		}
+
+		.btn:hover {
+			box-shadow: 2px 2px 4px #555;
+		}
+
+		.btn:active {
+			box-shadow: 1px 1px 3px #555;
+		}
+
+		.helper__pic {
+			max-width: 400px;
+			margin: 0 auto;
+			margin-top: 40px;
+		}
+
+		.helper__pic img {
+			display: block;
+			max-width: 100%;
+			margin: 0 auto;
+		}
+
+		.helper__answer {
+			position: absolute;
+			top: 280px;
+			left: 50%;
+			transform: translate(-50%, 0);
+			font-size: 400px;
+			font-weight: 700;
+			text-transform: uppercase;
+			line-height: 1;
+			opacity: 0.2;
+			z-index: -1;
+		}
+		@media only screen and (max-width: 768px) {
+			.helper__answer {
+				top: 20px;
+				font-size: 200px;
+			}
+		}
+	</style>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap&subset=cyrillic" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="helper">
+			<div class="helper__title">Затрудняетесь принять решение?</div>
+			<div class="helper__descr">Просто произнесите вопрос и нажмите кнопку</div>
+			<div class="helper__action">
+				<button class="btn js_submit">Да или Нет?</button>
+			</div>
+			<div class="helper__pic">
+				<img class="js_helper-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="pic">
+			</div>
+			<div class="helper__answer"></div>
+		</div>
+	</div>
+	<script>
+		let image = document.querySelector('.js_helper-img');
+		let btn = document.querySelector('.js_submit');
+		let answer = document.querySelector('.helper__answer');
+
+		btn.addEventListener('click', yesNoWaaaaat);
+
+		function yesNoWaaaaat() {
+			image.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+			fetch('https://yesno.wtf/api')
+				.then(function (response) {
+					return response.json();
+				})
+				.then(function (data) {
+					// answer image
+					image.setAttribute('src', data.image);
+					answer.innerHTML = data.answer
+				})
+				.catch(alert);
+		}
+
+		
+	</script>
+</body>
+
+</html>

@@ -20,17 +20,26 @@ const CoolModal = (function () {
 		} ,
 		// определяет тип линки и решает какую модалку открывать
 		checkModalType: function (link) {
-			if (link.hasAttribute('data-supermodal') && link.hasAttribute('data-supermodal-title') && link.hasAttribute('data-supermodal-content')) {
-				console.log(3);
+			let linkData = {
+				id: link.getAttribute('data-supermodal'),
+				title: link.getAttribute('data-supermodal-title'),
+				content: link.getAttribute('data-supermodal-content'),
 			}
+			// На ссылке все нужные атрибуты
+			if (link.hasAttribute('data-supermodal') && link.hasAttribute('data-supermodal-title') && link.hasAttribute('data-supermodal-content')) {
+				view.modalBig(linkData);
+				controller.handleLinkOpen(linkData.id);
+			}
+			// на ссылке атрибуты заголовка и сонтента
 			else if (link.hasAttribute('data-supermodal-title') && link.hasAttribute('data-supermodal-content')) {
 				let title = link.getAttribute('data-supermodal-title');
 				let content = link.getAttribute('data-supermodal-content');
 				view.modalPushAdd(title, content);
 				model.modalPushClose();
 			}
+			// на ссылке только id атрибут
 			else if (link.hasAttribute('data-supermodal')) {
-				controller.handleLinkOpen(link.dataset.supermodal);
+				controller.handleLinkOpen(linkData.id);
 			}
 			else {
 				console.log('а нифига хорошего');
@@ -39,6 +48,20 @@ const CoolModal = (function () {
 		// закрывает пуш модалку
 		modalPushClose: function() {
 			controller.handlePushClose();
+		},
+		// получает разметку модалка аяксом
+		modalGetHtml: function () {
+			$.ajax({
+				url: './testAjax/modalHtml.html',
+				type: 'GET',
+				dataType:'html',
+				success: function(data, textStatus) {
+					view.modalAjax(data);
+				},
+				error: function () {
+					console.log('(((');
+				}
+			});
 		}
 	};
 
@@ -56,20 +79,39 @@ const CoolModal = (function () {
 				modal.classList.add('modal_closed');
 			}
 		},
+		// закрывает все модалки
 		modalCloseAll: function () {
-			let allModals = document.querySelectorAll('.modal');
-			allModals.forEach((item) => {
+			let allModals = document.getElementsByClassName('modal');
+			for(let i = 0; i < allModals.length; i++) {
 				view.overlay.classList.add('modal_closed');
-				item.classList.add('modal_closed');
-			});
+				allModals[i].classList.add('modal_closed');
+			}
 		},
 		// добавляет в боди пуш модалку
 		modalPushAdd: function (title, content) {
-			let pushHtml = `<div class='modal-push'>` + 
-								`<div class='modal-push__title'>${title}</div>` +
-								`<div class='modal-push__content'>${content}</div>` +
-							`</div>`
-			document.body.insertAdjacentHTML("beforeEnd", pushHtml);
+			let pushHtmlModal = `<div class='modal-push'>` +
+									`<div class='modal-push__title'>${title}</div>` +
+									`<div class='modal-push__content'>${content}</div>` +
+								`</div>`;
+			document.body.insertAdjacentHTML("beforeEnd", pushHtmlModal);
+		},
+		// модалка со всеми атрибутами
+		modalBig: function (linkData) {
+			let bigHtmlModal = `<div class='modal' id="${linkData.id}">` +
+									`<header class="modal__header">` +
+										`<a href="#" class="modal__close" title="Закрыть модальное окно">Закрыть</a>` +
+										`<h2>${linkData.title}</h2>` +
+									`</header>` +
+									`<main class="modal__content">${linkData.content}</main>` +
+								`</div>`;
+			// проверка на наличие окна с текущим ID
+			if (document.querySelector(`#${linkData.id}`) == null) {
+				document.body.insertAdjacentHTML("beforeEnd", bigHtmlModal);
+			}
+		},
+		// добавляет в боди модалку из ajax
+		modalAjax: function (html) {
+			document.body.insertAdjacentHTML("beforeEnd", html);
 		}
 	};
 
@@ -77,7 +119,7 @@ const CoolModal = (function () {
 	let controller = {
 		events: function () {
 			let openLink = document.querySelectorAll('.container a');
-			let btnClose = document.querySelectorAll('.modal__close');
+			let btnClose = document.getElementsByClassName('modal__close');
 			let overlay = document.querySelector('.modal-overlay');
 
 			openLink.forEach((link) => {
@@ -88,10 +130,13 @@ const CoolModal = (function () {
 				});
 			})
 
-			// btnClose[i].addEventListener('click', function (e) {
-			// 	e.preventDefault();
-			// 	controller.handleButtonClose(openLink[i].dataset.supermodal);
-			// });
+			for(let i = 0; i < btnClose.length; i++) {
+				btnClose[i].addEventListener('click', function (e) {
+					e.preventDefault();
+					model.modalCloseAll();
+					console.log(btnClose);
+				});
+			}
 
 			overlay.addEventListener('click', function (e) {
 				controller.handleOverlayClose();
