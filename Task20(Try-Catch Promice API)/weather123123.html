@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>weather using API from openweathermap</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            margin: 0;
+            font-family: 'Exo 2', sans-serif;
+            box-sizing: border-box;
+        }
+
+        div strong {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Погода</h1>
+    
+    <h2 id="location"></h2>
+    <h3 id="temp-with-icon"></h3>
+    <div id="temp"></div>
+    <div id="descr"></div>
+    <div id="image"></div>
+    <div id="wind"></div>
+
+<script>
+    function weather(_cityID) {
+        let cityID = _cityID,
+            apiUrl = "https://api.openweathermap.org/data/2.5/",
+            apiKey = "", //ваш apikey с сервиса
+            apiQuery = apiUrl+"/weather?id=" + cityID + "&units=metric&lang=ru&appid="+apiKey;
+
+        fetch(apiQuery, { method: 'get' })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => console.error("Ошибка получение погоды. Причина: " + error));
+    }
+
+    const PLACES = [625144, 627907, 629634, 627904, 620127, 625665];
+    weather(PLACES[0]);
+
+    /*let counter = 0;
+    setTimeout(function updateWeather() {
+        weather(PLACES[counter]);
+        counter === (PLACES.length-1) ? counter = 0 : counter++; 
+        setTimeout(updateWeather, 5000);
+    }, 0);*/
+</script>
+    
+</body>
+</html>
