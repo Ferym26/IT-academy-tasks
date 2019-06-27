@@ -56,7 +56,7 @@ class Weatherwidget {
 							`<div class="ww__city">${_this.city}</div>` +
 							`<div class="ww__t">${_this.cityWeather.main.temp} °C</div>` +
 							`<div class="ww__wind">Ветер: ${_this.cityWeather.wind.speed} м/с</div>` +
-							`<div class="ww__close">🞨</div>` +
+							`<div class="ww__close">Х</div>` +
 							`<div class="ww__forecast-open" title="Прогноз на 3 дня">?</div>` +
 							`<div class="ww__forecast"></div>` +
 						`</div>`;
