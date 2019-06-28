@@ -72,7 +72,7 @@ class Weatherwidget {
 		let _this = this;
 		let forecastWrap = document.querySelector('.ww__forecast');
 		_this.cityForecast.list.forEach((item, i) => {
-			if (i == 5 || i == 13 || i == 21) {
+			if (i == 10 || i == 18 || i == 26) {
 				let forecastTemplate =	`<div class="ww__forecast-item">` +
 											`<div class="ww__forecast-item-t">${Math.floor(item.main.temp)} °C</div>` +
 											`<img src="http://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt=""icon>` +
@@ -99,6 +99,6 @@ class Weatherwidget {
 
 let widget = new Weatherwidget({
 	key: 'd7b3ed5991f3eab2ccf5635d262ad69e',
-	city: 'Minsk',
+	city: 'Omsk',
 	apiVertion: 2.5,
 });
