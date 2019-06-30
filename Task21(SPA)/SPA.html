@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Example for SPA</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            margin: 0;
+            font-family: 'Exo 2', sans-serif;
+            box-sizing: border-box;
+        }
+        nav {
+            border: 1px gray solid;
+        }
+
+        nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        nav li {
+            display: inline-block;
+            list-style: none;
+        }
+
+        nav a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+        }
+
+        nav a.active,
+        nav a:hover {
+            text-decoration: none;
+            background-color: darkgray;
+            color: #fff;
+        }
+
+        #content {
+            padding: 1.5em 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример простой реализации SPA</h1>
+
+    <nav id="mainmenu">
+        <ul>
+            <li><a href="#main">Главная</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        
+    </div>
+
+    <script>
+        const contentContainer = document.getElementById("content"),
+            links = {
+                main: "Здесь будет контент <strong>Главной</strong> страницы",
+                about: "А здесь что-то как бы <strong>О нас</strong> или о них =)",
+                contacts: "Ну а тут классически будет страница <strong>Контакты</strong>"
+            };
+
+        function updateState() {
+            let content = links[window.location.hash.slice(1)];
+            contentContainer.innerHTML = content || "Page not found";
+        }
+
+        window.addEventListener('hashchange', updateState);
+        window.addEventListener('load', updateState);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Example for SPA</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            margin: 0;
+            font-family: 'Exo 2', sans-serif;
+            box-sizing: border-box;
+        }
+        nav {
+            border: 1px gray solid;
+        }
+
+        nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+        }
+
+        nav li {
+            list-style: none;
+        }
+
+        nav a,
+        nav a:visited {
+            color: black;
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+        }
+
+        nav a.active,
+        nav a:hover {
+            text-decoration: none;
+            background-color: darkgray;
+            color: #fff;
+        }
+
+        #content {
+            padding: 1.5em 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример простой реализации SPA</h1>
+
+    <nav id="mainmenu">
+        <ul>
+            <li><a class="mainmenu__link" href="#main">Главная</a></li>
+            <li><a class="mainmenu__link" href="#about">О нас</a></li>
+            <li><a class="mainmenu__link" href="#contacts">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        
+    </div>
+
+    <script>
+        const state = {},
+            navContainer = document.getElementById('mainmenu'),
+            contentContainer = document.getElementById('content');
+
+        let localPage = window.location.hash ? window.location.href.split('#')[0] : window.location.href;
+
+        const links = {
+            main: "<h2>Главная страница</h2><p>Здесь будет контент <strong>Главной</strong> страницы</p>",
+            about: "<h2>О нас</h2><p>А здесь что-то как бы <strong>О нас</strong> или о них =)</p>",
+            contacts: "<h2>Контакты</h2><p>Ну а тут классически будет страница <strong>Контакты</strong></p>",
+            error404: "<h2>404</h2><p>Страница не найдена, поищите в другом месте...</p>",
+        }
+
+        const updateState = () => {
+            if (!!state.page) {
+                window.location.href = `${localPage}#!${state.page}`;
+                contentContainer.innerHTML = links[state.page];
+            } else {
+                let URLHash = window.location.hash ? window.location.hash.slice(2) : "main";
+
+                if (!!URLHash && (URLHash in links)) {
+                    window.location.href = `${localPage}#!${URLHash}`;
+                    contentContainer.innerHTML = links[URLHash];
+                    state.page = URLHash;
+                } else {
+                    contentContainer.innerHTML =  links.error404;
+                }
+            }
+
+            updateButtons();
+        }
+
+        const updateButtons = () => {
+            let menuLinks = navContainer.querySelectorAll('.mainmenu__link');
+
+            for (let i = 0, menuLinksCount = menuLinks.length; i < menuLinksCount; i++) {
+                state.page === menuLinks[i].getAttribute('href').slice(1) ?
+                menuLinks[i].classList.add('active') :
+                menuLinks[i].classList.remove('active');
+            }
+        }
+
+        window.addEventListener('hashchange', updateState);
+        window.addEventListener('load', updateState);
+
+        navContainer.addEventListener('click', function(event){
+            event.preventDefault();
+            state.page = event.target.getAttribute('href').slice(1);
+
+            updateState();
+        });
+
+    </script>
+    
+</body>
+</html>

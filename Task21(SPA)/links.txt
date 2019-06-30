@@ -1,0 +1,5 @@
+1) http://fe.it-academy.by/ViewSlides.php?slide=9328&lect=43
+2) http://fe.it-academy.by/ViewSlides.php?slide=9329&lect=43
+3) https://phonegap.com/
+4) https://regex101.com/
+5) https://regexr.com/
