@@ -1,0 +1,7 @@
+http://fe.it-academy.by/Materials/JSE_V14/JavaScript_C.html
+https://learn.javascript.ru/es-modern
+https://babeljs.io/
+
+Посмотреть:
+https://learn.javascript.ru/screencast/gulp
+https://learn.javascript.ru/screencast/webpack

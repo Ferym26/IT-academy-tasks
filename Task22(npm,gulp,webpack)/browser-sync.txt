@@ -1,0 +1,6 @@
+npm install -g browser-sync
+browser-sync --version
+browser-sync start --server --files "*.html, css/*.css, js/*.js"
+
+
+source: https://scotch.io/tutorials/how-to-use-browsersync-for-faster-development

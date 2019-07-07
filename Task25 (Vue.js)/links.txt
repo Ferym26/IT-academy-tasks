@@ -1,0 +1,15 @@
+Официальная документация:
+1) https://ru.vuejs.org/
+2) https://cli.vuejs.org/ru/
+
+Шпаргалка:
+1) https://vuejs-tips.github.io/cheatsheet/
+
+Ссылки:
+1) подборка - https://github.com/vuejs/awesome-vue
+2) https://webformyself.com/kak-sozdat-spa-s-pomoshhyu-vue-js/
+3) https://webformyself.com/category/javascriptajax-2/vuejs/ 
+
+Видео:
+1) https://www.youtube.com/watch?v=PCOP3uC_VwY&list=PLNkWIWHIRwMH7ahn9uvvc5PG3o1tLscgB
+2) https://www.youtube.com/channel/UCzgtMBarT8AvsGc-Y_8Qexw

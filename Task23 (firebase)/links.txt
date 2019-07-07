@@ -1,0 +1,6 @@
+﻿0) общая теория - https://tproger.ru/translations/sql-nosql-database-models/ или https://aws.amazon.com/ru/nosql/
+1) realtime database - https://firebase.google.com/docs/database/web/start
+
+2) firestore - https://firebase.google.com/docs/firestore/quickstart
+
+3) описание возможностей - https://habr.com/ru/company/mailru/blog/429684/
