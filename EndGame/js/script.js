@@ -8,7 +8,7 @@ const MeteorFall = (function () {
 		width: window.innerWidth,
 		height: window.innerHeight,
 		meteorsArr: [],
-		meteorsNum: 2,
+		meteorsNum: 3,
 	};
 
 	// установка пукнтов настроек
@@ -38,7 +38,7 @@ const MeteorFall = (function () {
 			this.shipPic = new Image();
 			this.shipPic.src = 'img/ship1.png';
 			this.shipPic.addEventListener("load", function() {
-				_this.globalSettings.ctx.drawImage(_this.shipPic, _this.globalSettings.width / 2, _this.globalSettings.height - 100, _this.size, _this.size);
+				_this.globalSettings.ctx.drawImage(_this.shipPic, (_this.globalSettings.width / 2) - (_this.size / 2), _this.globalSettings.height - 100, _this.size, _this.size);
 			}, false);
 		}
 		// перемещение корабля
@@ -98,9 +98,9 @@ const MeteorFall = (function () {
 		// }
 		onload: function() {
 			view.drow();
-			setTimeout(() => {
-				model.addMeteor();
-			}, 3000)
+			// setTimeout(() => {
+			// 	model.addMeteor();
+			// }, 3000);
 		}, 
 		// создание массива метеоритов
 		spawnMeteors: function(num) {
@@ -121,12 +121,23 @@ const MeteorFall = (function () {
 			}))
 		},
 		//Обработка столкновения корабля и метеорита
-		// TODO: остановился тут
 		collision: function() {
 			for (var i = 0; i < settings.meteorsArr.length; i++) {
-				if (view.playerShip.posY < settings.meteorsArr[i].posY + settings.meteorsArr[i].size && view.playerShip.posX + view.playerShip.size > settings.meteorsArr[i].posX && view.playerShip.posX < settings.meteorsArr[i].posX + settings.meteorsArr[i].size) {
-					settings.meteorsArr[i].posX = -Math.floor(Math.random() * settings.width);
-					console.log('123');
+
+				let shipFront = view.playerShip.posY;
+				let shipBack = view.playerShip.posY + view.playerShip.size;
+				let shipLeft = view.playerShip.posX;
+				let shipRight = view.playerShip.posX + view.playerShip.size;
+				
+				let meteorFront = settings.meteorsArr[i].posY;
+				let meteorBack = settings.meteorsArr[i].posY + settings.meteorsArr[i].height;
+				let meteorLeft = settings.meteorsArr[i].posX;
+				let meteorRight = settings.meteorsArr[i].posX + settings.meteorsArr[i].width;
+				
+				if (shipFront <= meteorBack && shipBack >= meteorFront && shipLeft <= meteorRight && shipRight >= meteorLeft) {
+					settings.meteorsArr[i].posX = Math.floor(Math.random() * settings.width);
+					settings.meteorsArr[i].posY = -Math.floor(Math.random() * settings.height);
+					console.log('Boom!');
 				}
 			}
 		},
@@ -156,7 +167,8 @@ const MeteorFall = (function () {
 				this.playerShip.update();
 				settings.meteorsArr.forEach((item, i) => {
 					item.update();
-				})
+				});
+				model.collision();
 				// if (_this.playState == 'play') {
 				// 	window.requestAnimationFrame(_this.loop);
 				// }
