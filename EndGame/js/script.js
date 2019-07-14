@@ -2,7 +2,7 @@ const MeteorFall = (function () {
 
 	// глобальные настройки
 	let settings = {
-		name: 'default name',
+		name: null,
 		canvas: document.querySelector('.js_game'),
 		ctx: document.querySelector('.js_game').getContext('2d'),
 		width: window.innerWidth,
@@ -294,29 +294,31 @@ const MeteorFall = (function () {
 
 	// CONTROLLER
 	let controller = {
-		events: function () {
-			let inputName = document.querySelector('.js_input-name');
-			let btnStart = document.querySelector('.js_start-game');
-			inputName.addEventListener('blur', controller.setUserName);
-			
-			model.showUIUserName();
-
-			$('#gameStart').modal('show');
-			$('#gameStart').on('hidden.bs.modal', function () {
-				model.showUIPanel();
-				setTimeout(() => {
-					model.startDrow();
-					model.increaseDiffLVL();
-				}, 3000);
-			})
+		uiElement: {
+			inputName: document.querySelector('.js_input-name'),
+			btnStart: document.querySelector('.js_start-game'),
+			btnAddUserName: document.querySelector('.js_add-userName'),
+			modalGameStart: $('#gameStart'),
 		},
-		setUserName: function(e) {
-			let inputName = document.querySelector('.js_input-name');
-			let btnStart = document.querySelector('.js_start-game');
+		events: function () {
+			controller.uiElement.modalGameStart.modal('show');
+			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
+			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
+		},
+		addUserName: function(e) {
 			e.preventDefault();
-			settings.name = inputName.value;
-			btnStart.removeAttribute('disabled');
-		}
+			settings.name = controller.uiElement.inputName.value;
+			model.showUIPanel();
+			model.showUIUserName();
+		},
+		startGame: function(e) {
+			e.preventDefault();
+			controller.uiElement.modalGameStart.modal('hide');
+			setTimeout(() => {
+				model.startDrow();
+				model.increaseDiffLVL();
+			}, 3000);
+		},
 	};
 
 	let app = {
