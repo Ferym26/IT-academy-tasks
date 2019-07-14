@@ -7,14 +7,21 @@ const MeteorFall = (function () {
 		ctx: document.querySelector('.js_game').getContext('2d'),
 		width: window.innerWidth,
 		height: window.innerHeight,
-		meteorsArr: [],
-		meteorsNum: 3,
+		meteorsArr: [], // массви всех метеоров
+		meteorsNum: 10, // начальное кол-во метеоров
+
+		userPoints: 0, // очки набранные юзером
+		diffLvl: 1, // начальный уровень сложности
+		diffInterval: 10, //секунды
+		increaseDiffLVLCounter: null, //счетчик увеличения слоности
+
+		globalRender: null, // счетчик глобального рендера
 	};
 
 	// установка пукнтов настроек
-	let _setSettings = function (userSettings) {
-		settings.name = userSettings.name;
-	};
+	// let _setSettings = function (userSettings) {
+	// 	settings.name = userSettings.name;
+	// };
 
 	// возвращает рандомное число от min до max включительно
 	let _random = function getRandomInt(min, max) {
@@ -28,6 +35,7 @@ const MeteorFall = (function () {
 			this.size = settings.size;
 			this.posX = null || this.globalSettings.width / 2;
 			this.posY = null || this.globalSettings.height - 100;
+			this.hitPoints = 100;
 
 			this.drow();
 			this.fly();
@@ -64,10 +72,12 @@ const MeteorFall = (function () {
 			this.globalSettings = settings.globalSettings; //прокидываение в класс глобальных настроек
 			this.posX = Math.floor(Math.random() * this.globalSettings.width);
 			this.posY = -Math.floor(Math.random() * this.globalSettings.height);
-			this.width = settings.width;
-			this.height = settings.height;
+			this.size = settings.size;
 			this.meteorPic = null;
+			this.dropSpeed = settings.dropSpeed;
+			this.lvl = null; // уровень метеорита
 
+			this.setLVL();
 			this.drow();
 		}
 		// отрисовка метеорита
@@ -76,71 +86,148 @@ const MeteorFall = (function () {
 			this.meteorPic = new Image();
 			this.meteorPic.src = 'img/meteor4.png';
 			this.meteorPic.addEventListener("load", function() {
-				_this.globalSettings.ctx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.width, _this.height);
+				_this.globalSettings.ctx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.size, _this.size);
 			}, false);
 		}
 		// перемешение метеритов
 		update() {
 			let _this = this;
-			this.posY += 4;
+			this.posY += this.dropSpeed;
 			if (this.posY > this.globalSettings.height) {
 				this.posX = Math.floor(Math.random() * this.globalSettings.width);
 				this.posY = -Math.floor(Math.random() * this.globalSettings.height);
+				this.flyAway();
 			}
-			_this.globalSettings.ctx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.width, _this.height);
+			_this.globalSettings.ctx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.size, _this.size);
+		}
+		// расчет уровня метеорита
+		setLVL() {
+			switch (true) {
+				case (this.size >= 40 && this.size < 60):
+					this.lvl = 1;
+					break;
+				case (this.size >= 60 && this.size < 80):
+					this.lvl = 2;
+					break;
+				case (this.size >= 80 && this.size <= 100):
+					this.lvl = 3;
+					break;
+				default:
+					this.lvl = 1;
+					break;
+			}
+		}
+		// событие успешного пересечения метеоритои игрового поля
+		flyAway() {
+			model.calcUserPoints(this.lvl, this.dropSpeed);
 		}
 	}
 
 	// MODEL
 	let model = {
-		// showName: function () {
-		// 	console.log(settings.name);
-		// }
-		onload: function() {
+		// Запуск цикла отрисовки
+		startDrow: function() {
 			view.drow();
-			// setTimeout(() => {
-			// 	model.addMeteor();
-			// }, 3000);
-		}, 
+		},
 		// создание массива метеоритов
 		spawnMeteors: function(num) {
 			for(let i = 0; i <= num - 1; i++) {
 				settings.meteorsArr[i] = new Meteor({
 					globalSettings: settings,
-					width: 80,
-					height: 60
+					size: _random(40, 100),
+					dropSpeed: _random(2, 7),
 				})
 			}
+		},
+		// инит корабля
+		addShip: function() {
+			this.playerShip = new Ship({
+				globalSettings: settings,
+				size: 65,
+			});
 		},
 		// добавление нового метеорита в массив
 		addMeteor: function() {
 			settings.meteorsArr.push(new Meteor({
 				globalSettings: settings,
-				width: 80,
-				height: 60
+				size: _random(40, 100),
+				dropSpeed: _random(2, 7),
 			}))
 		},
 		//Обработка столкновения корабля и метеорита
 		collision: function() {
 			for (var i = 0; i < settings.meteorsArr.length; i++) {
 
-				let shipFront = view.playerShip.posY;
-				let shipBack = view.playerShip.posY + view.playerShip.size;
-				let shipLeft = view.playerShip.posX;
-				let shipRight = view.playerShip.posX + view.playerShip.size;
+				let shipFront = model.playerShip.posY;
+				let shipBack = model.playerShip.posY + model.playerShip.size;
+				let shipLeft = model.playerShip.posX;
+				let shipRight = model.playerShip.posX + model.playerShip.size;
 				
 				let meteorFront = settings.meteorsArr[i].posY;
-				let meteorBack = settings.meteorsArr[i].posY + settings.meteorsArr[i].height;
+				let meteorBack = settings.meteorsArr[i].posY + settings.meteorsArr[i].size;
 				let meteorLeft = settings.meteorsArr[i].posX;
-				let meteorRight = settings.meteorsArr[i].posX + settings.meteorsArr[i].width;
+				let meteorRight = settings.meteorsArr[i].posX + settings.meteorsArr[i].size;
 				
 				if (shipFront <= meteorBack && shipBack >= meteorFront && shipLeft <= meteorRight && shipRight >= meteorLeft) {
 					settings.meteorsArr[i].posX = Math.floor(Math.random() * settings.width);
 					settings.meteorsArr[i].posY = -Math.floor(Math.random() * settings.height);
-					console.log('Boom!');
+					this.clash(settings.meteorsArr[i].lvl);
 				}
 			}
 		},
+		// Удар метеорита о корабль
+		clash: function(meteorLVL) {
+			switch (meteorLVL) {
+				case 1:
+					model.playerShip.hitPoints -= 6;
+					break;
+				case 2:
+					model.playerShip.hitPoints -= 8;
+					break;
+				case 3:
+					model.playerShip.hitPoints -= 10;
+					break;
+				default:
+					model.playerShip.hitPoints -= 6;
+					break;
+			}
+			
+			if (model.playerShip.hitPoints > 0) {
+				view.setUIHitPoint(model.playerShip.hitPoints);
+			}
+			else {
+				view.setUIHitPoint(0);
+				this.stopGame();
+			}
+		},
+		
+		// Устанавливает имя игрока
+		showUIUserName: function() {
+			view.showUIUserName(settings.name);
+		},
+		// остановка рендера игры
+		stopGame: function() {
+			cancelAnimationFrame(settings.globalRender);
+			clearInterval(settings.increaseDiffLVLCounter);
+			view.openResultModal();
+		},
+		// увеличение уровня сложности
+		increaseDiffLVL: function() {
+			settings.increaseDiffLVLCounter = setInterval(() => {
+				settings.diffLvl += 1;
+				model.addMeteor();
+				view.setUIDiffLVL();
+			}, settings.diffInterval * 1000)
+		},
+		// подсчет очков
+		calcUserPoints: function(meteorLVL, meteorSpeed) {
+			settings.userPoints += 1 + ((meteorLVL * meteorSpeed / 10) * (settings.diffLvl / 3));
+			view.setUIPoints();
+		},
+		// 
+		showUIPanel: function() {
+			view.showUIPanel();
+		}
 	}
 
 	// VIEW
@@ -151,43 +238,90 @@ const MeteorFall = (function () {
 		},
 		// отрисовка
 		drow: function() {
+			let _this = this;
 			settings.canvas.width = settings.width;
 			settings.canvas.height = settings.height;
-			
-			this.playerShip = new Ship({
-				globalSettings: settings,
-				size: 65,
-			});
 
+			model.addShip();
 			model.spawnMeteors(settings.meteorsNum);
 
 			// цикл отрисовки
-			const loop = () => {
+			function loop() {
+				settings.globalRender = requestAnimationFrame(loop);
 				view.clear();
-				this.playerShip.update();
+				model.playerShip.update();
 				settings.meteorsArr.forEach((item, i) => {
 					item.update();
 				});
-				model.collision();
 				// if (_this.playState == 'play') {
 				// 	window.requestAnimationFrame(_this.loop);
 				// }
-				window.requestAnimationFrame(loop);
-			}
+				model.collision();
+			};
 			loop();
 		},
+		// Устанавливает имя игрока
+		showUIUserName: function(userName) {
+			let userNameBlock = document.querySelector('.game-panel__username span');
+			userNameBlock.innerHTML = userName;
+		},
+		// Отображает значение прочности корабля
+		setUIHitPoint: function(points) {
+			let durabilityBlock = document.querySelector('.game-panel__durability span');
+			durabilityBlock.innerHTML = points;
+		},
+		// Отображает значение уровня сложности
+		setUIDiffLVL: function() {
+			let diffLVLBlock = document.querySelector('.game-panel__lvl span');
+			diffLVLBlock.innerHTML = settings.diffLvl;
+		},
+		// Отображает кол-во набраных очков
+		setUIPoints: function() {
+			let scoreBlock = document.querySelector('.game-panel__score span');
+			scoreBlock.innerHTML = Math.round(settings.userPoints);
+		},
+		// Отображает модалку с результатами
+		openResultModal: function() {
+			$('#gameOverModal').modal('show');
+		},
+		// Отображает UI панель
+		showUIPanel: function() {
+			let uiPanel = document.querySelector('.game-panel');
+			uiPanel.style.display = 'block';
+		}
+
 	};
 
 	// CONTROLLER
 	let controller = {
 		events: function () {
-			model.onload();
+			let inputName = document.querySelector('.js_input-name');
+			let btnStart = document.querySelector('.js_start-game');
+			inputName.addEventListener('blur', controller.setUserName);
+			
+			model.showUIUserName();
+
+			$('#gameStart').modal('show');
+			$('#gameStart').on('hidden.bs.modal', function () {
+				model.showUIPanel();
+				setTimeout(() => {
+					model.startDrow();
+					model.increaseDiffLVL();
+				}, 3000);
+			})
 		},
+		setUserName: function(e) {
+			let inputName = document.querySelector('.js_input-name');
+			let btnStart = document.querySelector('.js_start-game');
+			e.preventDefault();
+			settings.name = inputName.value;
+			btnStart.removeAttribute('disabled');
+		}
 	};
 
 	let app = {
 		init: function (userSettings) {
-			_setSettings(userSettings);
+			// _setSettings(userSettings);
 			controller.events();
 		},
 	}
@@ -196,6 +330,4 @@ const MeteorFall = (function () {
 
 })();
 
-MeteorFall.init({
-	name: 'Username',
-});
+MeteorFall.init();
