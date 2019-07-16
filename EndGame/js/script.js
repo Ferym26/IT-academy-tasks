@@ -123,6 +123,21 @@ const MeteorFall = (function () {
 		}
 	}
 
+	// класс фоновой картинки
+	class Background {
+		constructor(settings) {
+			this.drow();
+		}
+		// отрисовка фона
+		drow() {
+
+		}
+		// обновление позиции фона
+		update() {
+
+		}
+	}
+
 	// MODEL
 	let model = {
 		// Запуск цикла отрисовки
@@ -224,9 +239,30 @@ const MeteorFall = (function () {
 			settings.userPoints += 1 + ((meteorLVL * meteorSpeed / 10) * (settings.diffLvl / 3));
 			view.setUIPoints();
 		},
-		// 
+		// показывает панель игрока
 		showUIPanel: function() {
 			view.showUIPanel();
+		},
+		// показывает прогресс до начала игры
+		showStartProgress: function() {
+			view.showStartProgress();
+		},
+		runStartProgress: function(bar) {
+			let width = 1;
+			let loop = setInterval(frame, 30);
+			function frame() {
+				if (width >= 100) {
+					clearInterval(loop);
+					controller.uiElement.modalGameStart.modal('hide');
+					model.startDrow();
+					model.increaseDiffLVL();
+				}
+				else {
+					width++;
+					bar.style.width = width + '%';
+				}
+				console.log(width);
+			}
 		}
 	}
 
@@ -288,6 +324,15 @@ const MeteorFall = (function () {
 		showUIPanel: function() {
 			let uiPanel = document.querySelector('.game-panel');
 			uiPanel.style.display = 'block';
+		},
+		// показывает прогресс до начала игры
+		showStartProgress: function() {
+			let btnStart = document.querySelector('.js_start-game');
+			let progressWrap = document.querySelector('.progress');
+			let progressBar = progressWrap.querySelector('.progress-bar');
+			btnStart.style.display = "none";
+			progressWrap.style.display = "flex";
+			model.runStartProgress(progressBar);
 		}
 
 	};
@@ -307,17 +352,21 @@ const MeteorFall = (function () {
 		},
 		addUserName: function(e) {
 			e.preventDefault();
-			settings.name = controller.uiElement.inputName.value;
-			model.showUIPanel();
-			model.showUIUserName();
+			if (!!controller.uiElement.inputName.value) {
+				settings.name = controller.uiElement.inputName.value;
+				controller.uiElement.btnStart.removeAttribute('disabled');
+				model.showUIPanel();
+				model.showUIUserName();
+			}
+			else {
+				alert('Введите имя');
+			}
+			
+
 		},
 		startGame: function(e) {
 			e.preventDefault();
-			controller.uiElement.modalGameStart.modal('hide');
-			setTimeout(() => {
-				model.startDrow();
-				model.increaseDiffLVL();
-			}, 3000);
+			model.showStartProgress();
 		},
 	};
 
