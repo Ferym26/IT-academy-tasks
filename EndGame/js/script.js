@@ -58,6 +58,14 @@ const MeteorFall = (function () {
 			}
 			document.addEventListener("mousemove", setShipPos, false);
 		}
+		// TODO: огонь двигателя при полете
+		flame() {
+			let _this = this;
+		}
+		// TODO: поворот корабля при перемещении
+		rotate() {
+			let _this = this;
+		}
 		// обновление позиции корабля
 		// перерисовывает корабль на стартовых координатах перемещения мыши, далее на курсоре
 		update() {
@@ -126,15 +134,35 @@ const MeteorFall = (function () {
 	// класс фоновой картинки
 	class Background {
 		constructor(settings) {
+			this.globalSettings = settings.globalSettings; //прокидываение в класс глобальных настроек
+			this.pic = settings.pic;
+			this.posX = 0;
+			this.posY = 0;
+			this.speed = settings.speed;
+
 			this.drow();
 		}
 		// отрисовка фона
 		drow() {
-
+			let _this = this;
+			this.bgPic1 = new Image();
+			this.bgPic2 = new Image();
+			this.bgPic1.src = `img/space2.png`;
+			this.bgPic2.src = this.bgPic1.src;
+			this.bgPic1.addEventListener("load", function() {
+				_this.globalSettings.ctx.drawImage(_this.bgPic1, _this.posX, _this.posY, _this.globalSettings.width, _this.globalSettings.height);
+				_this.globalSettings.ctx.drawImage(_this.bgPic2, _this.posX, _this.posY - _this.globalSettings.height, _this.globalSettings.width, _this.globalSettings.height);
+			}, false);
 		}
 		// обновление позиции фона
 		update() {
-
+			let _this = this;
+			this.posY += this.speed;
+			if (this.posY > _this.globalSettings.height) {
+				this.posY = 0;
+			}
+			_this.globalSettings.ctx.drawImage(_this.bgPic1, _this.posX, _this.posY, _this.globalSettings.width, _this.globalSettings.height);
+			_this.globalSettings.ctx.drawImage(_this.bgPic2, _this.posX, _this.posY - _this.globalSettings.height, _this.globalSettings.width, _this.globalSettings.height);
 		}
 	}
 
@@ -159,6 +187,14 @@ const MeteorFall = (function () {
 			this.playerShip = new Ship({
 				globalSettings: settings,
 				size: 65,
+			});
+		},
+		// инит фона
+		addBackground: function() {
+			this.background = new Background({
+				globalSettings: settings,
+				pic: 'space2.png',
+				speed: 0.3,
 			});
 		},
 		// добавление нового метеорита в массив
@@ -261,7 +297,6 @@ const MeteorFall = (function () {
 					width++;
 					bar.style.width = width + '%';
 				}
-				console.log(width);
 			}
 		}
 	}
@@ -278,6 +313,7 @@ const MeteorFall = (function () {
 			settings.canvas.width = settings.width;
 			settings.canvas.height = settings.height;
 
+			model.addBackground();
 			model.addShip();
 			model.spawnMeteors(settings.meteorsNum);
 
@@ -285,13 +321,11 @@ const MeteorFall = (function () {
 			function loop() {
 				settings.globalRender = requestAnimationFrame(loop);
 				view.clear();
+				model.background.update();
 				model.playerShip.update();
 				settings.meteorsArr.forEach((item, i) => {
 					item.update();
 				});
-				// if (_this.playState == 'play') {
-				// 	window.requestAnimationFrame(_this.loop);
-				// }
 				model.collision();
 			};
 			loop();
