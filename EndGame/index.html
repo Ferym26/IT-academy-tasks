@@ -100,25 +100,69 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-							aria-hidden="true">&times;</span></button>
+					<h5 class="modal-title" id="exampleModalLabel">Таблица результатов</h5>
 				</div>
 				<div class="modal-body">
-					<p>123</p>
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Имя игрока</th>
+								<th scope="col">Очки</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Lorem1</th>
+								<td>123</td>
+							</tr>
+							<tr>
+								<th scope="row">Lorem2</th>
+								<td>1234</td>
+							</tr>
+							<tr>
+								<th scope="row">Lorem3</th>
+								<td>12345</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="form-group">
+						<button class="js_restart-game btn btn-success btn-lg btn-block">Начать заново</button>
+						<button class="btn">Поддержать разработчика</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-	</script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+	
+	<script>
+		firebase.initializeApp({
+			apiKey: "AIzaSyBRsjWA7zAxd1ZwLCqiw9Z9qq1TX0hAt_U",
+			authDomain: "meteorfall1661.firebaseapp.com",
+			databaseURL: "https://meteorfall1661.firebaseio.com",
+			projectId: "meteorfall1661",
+			storageBucket: "",
+			messagingSenderId: "42180231700",
+			appId: "1:42180231700:web:132a7e9d1b0b8508"
+		});
+		// firebase.initializeApp(firebaseConfig);
+		const DB = firebase.database();
+
+
+
+		DB.ref("players/").once("value", function(snapshot) {
+				console.log(snapshot.val());
+			},
+			function (error) {
+				console.log("Error: " + error.code);
+			}
+		);
 	</script>
 	<script src="js/script.js"></script>
 </body>

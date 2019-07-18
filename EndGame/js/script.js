@@ -5,6 +5,7 @@ const MeteorFall = (function () {
 		name: null,
 		canvas: document.querySelector('.js_game'),
 		ctx: document.querySelector('.js_game').getContext('2d'),
+		buffer: document.createElement("canvas").getContext("2d"), //TODO: сделать буферизацию графики
 		width: window.innerWidth,
 		height: window.innerHeight,
 		meteorsArr: [], // массви всех метеоров
@@ -166,6 +167,21 @@ const MeteorFall = (function () {
 		}
 	}
 
+	// TODO: класс летящих фоновых частичек
+	class Particle {
+		constructor(settings) {
+			this.globalSettings = settings.globalSettings; //прокидываение в класс глобальных настроек
+
+			this.drow();
+		}
+		drow() {
+			let _this = this;
+		}
+		update() {
+			let _this = this;
+		}
+	}
+
 	// MODEL
 	let model = {
 		// Запуск цикла отрисовки
@@ -261,6 +277,15 @@ const MeteorFall = (function () {
 			cancelAnimationFrame(settings.globalRender);
 			clearInterval(settings.increaseDiffLVLCounter);
 			view.openResultModal();
+
+			DB.ref('players/' + `${settings.name.replace(/\s/g, "").toLowerCase()}`).set(Math.round(settings.userPoints))
+			.then(function (username) {
+				console.log("Пользователь добавлен в коллецию users");
+			})
+			.catch(function (error) {
+				console.error("Ошибка добавления пользователя: ", error);
+			});
+
 		},
 		// увеличение уровня сложности
 		increaseDiffLVL: function() {
