@@ -95,39 +95,40 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="gameOverModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-		aria-hidden="true">
+	<div class="modal fade" id="gameOverModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Таблица результатов</h5>
+					<h3 class="modal-title">GAME OVER</h3>
 				</div>
 				<div class="modal-body">
+					<h4 class='mb-3'><span class='js_modalUserName'></span>, ты набрал всего <span class="badge badge-secondary js_modalUserResult"></span></h4>
+					<div class="form-group">
+						<button class="js_show-result-table btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Но ты не один из них ^_^">Показать 10 лучших игроков</button>
+					</div>
 					<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th scope="col">Имя игрока</th>
-								<th scope="col">Очки</th>
+								<th></th>
+								<th>Имя игрока</th>
+								<th>Очки</ths>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class='js_result-table'>
 							<tr>
-								<th scope="row">Lorem1</th>
+								<th>1</th>
+								<td>Lorem1</td>
 								<td>123</td>
 							</tr>
 							<tr>
-								<th scope="row">Lorem2</th>
+								<th>2</th>
+								<td>Lorem2</td>
 								<td>1234</td>
-							</tr>
-							<tr>
-								<th scope="row">Lorem3</th>
-								<td>12345</td>
 							</tr>
 						</tbody>
 					</table>
 					<div class="form-group">
-						<button class="js_restart-game btn btn-success btn-lg btn-block">Начать заново</button>
-						<button class="btn">Поддержать разработчика</button>
+						<button class="js_restart-game btn btn-warning btn-lg btn-block">Начать заново</button>
 					</div>
 				</div>
 			</div>
@@ -141,29 +142,7 @@
 	<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
 	
-	<script>
-		firebase.initializeApp({
-			apiKey: "AIzaSyBRsjWA7zAxd1ZwLCqiw9Z9qq1TX0hAt_U",
-			authDomain: "meteorfall1661.firebaseapp.com",
-			databaseURL: "https://meteorfall1661.firebaseio.com",
-			projectId: "meteorfall1661",
-			storageBucket: "",
-			messagingSenderId: "42180231700",
-			appId: "1:42180231700:web:132a7e9d1b0b8508"
-		});
-		// firebase.initializeApp(firebaseConfig);
-		const DB = firebase.database();
-
-
-
-		DB.ref("players/").once("value", function(snapshot) {
-				console.log(snapshot.val());
-			},
-			function (error) {
-				console.log("Error: " + error.code);
-			}
-		);
-	</script>
+	<script src='js/firebase.js'></script>
 	<script src="js/script.js"></script>
 </body>
 

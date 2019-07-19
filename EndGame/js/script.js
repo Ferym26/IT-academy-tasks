@@ -272,20 +272,15 @@ const MeteorFall = (function () {
 		showUIUserName: function() {
 			view.showUIUserName(settings.name);
 		},
-		// остановка рендера игры
+		// КОНЕЦ ИГРЫ - остановка рендера игры, заполнение базы, отображение результатов
 		stopGame: function() {
 			cancelAnimationFrame(settings.globalRender);
 			clearInterval(settings.increaseDiffLVLCounter);
+			firebaseStorage.addPlayer(settings.name, settings.userPoints);
+			firebaseStorage.getPlayers();
+			view.setUserResult();
 			view.openResultModal();
-
-			DB.ref('players/' + `${settings.name.replace(/\s/g, "").toLowerCase()}`).set(Math.round(settings.userPoints))
-			.then(function (username) {
-				console.log("Пользователь добавлен в коллецию users");
-			})
-			.catch(function (error) {
-				console.error("Ошибка добавления пользователя: ", error);
-			});
-
+			// 
 		},
 		// увеличение уровня сложности
 		increaseDiffLVL: function() {
@@ -308,6 +303,7 @@ const MeteorFall = (function () {
 		showStartProgress: function() {
 			view.showStartProgress();
 		},
+		// расчет заполнения шкалы прогресса
 		runStartProgress: function(bar) {
 			let width = 1;
 			let loop = setInterval(frame, 30);
@@ -392,8 +388,14 @@ const MeteorFall = (function () {
 			btnStart.style.display = "none";
 			progressWrap.style.display = "flex";
 			model.runStartProgress(progressBar);
+		},
+		// устанавливает имя/результат игрока в модалку game over
+		setUserResult: function() {
+			let userNameBox = document.querySelector('.js_modalUserName');
+			let userResultBox = document.querySelector('.js_modalUserResult');
+			userNameBox.innerHTML = settings.name;
+			userResultBox.innerHTML = Math.round(settings.userPoints);
 		}
-
 	};
 
 	// CONTROLLER
@@ -404,11 +406,13 @@ const MeteorFall = (function () {
 			btnAddUserName: document.querySelector('.js_add-userName'),
 			modalGameStart: $('#gameStart'),
 		},
+		// стартовые события
 		events: function () {
 			controller.uiElement.modalGameStart.modal('show');
 			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
 		},
+		// добавление имени игрока
 		addUserName: function(e) {
 			e.preventDefault();
 			if (!!controller.uiElement.inputName.value) {
@@ -418,11 +422,11 @@ const MeteorFall = (function () {
 				model.showUIUserName();
 			}
 			else {
+				// TODO: доделать нормальное сообщение о невалидности имени игрока
 				alert('Введите имя');
 			}
-			
-
 		},
+		// начало игры
 		startGame: function(e) {
 			e.preventDefault();
 			model.showStartProgress();
