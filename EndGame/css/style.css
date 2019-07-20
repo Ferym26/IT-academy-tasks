@@ -28,6 +28,7 @@ body {
 .game-panel {
 	position: fixed;
 	max-width: 250px;
+	min-width: 212px;
 	bottom: 40px;
 	left: 5px;
 

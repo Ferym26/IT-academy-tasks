@@ -8,7 +8,7 @@ const MeteorFall = (function () {
 		buffer: document.createElement("canvas").getContext("2d"), //TODO: сделать буферизацию графики
 		width: window.innerWidth,
 		height: window.innerHeight,
-		meteorsArr: [], // массви всех метеоров
+		meteorsArr: [], // массив всех метеоров
 		meteorsNum: 10, // начальное кол-во метеоров
 
 		userPoints: 0, // очки набранные юзером
@@ -278,7 +278,7 @@ const MeteorFall = (function () {
 			clearInterval(settings.increaseDiffLVLCounter);
 			firebaseStorage.addPlayer(settings.name, settings.userPoints);
 			view.setUserResult();
-			view.openResultModal();
+			view.resultModal('show');
 		},
 		// увеличение уровня сложности
 		increaseDiffLVL: function() {
@@ -331,7 +331,23 @@ const MeteorFall = (function () {
 				}
 			);
 			
-		}
+		},
+		// перезапуск игры
+		restartGame: function() {
+			settings.userPoints = 0;
+			settings.diffLvl = 1;
+			settings.meteorsArr = [];
+
+			view.setUIPoints();
+			view.setUIDiffLVL();
+			view.setUIHitPoint(100);
+			view.resultModal('hide');
+
+			setTimeout(() => {
+				model.startDrow();
+				model.increaseDiffLVL();
+			}, 1000);
+		},
 	}
 
 	// VIEW
@@ -384,8 +400,13 @@ const MeteorFall = (function () {
 			scoreBlock.innerHTML = Math.round(settings.userPoints);
 		},
 		// Отображает модалку с результатами
-		openResultModal: function() {
-			$('#gameOverModal').modal('show');
+		resultModal: function(action) {
+			if (action == 'show') {
+				$('#gameOverModal').modal('show');
+			}
+			if (action == 'hide') {
+				$('#gameOverModal').modal('hide');
+			}
 		},
 		// Отображает UI панель
 		showUIPanel: function() {
@@ -431,6 +452,7 @@ const MeteorFall = (function () {
 		uiElement: {
 			inputName: document.querySelector('.js_input-name'),
 			btnStart: document.querySelector('.js_start-game'),
+			btnRestart: document.querySelector('.js_restart-game'),
 			btnAddUserName: document.querySelector('.js_add-userName'),
 			btnShowResultTaable: document.querySelector('.js_show-result-table'),
 			modalGameStart: $('#gameStart'),
@@ -439,6 +461,7 @@ const MeteorFall = (function () {
 		events: function () {
 			controller.uiElement.modalGameStart.modal('show');
 			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
+			controller.uiElement.btnRestart.addEventListener('click', controller.restartGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
 			controller.uiElement.btnShowResultTaable.addEventListener('click', controller.showResultTable);
 		},
@@ -461,6 +484,12 @@ const MeteorFall = (function () {
 			e.preventDefault();
 			model.showStartProgress();
 		},
+		// перезапуск игры
+		restartGame: function(e) {
+			e.preventDefault();
+			model.restartGame();
+		},
+		// показывает таблицу результатов
 		showResultTable: function(e) {
 			e.preventDefault();
 			model.showResultTable();
