@@ -61,3 +61,13 @@ body {
 	background-color: #fff !important;
 	z-index: 1100;
 }
+
+input:focus,
+button:focus {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.table .current-player {
+	font-weight: 700;
+}

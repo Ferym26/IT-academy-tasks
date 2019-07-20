@@ -277,10 +277,8 @@ const MeteorFall = (function () {
 			cancelAnimationFrame(settings.globalRender);
 			clearInterval(settings.increaseDiffLVLCounter);
 			firebaseStorage.addPlayer(settings.name, settings.userPoints);
-			firebaseStorage.getPlayers();
 			view.setUserResult();
 			view.openResultModal();
-			// 
 		},
 		// увеличение уровня сложности
 		increaseDiffLVL: function() {
@@ -319,6 +317,20 @@ const MeteorFall = (function () {
 					bar.style.width = width + '%';
 				}
 			}
+		},
+		// показывает таблицу результатов
+		showResultTable: function() {
+			// let players = firebaseStorage.getPlayers(); //TODO: как вынести колбэк?
+			DB.ref(`players/`)
+				.once("value", function(snapshot) {
+					let players = snapshot.val();
+					view.showResultTable(players);
+				},
+				function (error) {
+					console.log("Error: " + error.code);
+				}
+			);
+			
 		}
 	}
 
@@ -395,7 +407,23 @@ const MeteorFall = (function () {
 			let userResultBox = document.querySelector('.js_modalUserResult');
 			userNameBox.innerHTML = settings.name;
 			userResultBox.innerHTML = Math.round(settings.userPoints);
-		}
+		},
+		// показывает таблицу результатов
+		showResultTable: function(data) {
+			let resultTable = document.querySelector('.js_result-table');
+			let resultList = document.querySelector('.js_result-list');
+			let counter = 1;
+			resultTable.style.display = 'block';
+			for (let key in data) {
+				let resultListItem =	`<tr class="${key == settings.name ? 'current-player' : ''}">` +
+											`<th>${counter}</th>` +
+											`<td>${key}</td>` +
+											`<td>${data[key]}</td>` +
+										`</tr>`;
+				resultList.insertAdjacentHTML("beforeEnd", resultListItem);
+				counter++;
+			}
+		},
 	};
 
 	// CONTROLLER
@@ -404,6 +432,7 @@ const MeteorFall = (function () {
 			inputName: document.querySelector('.js_input-name'),
 			btnStart: document.querySelector('.js_start-game'),
 			btnAddUserName: document.querySelector('.js_add-userName'),
+			btnShowResultTaable: document.querySelector('.js_show-result-table'),
 			modalGameStart: $('#gameStart'),
 		},
 		// стартовые события
@@ -411,6 +440,7 @@ const MeteorFall = (function () {
 			controller.uiElement.modalGameStart.modal('show');
 			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
+			controller.uiElement.btnShowResultTaable.addEventListener('click', controller.showResultTable);
 		},
 		// добавление имени игрока
 		addUserName: function(e) {
@@ -430,6 +460,10 @@ const MeteorFall = (function () {
 		startGame: function(e) {
 			e.preventDefault();
 			model.showStartProgress();
+		},
+		showResultTable: function(e) {
+			e.preventDefault();
+			model.showResultTable();
 		},
 	};
 

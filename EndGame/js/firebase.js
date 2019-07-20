@@ -19,7 +19,6 @@ class DBStorage {
 		let _this = this;
 		DB.ref(`${_this.key}/`)
 			.once("value", function(snapshot) {
-				console.log(snapshot.val());
 				return snapshot.val();
 			},
 			function (error) {

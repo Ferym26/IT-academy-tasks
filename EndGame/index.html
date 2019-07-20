@@ -27,8 +27,7 @@
 
 	<canvas class="game-field js_game"></canvas>
 
-	<div class="modal fade" id="gameStart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-		aria-hidden="true">
+	<div class="modal fade" id="gameStart" tabindex="-1">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -104,29 +103,22 @@
 				<div class="modal-body">
 					<h4 class='mb-3'><span class='js_modalUserName'></span>, ты набрал всего <span class="badge badge-secondary js_modalUserResult"></span></h4>
 					<div class="form-group">
-						<button class="js_show-result-table btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Но ты не один из них ^_^">Показать 10 лучших игроков</button>
+						<button class="js_show-result-table btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Но ты не один из них ^_^">
+							Показать 10 лучших игроков
+						</button>
 					</div>
-					<table class="table">
-						<thead class="thead-dark">
-							<tr>
-								<th></th>
-								<th>Имя игрока</th>
-								<th>Очки</ths>
-							</tr>
-						</thead>
-						<tbody class='js_result-table'>
-							<tr>
-								<th>1</th>
-								<td>Lorem1</td>
-								<td>123</td>
-							</tr>
-							<tr>
-								<th>2</th>
-								<td>Lorem2</td>
-								<td>1234</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="js_result-table" style='display: none'>
+						<table class="table">
+								<thead class="thead-dark">
+									<tr>
+										<th></th>
+										<th>Имя игрока</th>
+										<th>Очки</ths>
+									</tr>
+								</thead>
+								<tbody class='js_result-list'></tbody>
+							</table>
+					</div>
 					<div class="form-group">
 						<button class="js_restart-game btn btn-warning btn-lg btn-block">Начать заново</button>
 					</div>
