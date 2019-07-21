@@ -303,8 +303,10 @@ const MeteorFall = (function () {
 		},
 		// расчет заполнения шкалы прогресса
 		runStartProgress: function(bar) {
-			let width = 1;
-			let loop = setInterval(frame, 30);
+			let width = 0;
+			let time = 5000;
+			let step = 10;
+			let loop = setInterval(frame, time / step);
 			function frame() {
 				if (width >= 100) {
 					clearInterval(loop);
@@ -313,7 +315,7 @@ const MeteorFall = (function () {
 					model.increaseDiffLVL();
 				}
 				else {
-					width++;
+					width += step;
 					bar.style.width = width + '%';
 				}
 			}
@@ -330,7 +332,15 @@ const MeteorFall = (function () {
 					console.log("Error: " + error.code);
 				}
 			);
-			
+			// let promise = new Promise((resolve, reject) => {
+			// 	resolve(firebaseStorage.getPlayers());
+			// });
+
+			// promise
+			// 	.then(() => {
+					
+			// 	})
+			// 	.catch()
 		},
 		// перезапуск игры
 		restartGame: function() {
