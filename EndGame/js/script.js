@@ -323,24 +323,34 @@ const MeteorFall = (function () {
 		// показывает таблицу результатов
 		showResultTable: function() {
 			// let players = firebaseStorage.getPlayers(); //TODO: как вынести колбэк?
-			DB.ref(`players/`)
-				.once("value", function(snapshot) {
-					let players = snapshot.val();
-					view.showResultTable(players);
-				},
-				function (error) {
-					console.log("Error: " + error.code);
-				}
-			);
-			// let promise = new Promise((resolve, reject) => {
-			// 	resolve(firebaseStorage.getPlayers());
-			// });
+			// DB.ref(`players/`)
+			// 	.once("value", function(snapshot) {
+			// 		let players = snapshot.val();
+			// 		view.showResultTable(players);
+			// 	},
+			// 	function (error) {
+			// 		console.log("Error: " + error.code);
+			// 	}
+			// );
 
-			// promise
-			// 	.then(() => {
-					
-			// 	})
-			// 	.catch()
+			var promise = new Promise(function(resolve, reject) {
+				let players = firebaseStorage.getPlayers();
+				console.log(players);
+				if (players) {
+					resolve(players);
+				}
+				else {
+					reject(Error('Сломалось'));
+				}
+			});
+			
+			promise.then(function(result) {
+				console.log(result, 'Промис сработал');
+				view.showResultTable(result);
+			}, function(err) {
+				console.log('Что-то сломалось');
+			});
+
 		},
 		// перезапуск игры
 		restartGame: function() {
