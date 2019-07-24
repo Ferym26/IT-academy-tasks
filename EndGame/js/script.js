@@ -9,7 +9,7 @@ const MeteorFall = (function () {
 		width: window.innerWidth,
 		height: window.innerHeight,
 		meteorsArr: [], // массив всех метеоров
-		meteorsNum: 10, // начальное кол-во метеоров
+		meteorsNum: 2, // начальное кол-во метеоров
 
 		userPoints: 0, // очки набранные юзером
 		diffLvl: 1, // начальный уровень сложности
@@ -38,6 +38,16 @@ const MeteorFall = (function () {
 			this.posY = null || this.globalSettings.height - 100;
 			this.hitPoints = 100;
 
+			this.flameX = null;
+			this.flameY = null || this.posY + this.size - 8;
+			this.flameSize = 7;
+			this.flameSpeed = 5;
+			this.flameTrack = 0;
+
+			this.shieldShowTimer = null;
+			this.shieldShowStatus = false;
+			this.shieldColor = null;
+
 			this.drow();
 			this.fly();
 		}
@@ -59,9 +69,44 @@ const MeteorFall = (function () {
 			}
 			document.addEventListener("mousemove", setShipPos, false);
 		}
-		// TODO: огонь двигателя при полете
+		// огонь двигателя при полете
 		flame() {
 			let _this = this;
+			this.flameX = _this.posX + (_this.size / 2);
+			settings.ctx.fillStyle = 'orange';
+			settings.ctx.beginPath();
+			settings.ctx.arc(this.flameX, this.flameY, _this.flameSize, 0, 2*Math.PI);
+			settings.ctx.fill();
+			_this.flameY += _this.flameSpeed;
+			_this.flameTrack += _this.flameSpeed;
+			_this.flameSize -= 0.5;
+			if (_this.flameTrack > 50) {
+				_this.flameY = _this.posY + _this.size - 8;
+				_this.flameTrack = 0;
+				_this.flameSize = 7;
+			}
+		}
+		// отображение щита вокруг корбля
+		shield() {
+			let _this = this;
+			let degreesStart = 160;
+			let radiansStart = (Math.PI / 180) * degreesStart;
+			let degreesEnd = 20;
+			let radiansEnd = (Math.PI / 180) * degreesEnd;
+			settings.ctx.strokeStyle = this.shieldColor;
+			settings.ctx.lineWidth = 1;
+			settings.ctx.beginPath();
+			settings.ctx.arc(this.posX + (_this.size / 2), this.posY + (_this.size / 2), (_this.size + 10) / 2, radiansStart, radiansEnd);
+			settings.ctx.stroke();
+		}
+		// показывает щит на определенное время
+		shieldShow(color) {
+			let _this = this;
+			this.shieldColor = color;
+			this.shieldShowStatus = true;
+			this.shieldShowTimer = setTimeout(() => {
+				_this.shieldShowStatus = false;
+			}, 150);
 		}
 		// TODO: поворот корабля при перемещении
 		rotate() {
@@ -71,6 +116,10 @@ const MeteorFall = (function () {
 		// перерисовывает корабль на стартовых координатах перемещения мыши, далее на курсоре
 		update() {
 			let _this = this;
+			_this.flame();
+			if (_this.shieldShowStatus) {
+				_this.shield();
+			}
 			_this.globalSettings.ctx.drawImage(_this.shipPic, _this.posX, _this.posY, _this.size, _this.size);
 		} 
 	}
@@ -126,7 +175,7 @@ const MeteorFall = (function () {
 					break;
 			}
 		}
-		// событие успешного пересечения метеоритои игрового поля
+		// событие успешного пересечения метеоритом игрового поля
 		flyAway() {
 			model.calcUserPoints(this.lvl, this.dropSpeed);
 		}
@@ -182,6 +231,51 @@ const MeteorFall = (function () {
 		}
 	}
 
+	// класс падающих аптечек
+	class Heal {
+		constructor(settings) {
+			this.globalSettings = settings.globalSettings; //прокидываение в класс глобальных настроек
+			this.posX = Math.floor(Math.random() * this.globalSettings.width);
+			this.posY = -Math.floor(Math.random() * this.globalSettings.height);
+			this.size = settings.size;
+			this.healValue = 5;
+			this.healPic = null;
+			this.dropSpeed = settings.dropSpeed;
+
+			this.drow();
+		}
+		drow() {
+			let _this = this;
+			this.healPic = new Image();
+			this.healPic.src = 'img/medkit1.jpg';
+			this.healPic.addEventListener("load", () => {
+				_this.globalSettings.ctx.drawImage(_this.healPic, _this.posX, _this.posY, _this.size, _this.size);
+			}, false);
+		}
+		update() {
+			let _this = this;
+			this.posY += this.dropSpeed;
+			if (this.posY > this.globalSettings.height) {
+				this.posX = Math.floor(Math.random() * this.globalSettings.width);
+				this.posY = -Math.floor(Math.random() * this.globalSettings.height * 10);
+			}
+			_this.globalSettings.ctx.drawImage(_this.healPic, _this.posX, _this.posY, _this.size, _this.size);
+		}
+		heal() {
+			let _this = this;
+			if(model.playerShip.hitPoints < 100) {
+				model.playerShip.hitPoints += _this.healValue;
+				if (model.playerShip.hitPoints > 100) {
+					model.playerShip.hitPoints = 100;
+				}
+				view.setUIHitPoint(model.playerShip.hitPoints);
+			}
+			else {
+				model.playerShip.hitPoints = 100;
+			}
+		}
+	}
+
 	// MODEL
 	let model = {
 		// Запуск цикла отрисовки
@@ -202,7 +296,7 @@ const MeteorFall = (function () {
 		addShip: function() {
 			this.playerShip = new Ship({
 				globalSettings: settings,
-				size: 65,
+				size: 80,
 			});
 		},
 		// инит фона
@@ -210,7 +304,15 @@ const MeteorFall = (function () {
 			this.background = new Background({
 				globalSettings: settings,
 				pic: 'space2.png',
-				speed: 0.3,
+				speed: 0.5,
+			});
+		},
+		// инит аптечек
+		addHeal: function() {
+			this.healKit = new Heal({
+				globalSettings: settings,
+				size: 30,
+				dropSpeed: 7,
 			});
 		},
 		// добавление нового метеорита в массив
@@ -221,14 +323,20 @@ const MeteorFall = (function () {
 				dropSpeed: _random(2, 7),
 			}))
 		},
-		//Обработка столкновения корабля и метеорита
+		//Обработка столкновений //TODO: страшное гэ и надо что-то делать
 		collision: function() {
-			for (var i = 0; i < settings.meteorsArr.length; i++) {
 
-				let shipFront = model.playerShip.posY;
-				let shipBack = model.playerShip.posY + model.playerShip.size;
-				let shipLeft = model.playerShip.posX;
-				let shipRight = model.playerShip.posX + model.playerShip.size;
+			let shipFront = model.playerShip.posY;
+			let shipBack = model.playerShip.posY + model.playerShip.size;
+			let shipLeft = model.playerShip.posX;
+			let shipRight = model.playerShip.posX + model.playerShip.size;
+
+			let healFront = model.healKit.posY;
+			let healBack = model.healKit.posY + model.healKit.size;
+			let healLeft = model.healKit.posX;
+			let healRight = model.healKit.posX + model.healKit.size;
+
+			for (var i = 0; i < settings.meteorsArr.length; i++) {
 				
 				let meteorFront = settings.meteorsArr[i].posY;
 				let meteorBack = settings.meteorsArr[i].posY + settings.meteorsArr[i].size;
@@ -239,10 +347,18 @@ const MeteorFall = (function () {
 					settings.meteorsArr[i].posX = Math.floor(Math.random() * settings.width);
 					settings.meteorsArr[i].posY = -Math.floor(Math.random() * settings.height);
 					this.clash(settings.meteorsArr[i].lvl);
+					model.playerShip.shieldShow('red');
 				}
 			}
+
+			if (shipFront <= healBack && shipBack >= healFront && shipLeft <= healRight && shipRight >= healLeft) {
+				model.healKit.posX = Math.floor(Math.random() * settings.width);
+				model.healKit.posY = -Math.floor(Math.random() * settings.height * 10);
+				model.healKit.heal();
+				model.playerShip.shieldShow('green');
+			}
 		},
-		// Удар метеорита о корабль
+		// Удар метеорита о корабль  //TODO: перенести в класс корабля
 		clash: function(meteorLVL) {
 			switch (meteorLVL) {
 				case 1:
@@ -323,33 +439,33 @@ const MeteorFall = (function () {
 		// показывает таблицу результатов
 		showResultTable: function() {
 			// let players = firebaseStorage.getPlayers(); //TODO: как вынести колбэк?
-			// DB.ref(`players/`)
-			// 	.once("value", function(snapshot) {
-			// 		let players = snapshot.val();
-			// 		view.showResultTable(players);
-			// 	},
-			// 	function (error) {
-			// 		console.log("Error: " + error.code);
-			// 	}
-			// );
+			DB.ref(`players/`)
+				.once("value", function(snapshot) {
+					let players = snapshot.val();
+					view.showResultTable(players);
+				},
+				function (error) {
+					console.log("Error: " + error.code);
+				}
+			);
 
-			var promise = new Promise(function(resolve, reject) {
-				let players = firebaseStorage.getPlayers();
-				console.log(players);
-				if (players) {
-					resolve(players);
-				}
-				else {
-					reject(Error('Сломалось'));
-				}
-			});
+			// var promise = new Promise(function(resolve, reject) {
+			// 	let players = firebaseStorage.getPlayers();
+			// 	console.log(players);
+			// 	if (players) {
+			// 		resolve(players);
+			// 	}
+			// 	else {
+			// 		reject(Error('Сломалось'));
+			// 	}
+			// });
 			
-			promise.then(function(result) {
-				console.log(result, 'Промис сработал');
-				view.showResultTable(result);
-			}, function(err) {
-				console.log('Что-то сломалось');
-			});
+			// promise.then(function(result) {
+			// 	console.log(result, 'Промис сработал');
+			// 	view.showResultTable(result);
+			// }, function(err) {
+			// 	console.log('Что-то сломалось');
+			// });
 
 		},
 		// перезапуск игры
@@ -384,7 +500,8 @@ const MeteorFall = (function () {
 
 			model.addBackground();
 			model.addShip();
-			model.spawnMeteors(settings.meteorsNum);
+			model.addHeal();
+			model.spawnMeteors(settings.meteorsNum); //!
 
 			// цикл отрисовки
 			function loop() {
@@ -392,6 +509,7 @@ const MeteorFall = (function () {
 				view.clear();
 				model.background.update();
 				model.playerShip.update();
+				model.healKit.update();
 				settings.meteorsArr.forEach((item, i) => {
 					item.update();
 				});
@@ -454,6 +572,7 @@ const MeteorFall = (function () {
 			let resultTable = document.querySelector('.js_result-table');
 			let resultList = document.querySelector('.js_result-list');
 			let counter = 1;
+			resultList.innerHTML = '';
 			resultTable.style.display = 'block';
 			for (let key in data) {
 				let resultListItem =	`<tr class="${key == settings.name ? 'current-player' : ''}">` +
@@ -479,7 +598,8 @@ const MeteorFall = (function () {
 		},
 		// стартовые события
 		events: function () {
-			controller.uiElement.modalGameStart.modal('show');
+			// model.startDrow(); //!
+			controller.uiElement.modalGameStart.modal('show'); //!
 			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
 			controller.uiElement.btnRestart.addEventListener('click', controller.restartGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);

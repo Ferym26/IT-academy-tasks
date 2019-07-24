@@ -27,13 +27,13 @@ body {
 
 .game-panel {
 	position: fixed;
-	max-width: 250px;
-	min-width: 212px;
-	bottom: 40px;
+	max-width: 350px;
+	min-width: 310px;
+	bottom: 80px;
 	left: 5px;
 
 	z-index: 10;
-	font-size: 16px;
+	font-size: 24px;
 
 	perspective: 600px;
 	perspective-origin: 20% -100%;
