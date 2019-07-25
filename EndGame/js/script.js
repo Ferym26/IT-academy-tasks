@@ -16,6 +16,22 @@ const MeteorFall = (function () {
 		diffInterval: 10, //секунды
 		increaseDiffLVLCounter: null, //счетчик увеличения слоности
 
+		// Библиотека звуков
+		soundsLib: {
+			heal_1: {
+				trackPath: './audio/heal_1.wav',
+				trackVolume: 1
+			},
+			hit_1: {
+				trackPath: './audio/hit_1.wav',
+				trackVolume: 1
+			},
+			bg_1: {
+				trackPath: './audio/bg_1.mp3',
+				trackVolume: 0.5
+			},
+		},
+
 		globalRender: null, // счетчик глобального рендера
 	};
 
@@ -276,6 +292,38 @@ const MeteorFall = (function () {
 		}
 	}
 
+	// класс звуковых эффектов
+	class Sounds {
+		constructor(settings) {
+			this.globalSettings = settings.globalSettings; //прокидываение в класс глобальных настроек
+		}
+		playBg() {
+			this.audioBg = new Audio();
+			this.audioBg.preload = 'auto';
+			this.audioBg.src = settings.soundsLib.bg_1.trackPath;
+			this.audioBg.volume = settings.soundsLib.bg_1.trackVolume;
+			this.audioBg.loop = true;
+			this.audioBg.play();
+		}
+		stopBg() {
+			this.audioBg.pause();
+		}
+		playHit() {
+			this.audioHit = new Audio();
+			this.audioHit.preload = 'auto';
+			this.audioHit.src = settings.soundsLib.hit_1.trackPath;
+			this.audioHit.volume = settings.soundsLib.hit_1.trackVolume;
+			this.audioHit.play();
+		}
+		playHeal() {
+			this.audioHeal = new Audio();
+			this.audioHeal.preload = 'auto';
+			this.audioHeal.src = settings.soundsLib.heal_1.trackPath;
+			this.audioHeal.volume = settings.soundsLib.heal_1.trackVolume;
+			this.audioHeal.play();
+		}
+	}
+
 	// MODEL
 	let model = {
 		// Запуск цикла отрисовки
@@ -323,6 +371,10 @@ const MeteorFall = (function () {
 				dropSpeed: _random(2, 7),
 			}))
 		},
+		// инит звука
+		addSounds: function() {
+			this.sounds = new Sounds({});
+		},
 		//Обработка столкновений //TODO: страшное гэ и надо что-то делать
 		collision: function() {
 
@@ -348,6 +400,7 @@ const MeteorFall = (function () {
 					settings.meteorsArr[i].posY = -Math.floor(Math.random() * settings.height);
 					this.clash(settings.meteorsArr[i].lvl);
 					model.playerShip.shieldShow('red');
+					model.sounds.playHit();
 				}
 			}
 
@@ -355,6 +408,7 @@ const MeteorFall = (function () {
 				model.healKit.posX = Math.floor(Math.random() * settings.width);
 				model.healKit.posY = -Math.floor(Math.random() * settings.height * 10);
 				model.healKit.heal();
+				model.sounds.playHeal();
 				model.playerShip.shieldShow('green');
 			}
 		},
@@ -392,6 +446,7 @@ const MeteorFall = (function () {
 		stopGame: function() {
 			cancelAnimationFrame(settings.globalRender);
 			clearInterval(settings.increaseDiffLVLCounter);
+			model.sounds.stopSound();
 			firebaseStorage.addPlayer(settings.name, settings.userPoints);
 			view.setUserResult();
 			view.resultModal('show');
@@ -429,6 +484,7 @@ const MeteorFall = (function () {
 					controller.uiElement.modalGameStart.modal('hide');
 					model.startDrow();
 					model.increaseDiffLVL();
+					model.sounds.playBg();
 				}
 				else {
 					width += step;
@@ -482,6 +538,7 @@ const MeteorFall = (function () {
 			setTimeout(() => {
 				model.startDrow();
 				model.increaseDiffLVL();
+				model.sounds.playBg();
 			}, 1000);
 		},
 	}
@@ -604,6 +661,7 @@ const MeteorFall = (function () {
 			controller.uiElement.btnRestart.addEventListener('click', controller.restartGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
 			controller.uiElement.btnShowResultTaable.addEventListener('click', controller.showResultTable);
+			model.addSounds();
 		},
 		// добавление имени игрока
 		addUserName: function(e) {
@@ -613,6 +671,7 @@ const MeteorFall = (function () {
 				controller.uiElement.btnStart.removeAttribute('disabled');
 				model.showUIPanel();
 				model.showUIUserName();
+				
 			}
 			else {
 				// TODO: доделать нормальное сообщение о невалидности имени игрока
