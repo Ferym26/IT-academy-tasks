@@ -17,15 +17,11 @@ class DBStorage {
 	// получает базу игроков
 	getPlayers() {
 		let _this = this;
-		DB.ref(`${_this.key}/`)
-			.once("value", function(snapshot) {
-				console.log(snapshot.val());
-				return snapshot.val();
-			},
-			function (error) {
-				console.log("Error: " + error.code);
-			}
-		);
+		return DB.ref(`${_this.key}/`).once("value")
+			.then(snapshot => snapshot.val())
+			.catch(error => {
+				console.error('Ошибка получения пользователей:', error);
+			});
 	}
 	// добавляет в базу игрок/результат
 	addPlayer(name, result) {

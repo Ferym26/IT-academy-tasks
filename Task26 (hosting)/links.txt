@@ -5,3 +5,8 @@
 4) https://zeit.co/now
 5) https://www.heroku.com/nodejs
 *) https://habr.com/en/post/442298/
+
+ДОМАЩКА
+no1dor@tut.by
+тема FD2-52-19, ФИО
+тело вопросы и ссылки на задачи

@@ -446,7 +446,7 @@ const MeteorFall = (function () {
 		stopGame: function() {
 			cancelAnimationFrame(settings.globalRender);
 			clearInterval(settings.increaseDiffLVLCounter);
-			model.sounds.stopSound();
+			model.sounds.stopBg();
 			firebaseStorage.addPlayer(settings.name, settings.userPoints);
 			view.setUserResult();
 			view.resultModal('show');
@@ -494,34 +494,23 @@ const MeteorFall = (function () {
 		},
 		// показывает таблицу результатов
 		showResultTable: function() {
-			// let players = firebaseStorage.getPlayers(); //TODO: как вынести колбэк?
-			DB.ref(`players/`)
-				.once("value", function(snapshot) {
-					let players = snapshot.val();
-					view.showResultTable(players);
-				},
-				function (error) {
-					console.log("Error: " + error.code);
+			const getPlyersPromise = new Promise((resolve, reject) => {
+				const players = firebaseStorage.getPlayers();
+				if (players) {
+					resolve(players);
 				}
-			);
+				else {
+					reject(new Error('Не удалось получить список игроков'));
+				}
+			});
 
-			// var promise = new Promise(function(resolve, reject) {
-			// 	let players = firebaseStorage.getPlayers();
-			// 	console.log(players);
-			// 	if (players) {
-			// 		resolve(players);
-			// 	}
-			// 	else {
-			// 		reject(Error('Сломалось'));
-			// 	}
-			// });
-			
-			// promise.then(function(result) {
-			// 	console.log(result, 'Промис сработал');
-			// 	view.showResultTable(result);
-			// }, function(err) {
-			// 	console.log('Что-то сломалось');
-			// });
+			getPlyersPromise.then(
+				response => {
+					view.showResultTable(response);
+				}, 
+				error => {
+					console.log(error.message)
+				});
 
 		},
 		// перезапуск игры
