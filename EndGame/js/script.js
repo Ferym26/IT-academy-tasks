@@ -5,7 +5,8 @@ const MeteorFall = (function () {
 		name: null,
 		canvas: document.querySelector('.js_game'),
 		ctx: document.querySelector('.js_game').getContext('2d'),
-		buffer: document.createElement("canvas").getContext("2d"), //TODO: сделать буферизацию графики
+		buffer: null,
+		bufferCtx: null,
 		width: window.innerWidth,
 		height: window.innerHeight,
 		meteorsArr: [], // массив всех метеоров
@@ -73,7 +74,7 @@ const MeteorFall = (function () {
 			this.shipPic = new Image();
 			this.shipPic.src = 'img/ship1.png';
 			this.shipPic.addEventListener("load", function() {
-				_this.globalSettings.ctx.drawImage(_this.shipPic, (_this.globalSettings.width / 2) - (_this.size / 2), _this.globalSettings.height - 100, _this.size, _this.size);
+				_this.globalSettings.bufferCtx.drawImage(_this.shipPic, (_this.globalSettings.width / 2) - (_this.size / 2), _this.globalSettings.height - 100, _this.size, _this.size);
 			}, false);
 		}
 		// перемещение корабля
@@ -89,10 +90,10 @@ const MeteorFall = (function () {
 		flame() {
 			let _this = this;
 			this.flameX = _this.posX + (_this.size / 2);
-			settings.ctx.fillStyle = 'orange';
-			settings.ctx.beginPath();
-			settings.ctx.arc(this.flameX, this.flameY, _this.flameSize, 0, 2*Math.PI);
-			settings.ctx.fill();
+			settings.bufferCtx.fillStyle = 'orange';
+			settings.bufferCtx.beginPath();
+			settings.bufferCtx.arc(this.flameX, this.flameY, _this.flameSize, 0, 2*Math.PI);
+			settings.bufferCtx.fill();
 			_this.flameY += _this.flameSpeed;
 			_this.flameTrack += _this.flameSpeed;
 			_this.flameSize -= 0.5;
@@ -109,11 +110,11 @@ const MeteorFall = (function () {
 			let radiansStart = (Math.PI / 180) * degreesStart;
 			let degreesEnd = 20;
 			let radiansEnd = (Math.PI / 180) * degreesEnd;
-			settings.ctx.strokeStyle = this.shieldColor;
-			settings.ctx.lineWidth = 1;
-			settings.ctx.beginPath();
-			settings.ctx.arc(this.posX + (_this.size / 2), this.posY + (_this.size / 2), (_this.size + 10) / 2, radiansStart, radiansEnd);
-			settings.ctx.stroke();
+			settings.bufferCtx.strokeStyle = this.shieldColor;
+			settings.bufferCtx.lineWidth = 1.5;
+			settings.bufferCtx.beginPath();
+			settings.bufferCtx.arc(this.posX + (_this.size / 2), this.posY + (_this.size / 2), (_this.size + 10) / 2, radiansStart, radiansEnd);
+			settings.bufferCtx.stroke();
 		}
 		// показывает щит на определенное время
 		shieldShow(color) {
@@ -136,7 +137,7 @@ const MeteorFall = (function () {
 			if (_this.shieldShowStatus) {
 				_this.shield();
 			}
-			_this.globalSettings.ctx.drawImage(_this.shipPic, _this.posX, _this.posY, _this.size, _this.size);
+			_this.globalSettings.bufferCtx.drawImage(_this.shipPic, _this.posX, _this.posY, _this.size, _this.size);
 		} 
 	}
 
@@ -158,9 +159,9 @@ const MeteorFall = (function () {
 		drow() {
 			let _this = this;
 			this.meteorPic = new Image();
-			this.meteorPic.src = 'img/meteor4.png';
+			this.meteorPic.src = 'img/meteor3.png';
 			this.meteorPic.addEventListener("load", function() {
-				_this.globalSettings.ctx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.size, _this.size);
+				_this.globalSettings.bufferCtx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.size, _this.size);
 			}, false);
 		}
 		// перемешение метеритов
@@ -172,7 +173,7 @@ const MeteorFall = (function () {
 				this.posY = -Math.floor(Math.random() * this.globalSettings.height);
 				this.flyAway();
 			}
-			_this.globalSettings.ctx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.size, _this.size);
+			_this.globalSettings.bufferCtx.drawImage(_this.meteorPic, _this.posX, _this.posY, _this.size, _this.size);
 		}
 		// расчет уровня метеорита
 		setLVL() {
@@ -195,6 +196,10 @@ const MeteorFall = (function () {
 		flyAway() {
 			model.calcUserPoints(this.lvl, this.dropSpeed);
 		}
+		// TODO: вращение метеорита
+		rotate() {
+			let _this = this;
+		}
 	}
 
 	// класс фоновой картинки
@@ -216,8 +221,8 @@ const MeteorFall = (function () {
 			this.bgPic1.src = `img/space2.png`;
 			this.bgPic2.src = this.bgPic1.src;
 			this.bgPic1.addEventListener("load", function() {
-				_this.globalSettings.ctx.drawImage(_this.bgPic1, _this.posX, _this.posY, _this.globalSettings.width, _this.globalSettings.height);
-				_this.globalSettings.ctx.drawImage(_this.bgPic2, _this.posX, _this.posY - _this.globalSettings.height, _this.globalSettings.width, _this.globalSettings.height);
+				_this.globalSettings.bufferCtx.drawImage(_this.bgPic1, _this.posX, _this.posY, _this.globalSettings.width, _this.globalSettings.height);
+				_this.globalSettings.bufferCtx.drawImage(_this.bgPic2, _this.posX, _this.posY - _this.globalSettings.height, _this.globalSettings.width, _this.globalSettings.height);
 			}, false);
 		}
 		// обновление позиции фона
@@ -227,8 +232,8 @@ const MeteorFall = (function () {
 			if (this.posY > _this.globalSettings.height) {
 				this.posY = 0;
 			}
-			_this.globalSettings.ctx.drawImage(_this.bgPic1, _this.posX, _this.posY, _this.globalSettings.width, _this.globalSettings.height);
-			_this.globalSettings.ctx.drawImage(_this.bgPic2, _this.posX, _this.posY - _this.globalSettings.height, _this.globalSettings.width, _this.globalSettings.height);
+			_this.globalSettings.bufferCtx.drawImage(_this.bgPic1, _this.posX, _this.posY, _this.globalSettings.width, _this.globalSettings.height);
+			_this.globalSettings.bufferCtx.drawImage(_this.bgPic2, _this.posX, _this.posY - _this.globalSettings.height, _this.globalSettings.width, _this.globalSettings.height);
 		}
 	}
 
@@ -265,7 +270,7 @@ const MeteorFall = (function () {
 			this.healPic = new Image();
 			this.healPic.src = 'img/medkit1.jpg';
 			this.healPic.addEventListener("load", () => {
-				_this.globalSettings.ctx.drawImage(_this.healPic, _this.posX, _this.posY, _this.size, _this.size);
+				_this.globalSettings.bufferCtx.drawImage(_this.healPic, _this.posX, _this.posY, _this.size, _this.size);
 			}, false);
 		}
 		update() {
@@ -275,7 +280,7 @@ const MeteorFall = (function () {
 				this.posX = Math.floor(Math.random() * this.globalSettings.width);
 				this.posY = -Math.floor(Math.random() * this.globalSettings.height * 10);
 			}
-			_this.globalSettings.ctx.drawImage(_this.healPic, _this.posX, _this.posY, _this.size, _this.size);
+			_this.globalSettings.bufferCtx.drawImage(_this.healPic, _this.posX, _this.posY, _this.size, _this.size);
 		}
 		heal() {
 			let _this = this;
@@ -536,11 +541,17 @@ const MeteorFall = (function () {
 	let view = {
 		// очистка области
 		clear: function() {
-			settings.ctx.clearRect(0, 0, settings.width, settings.height);
+			settings.bufferCtx.clearRect(0, 0, settings.width, settings.height);
 		},
 		// отрисовка
 		drow: function() {
 			let _this = this;
+
+			settings.buffer = document.createElement("canvas"),
+			settings.bufferCtx = settings.buffer.getContext("2d"),
+			settings.buffer.width = settings.width;
+			settings.buffer.height = settings.height;
+
 			settings.canvas.width = settings.width;
 			settings.canvas.height = settings.height;
 
@@ -560,6 +571,7 @@ const MeteorFall = (function () {
 					item.update();
 				});
 				model.collision();
+				settings.ctx.drawImage(settings.buffer, 0, 0, settings.width, settings.height);
 			};
 			loop();
 		},
@@ -644,8 +656,8 @@ const MeteorFall = (function () {
 		},
 		// стартовые события
 		events: function () {
-			// model.startDrow(); //!
-			controller.uiElement.modalGameStart.modal('show'); //!
+			model.startDrow(); //!
+			// controller.uiElement.modalGameStart.modal('show'); //!
 			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
 			controller.uiElement.btnRestart.addEventListener('click', controller.restartGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
