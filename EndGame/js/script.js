@@ -10,7 +10,7 @@ const MeteorFall = (function () {
 		width: window.innerWidth,
 		height: window.innerHeight,
 		meteorsArr: [], // массив всех метеоров
-		meteorsNum: 2, // начальное кол-во метеоров
+		meteorsNum: 15, // начальное кол-во метеоров
 
 		userPoints: 0, // очки набранные юзером
 		diffLvl: 1, // начальный уровень сложности
@@ -656,8 +656,8 @@ const MeteorFall = (function () {
 		},
 		// стартовые события
 		events: function () {
-			model.startDrow(); //!
-			// controller.uiElement.modalGameStart.modal('show'); //!
+			// model.startDrow(); //!
+			controller.uiElement.modalGameStart.modal('show'); //!
 			controller.uiElement.btnStart.addEventListener('click', controller.startGame);
 			controller.uiElement.btnRestart.addEventListener('click', controller.restartGame);
 			controller.uiElement.btnAddUserName.addEventListener('click', controller.addUserName);
